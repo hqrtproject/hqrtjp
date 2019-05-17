@@ -21,6 +21,12 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtRobotChat" class="form form-horizontal well clearfix">
+		 <div class="col-xs-12 col-sm-6 col-md-4" style="!important">
+			<div style="margin-top:80px">
+			  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
+			  <a  id="reset" class="btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a>
+			 </div>
+	    </div>
 			<div class="col-xs-12 col-sm-6 col-md-4">
 				 <div class="form-group">
 					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;进线开始/结束时间：</label>
@@ -57,12 +63,6 @@
 			</div>
 			<br>
 			<br>
-		 <div class="col-xs-12 col-sm-6 col-md-4" style="!important;float:left;">
-			<div style="margin-top:26px">
-			  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
-			  <a  id="reset" class="btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a>
-			 </div>
-	    </div>
 	</form:form>
 	</div>
 	</div>
