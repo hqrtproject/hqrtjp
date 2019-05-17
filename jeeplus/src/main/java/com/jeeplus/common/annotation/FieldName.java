@@ -17,4 +17,4 @@ public @interface FieldName {
 
 	String value();
 	
-}地方v的设备
+}
