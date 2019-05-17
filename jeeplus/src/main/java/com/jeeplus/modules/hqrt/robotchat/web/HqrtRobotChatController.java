@@ -30,7 +30,6 @@ import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
-import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
 import com.jeeplus.modules.hqrt.robotchat.service.HqrtRobotChatService;
@@ -214,8 +213,60 @@ public class HqrtRobotChatController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "机器人对话"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-            Page<HqrtRobotChat> page = hqrtRobotChatService.findPage(new Page<HqrtRobotChat>(request, response, -1), hqrtRobotChat);
-    		new ExportExcel("机器人对话", HqrtRobotChat.class).setDataList(page.getList()).write(response, fileName).dispose();
+            // 首先根据业务和省份分组查询
+    		List<HqrtRobotChat> hqrtRobotChatlist = hqrtRobotChatService.findListGroupBy(hqrtRobotChat);
+    		// 所有业务省份的进线总量
+    		Double totalconversionvolume = 0.0;
+    		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
+    			List<HqrtRobotChat> queueNameAndCustomerProvinceList = hqrtRobotChatService.findListByQueueNameAndCustomerProvince(robotChat);
+    			robotChat.setTotalincount(queueNameAndCustomerProvinceList.size());
+    			totalconversionvolume += queueNameAndCustomerProvinceList.size();
+    			// 转人工量
+    			int conversionvolume = 0;
+    			// 用户提问总量
+    			int totaluserquestions = 0;
+    			// 机器人已解决量
+    			int resolved = 0;
+    			// 机器人未解决量
+    			int unresolved = 0;
+    			// 未评价
+    			int notevaluated = 0;
+    			// 未找到知识
+    			int failurefindknowledge = 0;
+    			HqrtRobotChatdetails hqrtRobotChatdetails = new HqrtRobotChatdetails();
+    			for (HqrtRobotChat hrc : queueNameAndCustomerProvinceList) {
+    				hqrtRobotChatdetails.setSessionid(hrc.getSessionid());
+    				List<HqrtRobotChatdetails> hqrtRobotChatdetailsList = hqrtRobotChatdetailsService.findList(hqrtRobotChatdetails);
+    				if (hrc.getEndreasonno() == 1) {
+    					conversionvolume++;
+    				}
+    				totaluserquestions += hqrtRobotChatdetailsList.size();
+    				for (HqrtRobotChatdetails hrcdetails : hqrtRobotChatdetailsList) {
+    					if (hrcdetails.getSatisfyno() == 2) {
+    						resolved++;
+    					}
+    					if (hrcdetails.getSatisfyno() == 1) {
+    						unresolved++;
+    					}
+    					if (hrcdetails.getSatisfyno() == 0) {
+    						notevaluated++;
+    					}
+    					if (hrcdetails.getResponseno() == 100) {
+    						failurefindknowledge++;
+    					}
+    				}
+    			}
+    			robotChat.setConversionvolume(conversionvolume);
+    			robotChat.setTotaluserquestions(totaluserquestions);
+    			robotChat.setResolved(resolved);
+    			robotChat.setUnresolved(unresolved);
+    			robotChat.setNotevaluated(notevaluated);
+    			robotChat.setFailurefindknowledge(failurefindknowledge);
+    			DecimalFormat df = new DecimalFormat("#.00");
+    			robotChat.setConversionrate(Double.valueOf(df.format(robotChat.getConversionvolume()/robotChat.getTotalincount()*100)));
+    		}
+            
+    		new ExportExcel("机器人对话", HqrtRobotChat.class).setDataList(hqrtRobotChatlist).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;

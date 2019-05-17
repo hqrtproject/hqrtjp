@@ -231,8 +231,12 @@ $(document).ready(function() {
 		  $("#searchForm  .select-item").html("");
 		  $('#hqrtRobotChatTable').bootstrapTable('refresh');
 		});
-		
-		
+		$('#starttime').datetimepicker({
+			 format: "YYYY-MM-DD HH:mm:ss"
+		});
+		$('#endttime').datetimepicker({
+			 format: "YYYY-MM-DD HH:mm:ss"
+		});
 	});
 		
   function getIdSelections() {
