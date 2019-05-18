@@ -43,6 +43,7 @@ $(document).ready(function() {
                ////查询参数,每次调用是会带上这个参数，可自定义                         
                queryParams : function(params) {
                	var searchParam = $("#searchForm").serializeJSON();
+               	// console.log(searchParam);
                	searchParam.pageNo = params.limit === undefined? "1" :params.offset/params.limit+1;
                	searchParam.pageSize = params.limit === undefined? -1 : params.limit;
                	searchParam.orderBy = params.sort === undefined? "" : params.sort+ " "+  params.order;
@@ -226,6 +227,7 @@ $(document).ready(function() {
 		});
 	 
 	 $("#reset").click("click", function() {// 绑定查询按扭
+		  $('.easyui-combotree').combotree("clear")
 		  $("#searchForm  input").val("");
 		  $("#searchForm  select").val("");
 		  $("#searchForm  .select-item").html("");

@@ -4,6 +4,7 @@
 package com.jeeplus.modules.hqrt.robotchat.web;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +74,7 @@ public class HqrtRobotChatController extends BaseController {
 		return "modules/hqrt/robotchat/hqrtRobotChatList";
 	}
 	
-		/**
+	/**
 	 * 机器人对话列表数据
 	 */
 	@ResponseBody
@@ -82,14 +83,14 @@ public class HqrtRobotChatController extends BaseController {
 	public Map<String, Object> data(HqrtRobotChat hqrtRobotChat, HttpServletRequest request, HttpServletResponse response, Model model) {
 		// Page<HqrtRobotChat> page = hqrtRobotChatService.findPage(new Page<HqrtRobotChat>(request, response), hqrtRobotChat);
 		Map<String, Object> map = new HashMap<String, Object>();
+        if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
+        	hqrtRobotChat.setCustomerprovinceList(Arrays.asList(hqrtRobotChat.getCustomerprovince().split(",")));
+        }
 		// 首先根据业务和省份分组查询
 		List<HqrtRobotChat> hqrtRobotChatlist = hqrtRobotChatService.findListGroupBy(hqrtRobotChat);
-		// 所有业务省份的进线总量
-		Double totalconversionvolume = 0.0;
 		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
 			List<HqrtRobotChat> queueNameAndCustomerProvinceList = hqrtRobotChatService.findListByQueueNameAndCustomerProvince(robotChat);
 			robotChat.setTotalincount(queueNameAndCustomerProvinceList.size());
-			totalconversionvolume += queueNameAndCustomerProvinceList.size();
 			// 转人工量
 			int conversionvolume = 0;
 			// 用户提问总量
@@ -131,8 +132,8 @@ public class HqrtRobotChatController extends BaseController {
 			robotChat.setUnresolved(unresolved);
 			robotChat.setNotevaluated(notevaluated);
 			robotChat.setFailurefindknowledge(failurefindknowledge);
-			DecimalFormat df = new DecimalFormat("#.00");
-			robotChat.setConversionrate(Double.valueOf(df.format(robotChat.getConversionvolume()/robotChat.getTotalincount()*100)));
+			DecimalFormat df = new DecimalFormat("#0.00");
+			robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
 		}
 		map.put("rows", hqrtRobotChatlist);
 		// map.put("total", page.getCount());
@@ -214,13 +215,14 @@ public class HqrtRobotChatController extends BaseController {
 		try {
             String fileName = "机器人对话"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
             // 首先根据业务和省份分组查询
+            if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
+            	hqrtRobotChat.setCustomerprovinceList(Arrays.asList(hqrtRobotChat.getCustomerprovince().split(",")));
+            }
     		List<HqrtRobotChat> hqrtRobotChatlist = hqrtRobotChatService.findListGroupBy(hqrtRobotChat);
     		// 所有业务省份的进线总量
-    		Double totalconversionvolume = 0.0;
     		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
     			List<HqrtRobotChat> queueNameAndCustomerProvinceList = hqrtRobotChatService.findListByQueueNameAndCustomerProvince(robotChat);
     			robotChat.setTotalincount(queueNameAndCustomerProvinceList.size());
-    			totalconversionvolume += queueNameAndCustomerProvinceList.size();
     			// 转人工量
     			int conversionvolume = 0;
     			// 用户提问总量
@@ -262,8 +264,8 @@ public class HqrtRobotChatController extends BaseController {
     			robotChat.setUnresolved(unresolved);
     			robotChat.setNotevaluated(notevaluated);
     			robotChat.setFailurefindknowledge(failurefindknowledge);
-    			DecimalFormat df = new DecimalFormat("#.00");
-    			robotChat.setConversionrate(Double.valueOf(df.format(robotChat.getConversionvolume()/robotChat.getTotalincount()*100)));
+    			DecimalFormat df = new DecimalFormat("#0.00");
+    			robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
     		}
             
     		new ExportExcel("机器人对话", HqrtRobotChat.class).setDataList(hqrtRobotChatlist).write(response, fileName).dispose();
