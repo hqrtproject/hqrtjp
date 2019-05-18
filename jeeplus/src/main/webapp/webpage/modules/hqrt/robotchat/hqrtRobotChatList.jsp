@@ -66,7 +66,7 @@
 					                   </span>
 					             </div>	
 					        </div>
-					        <div class="col-xs-12 col-sm-1" style="width:45px;">~ </div>
+					        <div class="col-xs-12 col-sm-1" style="width:45px;">~</div>
 					        <div class="col-xs-12 col-sm-4">
 					          	<div class='input-group date' id='endttime' style="left: -10px;" >
 					                   <input type='text'  name="endttime" class="form-control" />
