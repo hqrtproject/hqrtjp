@@ -54,7 +54,7 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtRobotChat" class="form form-horizontal well clearfix">
-			<div class="col-xs-12 col-sm-6 col-md-7">
+			<div class="col-xs-12 col-sm-6 col-md-6">
 				 <div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;<font size="4">进线开始/结束时间：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -78,18 +78,17 @@
 					</div>
 				</div>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-5">
+			 <div class="col-xs-12 col-sm-6 col-md-6">
 				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="queuename" htmlEscape="false" maxlength="50"  class=" form-control" style="width:80%"/>
 			</div>
-			<br><br><br>
-			 <div class="col-xs-12 col-sm-6 col-md-5">
+			 <div class="col-xs-12 col-sm-6 col-md-7">
 				<label class="label-item single-overflow pull-left" title="省份："><font size="4">省份：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:80%">
+				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:70%">
 				<form:hidden path="customerprovince"/>
 			</div>
 			<div class="">
-				<div style="margin-top:80px">
+				<div style="margin-top:100px">
 				  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
 				  <a  id="reset" class="btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a>
 				 </div>

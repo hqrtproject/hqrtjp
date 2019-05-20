@@ -21,7 +21,7 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtRobotChatdetails" class="form form-horizontal well clearfix">
-				<div class="col-xs-12 col-sm-6 col-md-6">
+				<div class="col-xs-12 col-sm-6 col-md-6" style="height:34px;">
 				 <div class="form-group">
 					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;<font size="4">进线开始/结束时间：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
@@ -49,16 +49,16 @@
 				<form:hidden path="customerprovince"/>
 			</div>
 			
-			 <div class="col-xs-12 col-sm-6 col-md-6">
+			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="解决状态："><font size="4">解决状态：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="satisfydesc" htmlEscape="false" maxlength="50"  class=" form-control" style="width:60%"/>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-6">
+			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="会话ID："><font size="4">会话ID：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="sessionid" htmlEscape="false" maxlength="50"  class=" form-control" style="width:60%"/>
 			</div>
 			
-			 <div class="col-xs-12 col-sm-6 col-md-7">
+			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="用户名"><font size="4">用户名：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="customername" htmlEscape="false" maxlength="50"  class=" form-control" style="width:60%"/>
 			</div>
