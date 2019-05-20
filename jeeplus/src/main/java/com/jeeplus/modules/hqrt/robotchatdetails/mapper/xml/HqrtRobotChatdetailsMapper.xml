@@ -39,7 +39,7 @@
 		</association>
 	</resultMap> -->
 	<sql id="hqrtRobotChatdetailsJoins">
-	LEFT JOIN hqrt_robot_chat b ON a.SessionID=b.SessionID ; 
+	LEFT JOIN hqrt_robot_chat b ON a.SessionID=b.SessionID
 	</sql>
 	<select id="get" resultType="HqrtRobotChatdetails" >
 		SELECT 
