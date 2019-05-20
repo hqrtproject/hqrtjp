@@ -40,6 +40,7 @@
 				}
 			});
 		});
+	
 	</script>
 </head>
 <body>
@@ -78,9 +79,10 @@
 					</div>
 				</div>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-5">
+			  <div class="col-xs-12 col-sm-6 col-md-5">
 				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:input path="queuename" htmlEscape="false" maxlength="50"  class=" form-control" style="width:80%"/>
+				<input id="queuename" class="easyui-combobox" data-options="url:'${ctxStatic}/plugin/combotree/areatwo.json',method:'get'" style="height:34px;width:80%">
+				<form:hidden path="customerprovince"/>
 			</div>
 			<br><br><br>
 			 <div class="col-xs-12 col-sm-6 col-md-5">
