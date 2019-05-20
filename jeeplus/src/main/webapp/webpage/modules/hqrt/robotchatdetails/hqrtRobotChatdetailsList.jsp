@@ -21,34 +21,10 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtRobotChatdetails" class="form form-horizontal well clearfix">
-		<!-- 	<div class="col-xs-12 col-sm-6 col-md-4">
+				<div class="col-xs-12 col-sm-6 col-md-6">
 				 <div class="form-group">
-					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;进线开始/结束时间：</label>
-					<div class="col-xs-12">
-						   <div class="col-xs-12 col-sm-5">
-					        	  <div class='input-group date' id='beginDate' style="left: -10px;" >
-					                   <input type='text'  name="beginDate" class="form-control"  />
-					                   <span class="input-group-addon">
-					                       <span class="glyphicon glyphicon-calendar"></span>
-					                   </span>
-					             </div>	
-					        </div>
-					        <div class="col-xs-12 col-sm-5">
-					          	<div class='input-group date' id='endDate' style="left: -10px;" >
-					                   <input type='text'  name="endDate" class="form-control" />
-					                   <span class="input-group-addon">
-					                       <span class="glyphicon glyphicon-calendar"></span>
-					                   </span>
-					           	</div>	
-					        </div>
-					</div>
-				</div>
-			</div> -->
-				<div class="col-xs-12 col-sm-6 col-md-4">
-				 <div class="form-group">
-					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;进线开始/结束时间：</label>
-					<div class="col-xs-12">
-						   <div class="col-xs-12 col-sm-5">
+					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;<font size="4">进线开始/结束时间：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						   <div class="col-xs-12 col-sm-4">
 					        	  <div class='input-group date' id='starttime' style="left: -10px;" >
 					                   <input type='text'  name="parent.starttime" class="form-control"  />
 					                   <span class="input-group-addon">
@@ -56,8 +32,8 @@
 					                   </span>
 					             </div>	
 					        </div>
-
-					        <div class="col-xs-12 col-sm-5">
+						 <div class="col-xs-12 col-sm-1" style="width:45px;">~</div>
+					        <div class="col-xs-12 col-sm-4">
 					          	<div class='input-group date' id='endttime' style="left: -10px;" >
 					                   <input type='text'  name="parent.endttime" class="form-control" />
 					                   <span class="input-group-addon">
@@ -65,27 +41,30 @@
 					                   </span>
 					           	</div>	
 					        </div>
-					</div>
 				</div>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-4">
-				<label class="label-item single-overflow pull-left" title="业务系统">业务系统：</label>
-				<form:input path="queuename" htmlEscape="false" maxlength="50"  class=" form-control"/>
+			 <div class="col-xs-12 col-sm-6 col-md-6">
+				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<input id="queuename" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:60%">
+				<form:hidden path="customerprovince"/>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-4">
-				<label class="label-item single-overflow pull-left" title="解决状态：">解决状态：</label>
-				<form:input path="satisfydesc" htmlEscape="false" maxlength="20"  class=" form-control"/>
+			
+			 <div class="col-xs-12 col-sm-6 col-md-6">
+				<label class="label-item single-overflow pull-left" title="解决状态："><font size="4">解决状态：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<form:input path="satisfydesc" htmlEscape="false" maxlength="50"  class=" form-control" style="width:60%"/>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-4">
-				<label class="label-item single-overflow pull-left" title="会话ID：">会话ID：</label>
-				<form:input path="sessionid" htmlEscape="false" maxlength="20"  class=" form-control"/>
+			 <div class="col-xs-12 col-sm-6 col-md-6">
+				<label class="label-item single-overflow pull-left" title="会话ID："><font size="4">会话ID：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<form:input path="sessionid" htmlEscape="false" maxlength="50"  class=" form-control" style="width:60%"/>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-4">
-				<label class="label-item single-overflow pull-left" title="用户名">用户名：</label>
-				<form:input path="customername" htmlEscape="false" maxlength="20"  class=" form-control"/>
+			
+			 <div class="col-xs-12 col-sm-6 col-md-7">
+				<label class="label-item single-overflow pull-left" title="用户名"><font size="4">用户名：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<form:input path="customername" htmlEscape="false" maxlength="50"  class=" form-control" style="width:60%"/>
 			</div>
+			
 		 <div class="">
-			<div style="margin-top:26px">
+			<div style="margin-top:150px">
 			  <a  id="search" class=" btn btn-warning"><i class="fa fa-search"></i> 查询</a>
 			  <a  id="reset" class=" btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a>
 			 </div>
