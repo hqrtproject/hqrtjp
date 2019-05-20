@@ -65,8 +65,11 @@
 		FROM hqrt_robot_chat a
 		<where>
 			${dataScope}
-			<if test="customerprovince != null and customerprovince != ''">
-				AND a.customerprovince = #{customerprovince}
+			<if test="customerprovinceList != null and customerprovinceList.size() &gt; 0">
+				AND a.customerprovince in 
+					<foreach collection="customerprovinceList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
 			</if>
 			<if test="queuename != null and queuename != ''">
 				AND a.queuename = #{queuename}

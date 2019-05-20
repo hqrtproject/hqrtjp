@@ -5,6 +5,7 @@ package com.jeeplus.modules.hqrt.robotchat.entity;
 
 
 import java.util.Date;
+import java.util.List;
 
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 import com.jeeplus.core.persistence.DataEntity;
@@ -24,6 +25,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 	private String customername;		// 客户姓名
 	private String customermobile;		// 客户手机号码
 	private String customerprovince;		// 客户所在省
+	private List<String> customerprovinceList;		// 选中客户所在省（可能是多个）
 	private String startdatetime;		// 会话开始时间
 	private String enddatetime;		// 会话结束时间
 	private Integer timelen;		// 会话持续时长(单位：秒)
@@ -38,7 +40,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 	// 统计字段
 	private Integer totalincount;		// 总进线量
 	private Integer conversionvolume;		// 转人工量
-	private Double conversionrate;		// 转人工率
+	private String conversionrate;		// 转人工率
 	private Integer totaluserquestions;		// 用户提问总量
 	private Integer resolved;		// 机器人已解决量
 	private Integer unresolved;		// 机器人未解决量
@@ -109,6 +111,14 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 
 	public void setCustomerprovince(String customerprovince) {
 		this.customerprovince = customerprovince;
+	}
+
+	public List<String> getCustomerprovinceList() {
+		return customerprovinceList;
+	}
+
+	public void setCustomerprovinceList(List<String> customerprovinceList) {
+		this.customerprovinceList = customerprovinceList;
 	}
 	
 	public String getStartdatetime() {
@@ -211,11 +221,11 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 	}
 
 	@ExcelField(title="转人工率", align=2, sort=5)
-	public Double getConversionrate() {
+	public String getConversionrate() {
 		return conversionrate;
 	}
 
-	public void setConversionrate(Double conversionrate) {
+	public void setConversionrate(String conversionrate) {
 		this.conversionrate = conversionrate;
 	}
 
