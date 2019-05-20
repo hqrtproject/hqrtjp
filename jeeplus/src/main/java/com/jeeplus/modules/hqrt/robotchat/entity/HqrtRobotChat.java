@@ -7,6 +7,7 @@ package com.jeeplus.modules.hqrt.robotchat.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 import com.jeeplus.core.persistence.DataEntity;
 
@@ -26,7 +27,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 	private String customermobile;		// 客户手机号码
 	private String customerprovince;		// 客户所在省
 	private List<String> customerprovinceList;		// 选中客户所在省（可能是多个）
-	private String startdatetime;		// 会话开始时间
+	private Date startdatetime;		// 会话开始时间
 	private String enddatetime;		// 会话结束时间
 	private Integer timelen;		// 会话持续时长(单位：秒)
 	private Integer endreasonno;		// 会话结束原因：1转人工、2客户关闭、3超时结束
@@ -122,11 +123,12 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.customerprovinceList = customerprovinceList;
 	}
 	
-	public String getStartdatetime() {
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	public Date getStartdatetime() {
 		return startdatetime;
 	}
 
-	public void setStartdatetime(String startdatetime) {
+	public void setStartdatetime(Date startdatetime) {
 		this.startdatetime = startdatetime;
 	}
 	
