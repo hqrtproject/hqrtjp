@@ -4,6 +4,8 @@
 package com.jeeplus.modules.hqrt.robotchatdetails.entity;
 
 
+import java.util.List;
+
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 import com.jeeplus.core.persistence.DataEntity;
 import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
@@ -25,6 +27,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 	private String customerprovince;		// 客户所在省
 	private String queueid;		// 队列（技能组）编号
 	private String queuename;		// 队列（技能组）名称
+	private List<String> queuenameList;	// 选中业务系统（可能是多个）
 	private String requestcontext;		// 客户发起咨询的内容
 	private String responsecontext;		// 机器人回复的内容
 	private Integer responseno;		// 机器人回复编码:100无回复；200回复知识;300回复推荐
@@ -133,6 +136,14 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.queuename = queuename;
 	}
 	
+	public List<String> getQueuenameList() {
+		return queuenameList;
+	}
+
+	public void setQueuenameList(List<String> queuenameList) {
+		this.queuenameList = queuenameList;
+	}
+
 	@ExcelField(title="用户提问内容", align=2, sort=10)
 	public String getRequestcontext() {
 		return requestcontext;

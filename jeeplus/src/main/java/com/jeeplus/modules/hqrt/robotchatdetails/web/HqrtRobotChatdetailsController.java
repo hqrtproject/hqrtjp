@@ -3,6 +3,7 @@
  */
 package com.jeeplus.modules.hqrt.robotchatdetails.web;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +76,9 @@ public class HqrtRobotChatdetailsController extends BaseController {
 	@RequiresPermissions("hqrt:robotchatdetails:hqrtRobotChatdetails:list")
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtRobotChatdetails hqrtRobotChatdetails, HttpServletRequest request, HttpServletResponse response, Model model) {
+		if (StringUtils.isNotBlank(hqrtRobotChatdetails.getQueuename())) {
+			hqrtRobotChatdetails.setQueuenameList(Arrays.asList(hqrtRobotChatdetails.getQueuename().split(",")));
+        }
 		Page<HqrtRobotChatdetails> page = hqrtRobotChatdetailsService.findPage(new Page<HqrtRobotChatdetails>(request, response), hqrtRobotChatdetails); 
 		return getBootstrapData(page);
 	}
@@ -153,6 +157,9 @@ public class HqrtRobotChatdetailsController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "机器人对话内容"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+            if (StringUtils.isNotBlank(hqrtRobotChatdetails.getQueuename())) {
+    			hqrtRobotChatdetails.setQueuenameList(Arrays.asList(hqrtRobotChatdetails.getQueuename().split(",")));
+            }
             Page<HqrtRobotChatdetails> page = hqrtRobotChatdetailsService.findPage(new Page<HqrtRobotChatdetails>(request, response, -1), hqrtRobotChatdetails);
             new ExportExcel("机器人对话内容", HqrtRobotChatdetails.class).setDataList(page.getList()).write(response, fileName).dispose();
     		j.setSuccess(true);

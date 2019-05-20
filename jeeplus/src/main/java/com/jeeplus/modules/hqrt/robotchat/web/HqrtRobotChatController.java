@@ -86,6 +86,9 @@ public class HqrtRobotChatController extends BaseController {
         if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
         	hqrtRobotChat.setCustomerprovinceList(Arrays.asList(hqrtRobotChat.getCustomerprovince().split(",")));
         }
+        if (StringUtils.isNotBlank(hqrtRobotChat.getQueuename())) {
+        	hqrtRobotChat.setQueuenameList(Arrays.asList(hqrtRobotChat.getQueuename().split(",")));
+        }
 		// 首先根据业务和省份分组查询
 		List<HqrtRobotChat> hqrtRobotChatlist = hqrtRobotChatService.findListGroupBy(hqrtRobotChat);
 		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
@@ -217,6 +220,9 @@ public class HqrtRobotChatController extends BaseController {
             // 首先根据业务和省份分组查询
             if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
             	hqrtRobotChat.setCustomerprovinceList(Arrays.asList(hqrtRobotChat.getCustomerprovince().split(",")));
+            }
+            if (StringUtils.isNotBlank(hqrtRobotChat.getQueuename())) {
+            	hqrtRobotChat.setQueuenameList(Arrays.asList(hqrtRobotChat.getQueuename().split(",")));
             }
     		List<HqrtRobotChat> hqrtRobotChatlist = hqrtRobotChatService.findListGroupBy(hqrtRobotChat);
     		// 所有业务省份的进线总量

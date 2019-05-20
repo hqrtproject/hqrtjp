@@ -71,8 +71,11 @@
 						#{item}
 					</foreach>
 			</if>
-			<if test="queuename != null and queuename != ''">
-				AND a.queuename = #{queuename}
+			<if test="queuenameList != null and queuenameList.size() &gt; 0">
+				AND a.queuename in 
+					<foreach collection="queuenameList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
 			</if>
 			<if test="starttime != null and endttime != null ">
 				AND a.startdatetime BETWEEN #{starttime} AND #{endttime}

@@ -28,8 +28,7 @@
 	     a.satisfyno AS "satisfyno",
 		 a.satisfydesc AS "satisfydesc",
 	     a.messagedatetime AS "messagedatetime",
-		 a.originalsessionid AS "originalsessionid",
-		 b.StartDateTime AS "parent.StartDateTime"
+		 a.originalsessionid AS "originalsessionid"
 	</sql>
 	<!--  <resultMap type="com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails" id="HqrtRobotChatdetailsMapper" autoMapping="true">
     	<association property="HqrtRobotChat"  javaType="HqrtRobotChat">
@@ -57,8 +56,11 @@
 		<where>
 			
 			${dataScope}
-			<if test="queuename != null and queuename != ''">
-				AND a.queuename = #{queuename}
+			<if test="queuenameList != null and queuenameList.size() &gt; 0">
+				AND a.queuename in 
+					<foreach collection="queuenameList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
 			</if>
 			<if test="satisfydesc != null and satisfydesc != ''">
 				AND a.satisfydesc = #{satisfydesc}
@@ -70,7 +72,7 @@
 				AND a.customername = #{customername}
 			</if>
 			<if test="parent != null and parent.starttime != null and parent.endttime != null ">
-				AND b.StartDateTime BETWEEN #{parent.starttime} AND #{parent.endttime}
+				AND a.MessageDateTime BETWEEN #{parent.starttime} AND #{parent.endttime}
 			</if>
 		</where>
 		<choose>

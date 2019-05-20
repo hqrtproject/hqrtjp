@@ -33,6 +33,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 	private String endreason;		// 会话结束原因：1转人工、2客户关闭、3超时结束
 	private String queueid;		// 队列（技能组）编号
 	private String queuename;		// 队列（技能组）名称
+	private List<String> queuenameList;	// 选中业务系统（可能是多个）
 	private String originalsessionid;		// 原始SessionID
 	// 过滤的开始结束时间
 	private Date starttime;
@@ -178,6 +179,13 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.queuename = queuename;
 	}
 	
+	public List<String> getQueuenameList() {
+		return queuenameList;
+	}
+
+	public void setQueuenameList(List<String> queuenameList) {
+		this.queuenameList = queuenameList;
+	}
 	public String getOriginalsessionid() {
 		return originalsessionid;
 	}
