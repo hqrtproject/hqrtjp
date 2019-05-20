@@ -142,10 +142,10 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'rowdatetime',
+		        field: 'messagedatetime',
 		        title: '用户提问时间',
 		        sortable: true,
-		        sortName: 'rowdatetime'
+		        sortName: 'messagedatetime'
 		       
 		    }
 			,{

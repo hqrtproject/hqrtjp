@@ -4,8 +4,10 @@
 package com.jeeplus.modules.hqrt.robotchatdetails.entity;
 
 
+import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 import com.jeeplus.core.persistence.DataEntity;
 import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
@@ -42,7 +44,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 	private String faqcreatedatetime;		// 知识创建时间
 	private Integer satisfyno;		// 是否解决了客户的问题(0未评价；1未解决；2已解决)
 	private String satisfydesc;		// 是否解决了客户的问题描述
-	private String messagedatetime;		// 消息时间
+	private Date messagedatetime;		// 消息时间
 	private String originalsessionid;  // 原始SessionID
 	private HqrtRobotChat parent ;
 	
@@ -269,12 +271,12 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.satisfydesc = satisfydesc;
 	}
 	
-	
-	public String getMessagedatetime() {
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	public Date getMessagedatetime() {
 		return messagedatetime;
 	}
 
-	public void setMessagedatetime(String messagedatetime) {
+	public void setMessagedatetime(Date messagedatetime) {
 		this.messagedatetime = messagedatetime;
 	}
 	

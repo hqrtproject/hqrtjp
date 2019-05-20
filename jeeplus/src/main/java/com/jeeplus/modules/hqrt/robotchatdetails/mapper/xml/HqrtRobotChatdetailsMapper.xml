@@ -72,7 +72,7 @@
 				AND a.customername = #{customername}
 			</if>
 			<if test="parent != null and parent.starttime != null and parent.endttime != null ">
-				AND a.MessageDateTime BETWEEN #{parent.starttime} AND #{parent.endttime}
+				AND a.messagedatetime BETWEEN #{parent.starttime} AND #{parent.endttime}
 			</if>
 		</where>
 		<choose>
