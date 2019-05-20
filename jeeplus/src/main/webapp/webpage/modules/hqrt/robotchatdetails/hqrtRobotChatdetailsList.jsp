@@ -18,10 +18,10 @@
 	<div class="panel-body">
 	
 	<!-- 搜索 -->
-	<div id="search-collapse" class="collapse">
+	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtRobotChatdetails" class="form form-horizontal well clearfix">
-			<div class="col-xs-12 col-sm-6 col-md-4">
+		<!-- 	<div class="col-xs-12 col-sm-6 col-md-4">
 				 <div class="form-group">
 					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;进线开始/结束时间：</label>
 					<div class="col-xs-12">
@@ -33,9 +33,6 @@
 					                   </span>
 					             </div>	
 					        </div>
-					        <div class="col-xs-12 col-sm-1">
-					        		~
-					       	</div>
 					        <div class="col-xs-12 col-sm-5">
 					          	<div class='input-group date' id='endDate' style="left: -10px;" >
 					                   <input type='text'  name="endDate" class="form-control" />
@@ -46,27 +43,51 @@
 					        </div>
 					</div>
 				</div>
+			</div> -->
+				<div class="col-xs-12 col-sm-6 col-md-4">
+				 <div class="form-group">
+					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;进线开始/结束时间：</label>
+					<div class="col-xs-12">
+						   <div class="col-xs-12 col-sm-5">
+					        	  <div class='input-group date' id='starttime' style="left: -10px;" >
+					                   <input type='text'  name="parent.starttime" class="form-control"  />
+					                   <span class="input-group-addon">
+					                       <span class="glyphicon glyphicon-calendar"></span>
+					                   </span>
+					             </div>	
+					        </div>
+
+					        <div class="col-xs-12 col-sm-5">
+					          	<div class='input-group date' id='endttime' style="left: -10px;" >
+					                   <input type='text'  name="parent.endttime" class="form-control" />
+					                   <span class="input-group-addon">
+					                       <span class="glyphicon glyphicon-calendar"></span>
+					                   </span>
+					           	</div>	
+					        </div>
+					</div>
+				</div>
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-4">
 				<label class="label-item single-overflow pull-left" title="业务系统">业务系统：</label>
-				<form:input path="rowguid" htmlEscape="false" maxlength="50"  class=" form-control"/>
+				<form:input path="queuename" htmlEscape="false" maxlength="50"  class=" form-control"/>
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-4">
 				<label class="label-item single-overflow pull-left" title="解决状态：">解决状态：</label>
-				<form:input path="rowdatetime" htmlEscape="false" maxlength="20"  class=" form-control"/>
+				<form:input path="satisfydesc" htmlEscape="false" maxlength="20"  class=" form-control"/>
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-4">
 				<label class="label-item single-overflow pull-left" title="会话ID：">会话ID：</label>
-				<form:input path="rowdatetime" htmlEscape="false" maxlength="20"  class=" form-control"/>
+				<form:input path="sessionid" htmlEscape="false" maxlength="20"  class=" form-control"/>
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-4">
 				<label class="label-item single-overflow pull-left" title="用户名">用户名：</label>
-				<form:input path="rowdatetime" htmlEscape="false" maxlength="20"  class=" form-control"/>
+				<form:input path="customername" htmlEscape="false" maxlength="20"  class=" form-control"/>
 			</div>
-		 <div class="col-xs-12 col-sm-6 col-md-4">
+		 <div class="">
 			<div style="margin-top:26px">
-			  <a  id="search" class="btn btn-primary btn-rounded  btn-bordered btn-sm"><i class="fa fa-search"></i> 查询</a>
-			  <a  id="reset" class="btn btn-primary btn-rounded  btn-bordered btn-sm" ><i class="fa fa-refresh"></i> 重置</a>
+			  <a  id="search" class=" btn btn-warning"><i class="fa fa-search"></i> 查询</a>
+			  <a  id="reset" class=" btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a>
 			 </div>
 	    </div>	
 	</form:form>

@@ -9,9 +9,9 @@ $(document).ready(function() {
                dataType: "json",
                contentType: "application/x-www-form-urlencoded",
                //显示检索按钮
-	           showSearch: true,
+	          /* showSearch: true,*/
                //显示刷新按钮
-               showRefresh: true,
+            /*   showRefresh: true,*/
                //显示切换手机试图按钮
                /*showToggle: true,*/
                //显示 内容列下拉框
@@ -84,123 +84,103 @@ $(document).ready(function() {
 		        checkbox: true
 		       
 		    }
-			,{
-		        field: 'rowguid',
-		        title: '唯一记录标识（主键）',
-		        sortable: true,
-		        sortName: 'rowguid'
-		        ,formatter:function(value, row , index){
-		        	value = jp.unescapeHTML(value);
-				   <c:choose>
-					   <c:when test="${fns:hasPermission('hqrt:robotchatdetails:hqrtRobotChatdetails:edit')}">
-					      return "<a href='javascript:edit(\""+row.id+"\")'>"+value+"</a>";
-				      </c:when>
-					  <c:when test="${fns:hasPermission('hqrt:robotchatdetails:hqrtRobotChatdetails:view')}">
-					      return "<a href='javascript:view(\""+row.id+"\")'>"+value+"</a>";
-				      </c:when>
-					  <c:otherwise>
-					      return value;
-				      </c:otherwise>
-				   </c:choose>
-		         }
-		       
-		    }
-			,{
-		        field: 'rowdatetime',
-		        title: '业务系统',
-		        sortable: true,
-		        sortName: 'rowdatetime'
-		       
-		    }
-			,{
-		        field: 'sessionid',
-		        title: '知识分类',
-		        sortable: true,
-		        sortName: 'sessionid'
-		       
-		    }
-			,{
-		        field: 'customerid',
-		        title: '子模块',
-		        sortable: true,
-		        sortName: 'customerid'
-		       
-		    }
-			,{
-		        field: 'customername',
-		        title: '知识编码',
-		        sortable: true,
-		        sortName: 'customername'
-		       
-		    }
-			,{
-		        field: 'customermobile',
-		        title: '知识标题',
-		        sortable: true,
-		        sortName: 'customermobile'
-		       
-		    }
-			,{
-		        field: 'customerprovince',
-		        title: '用户名',
-		        sortable: true,
-		        sortName: 'customerprovince'
-		       
-		    }
-			,{
-		        field: 'queueid',
-		        title: '用户ID',
-		        sortable: true,
-		        sortName: 'queueid'
-		       
-		    }
-			,{
+			,
+		     {
 		        field: 'queuename',
-		        title: '用户所属省份',
+		        title: '业务系统',
 		        sortable: true,
 		        sortName: 'queuename'
 		       
 		    }
 			,{
-		        field: 'requestcontext',
+		        field: 'faqroot',
+		        title: '知识分类',
+		        sortable: true,
+		        sortName: 'faqroot'
+		       
+		    }
+			,{
+		        field: 'faqmodel',
+		        title: '子模块',
+		        sortable: true,
+		        sortName: 'faqmodel'
+		       
+		    }
+			,{
+		        field: 'faqserialno',
+		        title: '知识编码',
+		        sortable: true,
+		        sortName: 'faqserialno'
+		       
+		    }
+			,{
+		        field: 'faqtitle',
+		        title: '知识标题',
+		        sortable: true,
+		        sortName: 'faqtitle'
+		       
+		    }
+			,{
+		        field: 'customername',
+		        title: '用户名',
+		        sortable: true,
+		        sortName: 'customername'
+		       
+		    }
+			,{
+		        field: 'customerid',
+		        title: '用户ID',
+		        sortable: true,
+		        sortName: 'customerid'
+		       
+		    }
+			,{
+		        field: 'customerprovince',
+		        title: '用户所属省份',
+		        sortable: true,
+		        sortName: 'customerprovince'
+		       
+		    }
+			,{
+		        field: 'rowdatetime',
 		        title: '用户提问时间',
+		        sortable: true,
+		        sortName: 'rowdatetime'
+		       
+		    }
+			,{
+		        field: 'requestcontext',
+		        title: '用户提问内容',
 		        sortable: true,
 		        sortName: 'requestcontext'
 		       
 		    }
 			,{
-		        field: 'responsecontext',
-		        title: '用户提问内容',
-		        sortable: true,
-		        sortName: 'responsecontext'
-		       
-		    }
-			,{
-		        field: 'responseno',
+		        field: 'satisfydesc',
 		        title: '是否解决（解决状态）',
 		        sortable: true,
-		        sortName: 'responseno'
+		        sortName: 'satisfydesc'
 		       
 		    }
 			,{
-		        field: 'responsenodesc',
+		        field: 'sessionid',
 		        title: '会话ID',
 		        sortable: true,
-		        sortName: 'responsenodesc'
+		        sortName: 'sessionid'
 		       
 		    }
 			,{
-		        field: 'faqid',
+		        field: 'faqcreatername',
 		        title: '知识创建人',
 		        sortable: true,
-		        sortName: 'faqid'
+		        sortName: 'faqcreatername'
 		       
 		    }
 			,{
-		        field: 'faqroot',
+		        field: 'faqcreatedatetime',
 		        title: '知识创建时间',
 		        sortable: true,
-		        sortName: 'faqroot'
+		        sortName: 'faqcreatedatetime'
 		       
 		    }
 		     ]
@@ -280,7 +260,12 @@ $(document).ready(function() {
 		  $("#searchForm  .select-item").html("");
 		  $('#hqrtRobotChatdetailsTable').bootstrapTable('refresh');
 		});
-		
+		$('#starttime').datetimepicker({
+			 format: "YYYY-MM-DD HH:mm:ss"
+		});
+		$('#endttime').datetimepicker({
+			 format: "YYYY-MM-DD HH:mm:ss"
+		});
 		
 	});
 		
