@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.agentlogin.mapper.HqrtAgentLoginMapper">
+    
+	<sql id="hqrtAgentLoginColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.agentid AS "agentid",
+		a.agentname AS "agentname",
+		a.agentmobile AS "agentmobile",
+		a.agentprovince AS "agentprovince",
+		a.startdatetime AS "startdatetime",
+		a.enddatetime AS "enddatetime",
+		a.timelen AS "timelen"
+	</sql>
+	
+	<sql id="hqrtAgentLoginJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtAgentLogin" >
+		SELECT 
+			<include refid="hqrtAgentLoginColumns"/>
+		FROM hqrt_agent_login a
+		<include refid="hqrtAgentLoginJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtAgentLogin" >
+		SELECT 
+			<include refid="hqrtAgentLoginColumns"/>
+		FROM hqrt_agent_login a
+		<include refid="hqrtAgentLoginJoins"/>
+		<where>
+			
+			${dataScope}
+			<if test="rowdatetime != null and rowdatetime != ''">
+				AND a.rowdatetime = #{rowdatetime}
+			</if>
+			<if test="agentid != null and agentid != ''">
+				AND a.agentid = #{agentid}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtAgentLogin" >
+		SELECT 
+			<include refid="hqrtAgentLoginColumns"/>
+		FROM hqrt_agent_login a
+		<include refid="hqrtAgentLoginJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_agent_login(
+			rowguid,
+			rowdatetime,
+			agentid,
+			agentname,
+			agentmobile,
+			agentprovince,
+			startdatetime,
+			enddatetime,
+			timelen
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{agentid},
+			#{agentname},
+			#{agentmobile},
+			#{agentprovince},
+			#{startdatetime},
+			#{enddatetime},
+			#{timelen}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_agent_login SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			agentid = #{agentid},
+			agentname = #{agentname},
+			agentmobile = #{agentmobile},
+			agentprovince = #{agentprovince},
+			startdatetime = #{startdatetime},
+			enddatetime = #{enddatetime},
+			timelen = #{timelen}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_agent_login
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_agent_login SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtAgentLogin" statementType="STATEMENT">
+		select * FROM hqrt_agent_login  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>
