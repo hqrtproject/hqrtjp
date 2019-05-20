@@ -29,7 +29,6 @@ public class HqrtRobotChatdetailsService extends CrudService<HqrtRobotChatdetail
 	public List<HqrtRobotChatdetails> findList(HqrtRobotChatdetails hqrtRobotChatdetails) {
 		return super.findList(hqrtRobotChatdetails);
 	}
-	
 	public Page<HqrtRobotChatdetails> findPage(Page<HqrtRobotChatdetails> page, HqrtRobotChatdetails hqrtRobotChatdetails) {
 		return super.findPage(page, hqrtRobotChatdetails);
 	}

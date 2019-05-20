@@ -32,6 +32,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
 import com.jeeplus.modules.hqrt.robotchatdetails.service.HqrtRobotChatdetailsService;
+import com.jeeplus.modules.test.one.dialog.entity.Leave1;
 
 /**
  * 机器人对话内容Controller
@@ -153,7 +154,7 @@ public class HqrtRobotChatdetailsController extends BaseController {
 		try {
             String fileName = "机器人对话内容"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
             Page<HqrtRobotChatdetails> page = hqrtRobotChatdetailsService.findPage(new Page<HqrtRobotChatdetails>(request, response, -1), hqrtRobotChatdetails);
-    		new ExportExcel("机器人对话内容", HqrtRobotChatdetails.class).setDataList(page.getList()).write(response, fileName).dispose();
+            new ExportExcel("机器人对话内容", HqrtRobotChatdetails.class).setDataList(page.getList()).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;

@@ -3,8 +3,11 @@
  */
 package com.jeeplus.modules.hqrt.robotchatdetails.mapper;
 
+import java.util.List;
+
 import com.jeeplus.core.persistence.BaseMapper;
 import com.jeeplus.core.persistence.annotation.MyBatisMapper;
+import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
 import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
 
 /**
@@ -14,5 +17,5 @@ import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
  */
 @MyBatisMapper
 public interface HqrtRobotChatdetailsMapper extends BaseMapper<HqrtRobotChatdetails> {
-	
+		
 }
