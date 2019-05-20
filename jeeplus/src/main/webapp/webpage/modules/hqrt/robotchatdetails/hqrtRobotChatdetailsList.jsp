@@ -8,6 +8,35 @@
 	<%@ include file="/webpage/include/bootstraptable.jsp"%>
 	<%@include file="/webpage/include/treeview.jsp" %>
 	<%@include file="hqrtRobotChatdetailsList.js" %>
+	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/easyui.css">
+	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/icon.css">
+	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/demo.css">
+	<%-- <script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.min.js"></script> --%>
+	<script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.easyui.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#queuenameID').combotree({
+				multiple: true,
+				// cascadeCheck: false,
+				// onlyLeafCheck: true
+		        prompt: '请选择...',
+				onCheck:function(node, checked){
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#queuenameID").combotree("tree");// 获取树对象
+					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue=[];
+					var childLength='';
+					$.each(checkedNodes,function(index){
+						logicNodeValue.push(checkedNodes[index].text);
+					});
+					// console.log(logicNodeValue);
+					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#queuename').val(logicNodeValue);// 给查询字段赋值
+				}
+			});
+		});
+	</script>
 </head>
 <body>
 	<div class="wrapper wrapper-content">
@@ -45,13 +74,16 @@
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-6">
 				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuename" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:60%">
-				<form:hidden path="customerprovince"/>
+				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/queuename.json',method:'get'" style="height:34px;width:60%">
+				<form:hidden path="queuename"/>
 			</div>
 			
 			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="解决状态："><font size="4">解决状态：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:input path="satisfydesc" htmlEscape="false" maxlength="50"  class=" form-control" style="width:60%"/>
+				<form:select path="satisfydesc" class="form-control" style="width:60%">
+					<option value="">请选择...</option>
+					<form:options items="${fns:getDictList('satisfy_desc')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="会话ID："><font size="4">会话ID：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>

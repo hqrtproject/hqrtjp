@@ -17,7 +17,7 @@
 		$(document).ready(function() {
 			$('#province').combotree({
 				multiple: true,
-				editable:true,
+				// editable:true,
 				value:[],
 				// cascadeCheck: false,
 				// onlyLeafCheck: true
@@ -39,6 +39,29 @@
 					$('#customerprovince').val(logicNodeValue);// 给查询字段赋值
 				}
 			});
+			
+			$('#queuenameID').combotree({
+				multiple: true,
+				// cascadeCheck: false,
+				// onlyLeafCheck: true
+		        prompt: '请选择...',
+				onCheck:function(node, checked){
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#queuenameID").combotree("tree");// 获取树对象
+					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue=[];
+					var childLength='';
+					$.each(checkedNodes,function(index){
+						if (typeof(checkedNodes[index].children)=='undefined') {  
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#queuename').val(logicNodeValue);// 给查询字段赋值
+				}
+			});
 		});
 	
 	</script>
@@ -55,7 +78,7 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtRobotChat" class="form form-horizontal well clearfix">
-			<div class="col-xs-12 col-sm-6 col-md-6">
+			<div class="col-xs-12 col-sm-6 col-md-6" style="height:34px;">
 				 <div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;<font size="4">进线开始/结束时间：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -81,12 +104,12 @@
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-6">
 				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuename" class="easyui-combobox" data-options="url:'${ctxStatic}/plugin/combotree/areatwo.json',method:'get'" style="height:34px;width:80%">
-				<form:hidden path="customerprovince"/>
+				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/queuename.json',method:'get'" style="height:34px;width:80%">
+				<form:hidden path="queuename"/>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-7">
+			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="省份："><font size="4">省份：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:70%">
+				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:80%">
 				<form:hidden path="customerprovince"/>
 			</div>
 			<div class="">
