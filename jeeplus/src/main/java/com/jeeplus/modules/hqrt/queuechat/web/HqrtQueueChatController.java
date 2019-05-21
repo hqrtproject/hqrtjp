@@ -3,6 +3,9 @@
  */
 package com.jeeplus.modules.hqrt.queuechat.web;
 
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +36,10 @@ import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
 import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChat;
+import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChatdetail;
 import com.jeeplus.modules.hqrt.queuechat.service.HqrtQueueChatService;
+import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
+import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
 
 /**
  * 客户排队日志Controller
@@ -76,8 +82,42 @@ public class HqrtQueueChatController extends BaseController {
 	@RequiresPermissions("hqrt:queuechat:hqrtQueueChat:list")
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtQueueChat hqrtQueueChat, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<HqrtQueueChat> page = hqrtQueueChatService.findPage(new Page<HqrtQueueChat>(request, response), hqrtQueueChat); 
-		return getBootstrapData(page);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if (StringUtils.isNotBlank(hqrtQueueChat.getQueuename())) {
+			hqrtQueueChat.setQueuenameList(Arrays.asList(hqrtQueueChat.getQueuename().split(",")));
+        }
+		// 首先根据业务分组查询
+		List<HqrtQueueChat> hqrtQueueChatList = hqrtQueueChatService.findListGroupBy(hqrtQueueChat);
+		for (HqrtQueueChat queueChat : hqrtQueueChatList) {
+			List<HqrtQueueChat> queueNameChatList = hqrtQueueChatService.findListByQueueName(hqrtQueueChat);
+			//转通坐席量
+			int conversionvolume = 0;
+			//排队取消量
+			int linupcancelvolume = 0;
+			//排队超时量
+			int linuptimeoutvolume = 0;
+		for (HqrtQueueChat hrc : queueNameChatList) {
+			if(hrc.getEndreasonno()==1) {
+				conversionvolume++;
+			}
+			if(hrc.getEndreasonno()==2){
+				linupcancelvolume++;
+			}
+			if(hrc.getEndreasonno()==3){
+				linuptimeoutvolume++;
+			}
+		}	
+		queueChat.setConversionvolume(conversionvolume);
+		queueChat.setLinupcancelvolume(linupcancelvolume);
+		queueChat.setLinuptimeoutvolume(linuptimeoutvolume);
+		DecimalFormat df = new DecimalFormat("#0.00");
+		queueChat.setConnectrate(df.format(queueChat.getConversionvolume()*0.1/queueChat.getTotalincount()*1000) + "%");
+		queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume()*0.1/queueChat.getTotalincount()*1000) + "%");
+		queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume()*0.1/queueChat.getTotalincount()*1000) + "%");
+		}
+	/*	Page<HqrtQueueChat> page = hqrtQueueChatService.findPage(new Page<HqrtQueueChat>(request, response), hqrtQueueChat); */
+		map.put("rows", hqrtQueueChatList);
+		return map;
 	}
 
 	/**
@@ -154,8 +194,40 @@ public class HqrtQueueChatController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "客户排队日志"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-            Page<HqrtQueueChat> page = hqrtQueueChatService.findPage(new Page<HqrtQueueChat>(request, response, -1), hqrtQueueChat);
-    		new ExportExcel("客户排队日志", HqrtQueueChat.class).setDataList(page.getList()).write(response, fileName).dispose();
+            Map<String,Object> map = new HashMap<String,Object>();
+    		if (StringUtils.isNotBlank(hqrtQueueChat.getQueuename())) {
+    			hqrtQueueChat.setQueuenameList(Arrays.asList(hqrtQueueChat.getQueuename().split(",")));
+            }
+    		// 首先根据业务分组查询
+    		List<HqrtQueueChat> hqrtQueueChatList = hqrtQueueChatService.findListGroupBy(hqrtQueueChat);
+    		for (HqrtQueueChat queueChat : hqrtQueueChatList) {
+    			List<HqrtQueueChat> queueNameChatList = hqrtQueueChatService.findListByQueueName(hqrtQueueChat);
+    			//转通坐席量
+    			int conversionvolume = 0;
+    			//排队取消量
+    			int linupcancelvolume = 0;
+    			//排队超时量
+    			int linuptimeoutvolume = 0;
+    		for (HqrtQueueChat hrc : queueNameChatList) {
+    			if(hrc.getEndreasonno()==1) {
+    				conversionvolume++;
+    			}
+    			if(hrc.getEndreasonno()==2){
+    				linupcancelvolume++;
+    			}
+    			if(hrc.getEndreasonno()==3){
+    				linuptimeoutvolume++;
+    			}
+    		}	
+    		queueChat.setConversionvolume(conversionvolume);
+    		queueChat.setLinupcancelvolume(linupcancelvolume);
+    		queueChat.setLinuptimeoutvolume(linuptimeoutvolume);
+    		DecimalFormat df = new DecimalFormat("#0.00");
+    		queueChat.setConnectrate(df.format(queueChat.getConversionvolume()*0.1/queueChat.getTotalincount()*1000) + "%");
+    		queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume()*0.1/queueChat.getTotalincount()*1000) + "%");
+    		queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume()*0.1/queueChat.getTotalincount()*1000) + "%");
+    		}
+    		new ExportExcel("在线客服排队统计", HqrtQueueChat.class).setDataList(hqrtQueueChatList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;
@@ -220,6 +292,64 @@ public class HqrtQueueChatController extends BaseController {
 			j.setMsg( "导入模板下载失败！失败信息："+e.getMessage());
 		}
 		return j;
+    }
+	//排队明细页面查询
+	@ModelAttribute
+	public HqrtQueueChatdetail getDetail(@RequestParam(required=false) String id) {
+		HqrtQueueChatdetail entity = null;
+		if (StringUtils.isNotBlank(id)){
+			entity = hqrtQueueChatService.getDetail(id);
+		}
+		if (entity == null){
+			entity = new HqrtQueueChatdetail();
+		}
+		return entity;
+	}
+	/**
+	 * 客户排队日志列表页面
+	 */
+	@RequiresPermissions("hqrt:queuechatdetail:hqrtqueuechatdetail:list")
+	@RequestMapping(value = "listdetail")
+	public String list(HqrtQueueChatdetail hqrtQueueChatdetail, Model model) {
+		model.addAttribute("HqrtQueueChatdetail", hqrtQueueChatdetail);
+		return "modules/hqrt/queuechat/hqrtQueueChatdetail";
+	}
+	/**
+	 * 客户排队日志列表数据
+	 */
+	@ResponseBody
+	@RequiresPermissions("hqrt:queuechatdetail:hqrtqueuechatdetail:list")
+	@RequestMapping(value = "datadetail")
+	public Map<String, Object> data(HqrtQueueChatdetail hqrtQueueChatdetail, HttpServletRequest request, HttpServletResponse response, Model model) {
+		if (StringUtils.isNotBlank(hqrtQueueChatdetail.getQueuename())) {
+			hqrtQueueChatdetail.setQueuenameList(Arrays.asList(hqrtQueueChatdetail.getQueuename().split(",")));
+        }
+		Page<HqrtQueueChatdetail> page = hqrtQueueChatService.findDetailPage(new Page<HqrtQueueChatdetail>(request, response), hqrtQueueChatdetail); 
+		return getBootstrapData(page);
+	}
+	/**
+	 * 导出excel文件
+	 */
+	@ResponseBody
+	@RequiresPermissions("hqrt:queuechatdetail:hqrtqueuechatdetail:export")
+    @RequestMapping(value = "exportdetail")
+    public AjaxJson exportFile(HqrtQueueChatdetail hqrtQueueChatdetail, HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+		try {
+            String fileName = "客户排队日志"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+    		if (StringUtils.isNotBlank(hqrtQueueChatdetail.getQueuename())) {
+    			hqrtQueueChatdetail.setQueuenameList(Arrays.asList(hqrtQueueChatdetail.getQueuename().split(",")));
+            }
+    		Page<HqrtQueueChatdetail> page = hqrtQueueChatService.findDetailPage(new Page<HqrtQueueChatdetail>(request, response,-1), hqrtQueueChatdetail); 
+    		new ExportExcel("在线客服排队统计", HqrtQueueChatdetail.class).setDataList(page.getList()).write(response, fileName).dispose();
+    		j.setSuccess(true);
+    		j.setMsg("导出成功！");
+    		return j;
+		} catch (Exception e) {
+			j.setSuccess(false);
+			j.setMsg("导出客户排队日志记录失败！失败信息："+e.getMessage());
+		}
+			return j;
     }
 
 }

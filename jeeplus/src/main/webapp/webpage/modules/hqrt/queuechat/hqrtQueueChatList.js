@@ -9,17 +9,17 @@ $(document).ready(function() {
                dataType: "json",
                contentType: "application/x-www-form-urlencoded",
                //显示检索按钮
-	           showSearch: true,
+	       /*    showSearch: true,*/
                //显示刷新按钮
-               showRefresh: true,
+            showRefresh: true,
                //显示切换手机试图按钮
-               showToggle: true,
+             /*  showToggle: true,*/
                //显示 内容列下拉框
-    	       showColumns: true,
+//    	       showColumns: true,
     	       //显示到处按钮
-    	       showExport: true,
+    	      /* showExport: true,*/
     	       //显示切换分页按钮
-    	       showPaginationSwitch: true,
+//    	       showPaginationSwitch: true,
     	       //最低显示2行
     	       minimumCountColumns: 2,
                //是否显示行间隔色
@@ -27,7 +27,7 @@ $(document).ready(function() {
                //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）     
                cache: false,    
                //是否显示分页（*）  
-               pagination: true,   
+            /*   pagination: true,   */
                 //排序方式 
                sortOrder: "asc",  
                //初始化加载第一页，默认第一页
@@ -85,101 +85,59 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'rowdatetime',
-		        title: '记录创建时间',
-		        sortable: true,
-		        sortName: 'rowdatetime'
-		       
-		    }
-			,{
-		        field: 'sessionid',
-		        title: '会话ID',
-		        sortable: true,
-		        sortName: 'sessionid'
-		       
-		    }
-			,{
-		        field: 'customerid',
-		        title: '客户标识',
-		        sortable: true,
-		        sortName: 'customerid'
-		       
-		    }
-			,{
-		        field: 'customername',
-		        title: '客户姓名',
-		        sortable: true,
-		        sortName: 'customername'
-		       
-		    }
-			,{
-		        field: 'customermobile',
-		        title: '客户手机号码',
-		        sortable: true,
-		        sortName: 'customermobile'
-		       
-		    }
-			,{
-		        field: 'customerprovince',
-		        title: '客户所在省',
-		        sortable: true,
-		        sortName: 'customerprovince'
-		       
-		    }
-			,{
-		        field: 'startdatetime',
-		        title: '进入队列时间',
-		        sortable: true,
-		        sortName: 'startdatetime'
-		       
-		    }
-			,{
-		        field: 'enddatetime',
-		        title: '退出队列时间',
-		        sortable: true,
-		        sortName: 'enddatetime'
-		       
-		    }
-			,{
-		        field: 'timelen',
-		        title: '会话持续时长(单位：秒)',
-		        sortable: true,
-		        sortName: 'timelen'
-		       
-		    }
-			,{
-		        field: 'endreasonno',
-		        title: '会话结束原因：1转人工成功、2客户取消、3超时结束',
-		        sortable: true,
-		        sortName: 'endreasonno'
-		       
-		    }
-			,{
-		        field: 'endreason',
-		        title: '会话结束原因：1转人工成功、2客户取消、3超时结束',
-		        sortable: true,
-		        sortName: 'endreason'
-		       
-		    }
-			,{
-		        field: 'queueid',
-		        title: '队列（技能组）编号',
-		        sortable: true,
-		        sortName: 'queueid'
-		       
-		    }
-			,{
 		        field: 'queuename',
-		        title: '队列（技能组）名称',
-		        sortable: true,
+		        title: '业务系统',
+		        sortable: false,
 		        sortName: 'queuename'
 		       
 		    }
 			,{
-		        field: 'originalsessionid',
-		        title: '原始SessionID',
-		        sortable: true,
-		        sortName: 'originalsessionid'
+		        field: 'totalincount',
+		        title: '人工进线量',
+		        sortable: false,
+		        sortName: 'totalincount'
+		       
+		    }
+			,{
+		        field: 'conversionvolume',
+		        title: '转通坐席量',
+		        sortable: false,
+		        sortName: 'conversionvolume'
+		       
+		    }
+			,{
+		        field: 'connectrate',
+		        title: '接通率',
+		        sortable: false,
+		        sortName: 'connectrate'
+		       
+		    }
+			,{
+		        field: 'linupcancelvolume',
+		        title: '排队取消量',
+		        sortable: false,
+		        sortName: 'linupcancelvolume'
+		       
+		    }
+			,{
+		        field: 'cancelrate',
+		        title: '取消率',
+		        sortable: false,
+		        sortName: 'cancelrate'
+		       
+		    }
+			,{
+		        field: 'linuptimeoutvolume',
+		        title: '排队超时量',
+		        sortable: false,
+		        sortName: 'linuptimeoutvolume'
+		       
+		    }
+			,{
+		        field: 'timeoutrate',
+		        title: ' 超时率',
+		        sortable: false,
+		        sortName: 'timeoutrate'
 		       
 		    }
 		     ]
@@ -259,7 +217,12 @@ $(document).ready(function() {
 		  $("#searchForm  .select-item").html("");
 		  $('#hqrtQueueChatTable').bootstrapTable('refresh');
 		});
-		
+		$('#starttime').datetimepicker({
+			 format: "YYYY-MM-DD HH:mm:ss"
+		});
+		$('#endttime').datetimepicker({
+			 format: "YYYY-MM-DD HH:mm:ss"
+		});
 		
 	});
 		

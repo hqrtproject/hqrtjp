@@ -16,7 +16,7 @@ import com.jeeplus.common.utils.excel.annotation.ExcelField;
  * @author duan
  * @version 2019-05-20
  */
-public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
+public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 	
 	private static final long serialVersionUID = 1L;
 	private String rowguid;		// 唯一记录标识（主键）
@@ -39,22 +39,13 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	// 过滤的开始结束时间
 	private Date starttime;
 	private Date endttime;
-	
-	// 统计字段
-	private Integer totalincount;    // 人工进线量
-	private Integer conversionvolume;  // 转通坐席量
-	private String connectrate;   // 接通率
-	private Integer linupcancelvolume;  // 排队取消量
-	private String cancelrate; //  取消率
-	private Integer linuptimeoutvolume; // 排队超时量
-	private String timeoutrate; // 超时率
 
-	public HqrtQueueChat() {
+	public HqrtQueueChatdetail() {
 		super();
 		this.setIdType(IDTYPE_AUTO);
 	}
 
-	public HqrtQueueChat(String id){
+	public HqrtQueueChatdetail(String id){
 		super(id);
 	}
 
@@ -207,69 +198,12 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	public void setStarttime(Date starttime) {
 		this.starttime = starttime;
 	}
-
+	@ExcelField(title="人工进线量", align=2, sort=2)
 	public Date getEndttime() {
 		return endttime;
 	}
-
+	
 	public void setEndttime(Date endttime) {
 		this.endttime = endttime;
 	}
-	@ExcelField(title="人工进线量", align=2, sort=2)
-	public Integer getTotalincount() {
-		return totalincount;
-	}
-
-	public void setTotalincount(Integer totalincount) {
-		this.totalincount = totalincount;
-	}
-	@ExcelField(title="转通坐席量", align=2, sort=3)
-	public Integer getConversionvolume() {
-		return conversionvolume;
-	}
-
-	public void setConversionvolume(Integer conversionvolume) {
-		this.conversionvolume = conversionvolume;
-	}
-	@ExcelField(title="接通率", align=2, sort=4)
-	public String getConnectrate() {
-		return connectrate;
-	}
-
-	public void setConnectrate(String connectrate) {
-		this.connectrate = connectrate;
-	}
-	@ExcelField(title="排队取消量", align=2, sort=5)
-	public Integer getLinupcancelvolume() {
-		return linupcancelvolume;
-	}
-	
-	public void setLinupcancelvolume(Integer linupcancelvolume) {
-		this.linupcancelvolume = linupcancelvolume;
-	}
-	@ExcelField(title="取消率", align=2, sort=6)
-	public String getCancelrate() {
-		return cancelrate;
-	}
-
-	public void setCancelrate(String cancelrate) {
-		this.cancelrate = cancelrate;
-	}
-	@ExcelField(title="排队超时量", align=2, sort=7)
-	public Integer getLinuptimeoutvolume() {
-		return linuptimeoutvolume;
-	}
-
-	public void setLinuptimeoutvolume(Integer linuptimeoutvolume) {
-		this.linuptimeoutvolume = linuptimeoutvolume;
-	}
-	@ExcelField(title="超时率", align=2, sort=8)
-	public String getTimeoutrate() {
-		return timeoutrate;
-	}
-
-	public void setTimeoutrate(String timeoutrate) {
-		this.timeoutrate = timeoutrate;
-	}
-
 }

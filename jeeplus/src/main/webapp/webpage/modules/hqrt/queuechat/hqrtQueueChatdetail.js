@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <script>
 $(document).ready(function() {
-	$('#hqrtRobotChatdetailsTable').bootstrapTable({
+	$('#hqrtQueueChatTable').bootstrapTable({
 		 
 		  //请求方法
                method: 'post',
@@ -9,17 +9,17 @@ $(document).ready(function() {
                dataType: "json",
                contentType: "application/x-www-form-urlencoded",
                //显示检索按钮
-	          /* showSearch: true,*/
+	       /*    showSearch: true,*/
                //显示刷新按钮
-            /*   showRefresh: true,*/
+            showRefresh: true,
                //显示切换手机试图按钮
-               /*showToggle: true,*/
+             /*  showToggle: true,*/
                //显示 内容列下拉框
-    	       /*showColumns: true,*/
+//    	       showColumns: true,
     	       //显示到处按钮
-    	       /*showExport: true,*/
+    	      /* showExport: true,*/
     	       //显示切换分页按钮
-    	       showPaginationSwitch: true,
+//    	       showPaginationSwitch: true,
     	       //最低显示2行
     	       minimumCountColumns: 2,
                //是否显示行间隔色
@@ -37,7 +37,7 @@ $(document).ready(function() {
                //可供选择的每页的行数（*）    
                pageList: [10, 25, 50, 100],
                //这个接口需要处理bootstrap table传递的固定参数,并返回特定格式的json数据  
-               url: "${ctx}/hqrt/robotchatdetails/hqrtRobotChatdetails/data",
+               url: "${ctx}/hqrt/queuechat/hqrtQueueChat/datadetail",
                //默认值为 'limit',传给服务端的参数为：limit, offset, search, sort, order Else
                //queryParamsType:'',   
                ////查询参数,每次调用是会带上这个参数，可自定义                         
@@ -59,11 +59,11 @@ $(document).ready(function() {
                    }else if($el.data("item") == "view"){
                        view(row.id);
                    } else if($el.data("item") == "delete"){
-                        jp.confirm('确认要删除该机器人对话内容记录吗？', function(){
+                        jp.confirm('确认要删除该客户排队日志记录吗？', function(){
                        	jp.loading();
-                       	jp.get("${ctx}/hqrt/robotchatdetails/hqrtRobotChatdetails/delete?id="+row.id, function(data){
+                       	jp.get("${ctx}/hqrt/queuechat/hqrtQueueChat/delete?id="+row.id, function(data){
                    	  		if(data.success){
-                   	  			$('#hqrtRobotChatdetailsTable').bootstrapTable('refresh');
+                   	  			$('#hqrtQueueChatTable').bootstrapTable('refresh');
                    	  			jp.success(data.msg);
                    	  		}else{
                    	  			jp.error(data.msg);
@@ -84,8 +84,7 @@ $(document).ready(function() {
 		        checkbox: true
 		       
 		    }
-			,
-		     {
+			,{
 		        field: 'queuename',
 		        title: '业务系统',
 		        sortable: false,
@@ -93,31 +92,10 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'faqroot',
-		        title: '知识分类',
+		        field: 'sessionid',
+		        title: '会话ID',
 		        sortable: false,
-		        sortName: 'faqroot'
-		       
-		    }
-			,{
-		        field: 'faqmodel',
-		        title: '子模块',
-		        sortable: false,
-		        sortName: 'faqmodel'
-		       
-		    }
-			,{
-		        field: 'faqserialno',
-		        title: '知识编码',
-		        sortable: false,
-		        sortName: 'faqserialno'
-		       
-		    }
-			,{
-		        field: 'faqtitle',
-		        title: '知识标题',
-		        sortable: false,
-		        sortName: 'faqtitle'
+		        sortName: 'sessionid'
 		       
 		    }
 			,{
@@ -135,52 +113,31 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'customerprovince',
-		        title: '用户所属省份',
+		        field: 'startdatetime',
+		        title: '进线开始时间',
 		        sortable: false,
-		        sortName: 'customerprovince'
+		        sortName: 'startdatetime'
 		       
 		    }
 			,{
-		        field: 'messagedatetime',
-		        title: '用户提问时间',
+		        field: 'enddatetime',
+		        title: '进线结束时间',
 		        sortable: false,
-		        sortName: 'messagedatetime'
+		        sortName: 'enddatetime'
 		       
 		    }
 			,{
-		        field: 'requestcontext',
-		        title: '用户提问内容',
+		        field: 'endreasonno',
+		        title: '是否成功',
 		        sortable: false,
-		        sortName: 'requestcontext'
+		        sortName: 'endreasonno'
 		       
 		    }
 			,{
-		        field: 'satisfydesc',
-		        title: '是否解决（解决状态）',
+		        field: 'endreason',
+		        title: ' 结束原因',
 		        sortable: false,
-		        sortName: 'satisfydesc'
-		       
-		    }
-			,{
-		        field: 'sessionid',
-		        title: '会话ID',
-		        sortable: false,
-		        sortName: 'sessionid'
-		       
-		    }
-			,{
-		        field: 'faqcreatername',
-		        title: '知识创建人',
-		        sortable: false,
-		        sortName: 'faqcreatername'
-		       
-		    }
-			,{
-		        field: 'faqcreatedatetime',
-		        title: '知识创建时间',
-		        sortable: false,
-		        sortName: 'faqcreatedatetime'
+		        sortName: 'endreason'
 		       
 		    }
 		     ]
@@ -191,13 +148,13 @@ $(document).ready(function() {
 	  if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端
 
 		 
-		  $('#hqrtRobotChatdetailsTable').bootstrapTable("toggleView");
+		  $('#hqrtQueueChatTable').bootstrapTable("toggleView");
 		}
 	  
-	  $('#hqrtRobotChatdetailsTable').on('check.bs.table uncheck.bs.table load-success.bs.table ' +
+	  $('#hqrtQueueChatTable').on('check.bs.table uncheck.bs.table load-success.bs.table ' +
                 'check-all.bs.table uncheck-all.bs.table', function () {
-            $('#remove').prop('disabled', ! $('#hqrtRobotChatdetailsTable').bootstrapTable('getSelections').length);
-            $('#view,#edit').prop('disabled', $('#hqrtRobotChatdetailsTable').bootstrapTable('getSelections').length!=1);
+            $('#remove').prop('disabled', ! $('#hqrtQueueChatTable').bootstrapTable('getSelections').length);
+            $('#view,#edit').prop('disabled', $('#hqrtQueueChatTable').bootstrapTable('getSelections').length!=1);
         });
 		  
 		$("#btnImport").click(function(){
@@ -209,11 +166,11 @@ $(document).ready(function() {
 			    content: "${ctx}/tag/importExcel" ,
 			    btn: ['下载模板','确定', '关闭'],
 				    btn1: function(index, layero){
-					 jp.downloadFile('${ctx}/hqrt/robotchatdetails/hqrtRobotChatdetails/import/template');
+					 jp.downloadFile('${ctx}/hqrt/queuechat/hqrtQueueChat/import/template');
 				  },
 			    btn2: function(index, layero){
 				        var iframeWin = layero.find('iframe')[0]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-						iframeWin.contentWindow.importExcel('${ctx}/hqrt/robotchatdetails/hqrtRobotChatdetails/import', function (data) {
+						iframeWin.contentWindow.importExcel('${ctx}/hqrt/queuechat/hqrtQueueChat/import', function (data) {
 							if(data.success){
 								jp.success(data.msg);
 								refresh();
@@ -236,8 +193,8 @@ $(document).ready(function() {
 	        var searchParam = $("#searchForm").serializeJSON();
 	        searchParam.pageNo = 1;
 	        searchParam.pageSize = -1;
-            var sortName = $('#hqrtRobotChatdetailsTable').bootstrapTable("getOptions", "none").sortName;
-            var sortOrder = $('#hqrtRobotChatdetailsTable').bootstrapTable("getOptions", "none").sortOrder;
+            var sortName = $('#hqrtQueueChatTable').bootstrapTable("getOptions", "none").sortName;
+            var sortOrder = $('#hqrtQueueChatTable').bootstrapTable("getOptions", "none").sortOrder;
             var values = "";
             for(var key in searchParam){
                 values = values + key + "=" + searchParam[key] + "&";
@@ -246,19 +203,19 @@ $(document).ready(function() {
                 values = values + "orderBy=" + sortName + " "+sortOrder;
             }
 
-			jp.downloadFile('${ctx}/hqrt/robotchatdetails/hqrtRobotChatdetails/export?'+values);
+			jp.downloadFile('${ctx}/hqrt/queuechat/hqrtQueueChat/exportdetail?'+values);
 	  })
 
 		    
 	  $("#search").click("click", function() {// 绑定查询按扭
-		  $('#hqrtRobotChatdetailsTable').bootstrapTable('refresh');
+		  $('#hqrtQueueChatTable').bootstrapTable('refresh');
 		});
 	 
 	 $("#reset").click("click", function() {// 绑定查询按扭
 		  $("#searchForm  input").val("");
 		  $("#searchForm  select").val("");
 		  $("#searchForm  .select-item").html("");
-		  $('#hqrtRobotChatdetailsTable').bootstrapTable('refresh');
+		  $('#hqrtQueueChatTable').bootstrapTable('refresh');
 		});
 		$('#starttime').datetimepicker({
 			 format: "YYYY-MM-DD HH:mm:ss"
@@ -270,18 +227,18 @@ $(document).ready(function() {
 	});
 		
   function getIdSelections() {
-        return $.map($("#hqrtRobotChatdetailsTable").bootstrapTable('getSelections'), function (row) {
+        return $.map($("#hqrtQueueChatTable").bootstrapTable('getSelections'), function (row) {
             return row.id
         });
     }
   
   function deleteAll(){
 
-		jp.confirm('确认要删除该机器人对话内容记录吗？', function(){
+		jp.confirm('确认要删除该客户排队日志记录吗？', function(){
 			jp.loading();  	
-			jp.get("${ctx}/hqrt/robotchatdetails/hqrtRobotChatdetails/deleteAll?ids=" + getIdSelections(), function(data){
+			jp.get("${ctx}/hqrt/queuechat/hqrtQueueChat/deleteAll?ids=" + getIdSelections(), function(data){
          	  		if(data.success){
-         	  			$('#hqrtRobotChatdetailsTable').bootstrapTable('refresh');
+         	  			$('#hqrtQueueChatTable').bootstrapTable('refresh');
          	  			jp.success(data.msg);
          	  		}else{
          	  			jp.error(data.msg);
@@ -291,24 +248,24 @@ $(document).ready(function() {
 		})
   }
   function refresh(){
-  	$('#hqrtRobotChatdetailsTable').bootstrapTable('refresh');
+  	$('#hqrtQueueChatTable').bootstrapTable('refresh');
   }
   function add(){
-		jp.go("${ctx}/hqrt/robotchatdetails/hqrtRobotChatdetails/form/add");
+		jp.go("${ctx}/hqrt/queuechat/hqrtQueueChat/form/add");
 	}
 
   function edit(id){
 	  if(id == undefined){
 		  id = getIdSelections();
 	  }
-	  jp.go("${ctx}/hqrt/robotchatdetails/hqrtRobotChatdetails/form/edit?id=" + id);
+	  jp.go("${ctx}/hqrt/queuechat/hqrtQueueChat/form/edit?id=" + id);
   }
 
   function view(id) {
       if(id == undefined){
           id = getIdSelections();
       }
-      jp.go("${ctx}/hqrt/robotchatdetails/hqrtRobotChatdetails/form/view?id=" + id);
+      jp.go("${ctx}/hqrt/queuechat/hqrtQueueChat/form/view?id=" + id);
   }
   
 </script>

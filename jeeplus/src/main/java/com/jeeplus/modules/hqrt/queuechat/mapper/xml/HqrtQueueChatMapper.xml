@@ -24,8 +24,6 @@
 	<sql id="hqrtQueueChatJoins">
 		
 	</sql>
-	
-    
 	<select id="get" resultType="HqrtQueueChat" >
 		SELECT 
 			<include refid="hqrtQueueChatColumns"/>
@@ -42,12 +40,18 @@
 		<where>
 			
 			${dataScope}
-			<if test="rowdatetime != null and rowdatetime != ''">
+				<if test="queuenameList != null and queuenameList.size() &gt; 0">
+				AND a.queuename in 
+					<foreach collection="queuenameList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			<!-- <if test="rowdatetime != null and rowdatetime != ''">
 				AND a.rowdatetime = #{rowdatetime}
 			</if>
 			<if test="sessionid != null and sessionid != ''">
 				AND a.sessionid = #{sessionid}
-			</if>
+			</if> -->
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -57,7 +61,35 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+		<select id="findListGroupBy" resultType="HqrtQueueChat" >
+		SELECT 
+			a.queuename,COUNT(1) totalincount
+		FROM hqrt_queue_chat a
+		<where>
+			${dataScope}
+			<if test="queuenameList != null and queuenameList.size() &gt; 0">
+				AND a.queuename in 
+					<foreach collection="queuenameList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			<if test="starttime != null and endttime != null ">
+				AND a.startdatetime BETWEEN #{starttime} AND #{endttime}
+			</if>
+		</where>
+		GROUP BY a.QueueName
+	</select>
+	<select id="findListByQueueName" resultType="HqrtQueueChat" >
+		SELECT 
+			<include refid="hqrtQueueChatColumns"/>
+		FROM hqrt_queue_chat a 
+		<where>
+			${dataScope}
+			<if test="queuename != null and queuename != ''">
+				AND a.queuename = #{queuename}
+			</if>
+		</where>
+	</select>
 	<select id="findAllList" resultType="HqrtQueueChat" >
 		SELECT 
 			<include refid="hqrtQueueChatColumns"/>
@@ -75,7 +107,71 @@
 			</otherwise>
 		</choose>
 	</select>
-	
+	  <select id="getQueueChatdetail" resultType="HqrtQueueChatdetail" >
+		SELECT 
+			<include refid="hqrtQueueChatColumns"/>
+		FROM hqrt_queue_chat a
+		<include refid="hqrtQueueChatJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="findDetailList" resultType="HqrtQueueChatdetail" >
+		SELECT 
+			<include refid="hqrtQueueChatColumns"/>
+		FROM hqrt_queue_chat a
+		<include refid="hqrtQueueChatJoins"/>
+		<where>
+			
+			${dataScope}
+				<if test="queuenameList != null and queuenameList.size() &gt; 0">
+				AND a.queuename in 
+					<foreach collection="queuenameList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			<!-- <if test="rowdatetime != null and rowdatetime != ''">
+				AND a.rowdatetime = #{rowdatetime}
+			</if>
+			<if test="sessionid != null and sessionid != ''">
+				AND a.sessionid = #{sessionid}
+			</if> -->
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findDetailPage" resultType="HqrtQueueChatdetail" >
+		SELECT 
+			<include refid="hqrtQueueChatColumns"/>
+		FROM hqrt_queue_chat a
+		<include refid="hqrtQueueChatJoins"/>
+		<where>
+			
+			${dataScope}
+				<if test="queuenameList != null and queuenameList.size() &gt; 0">
+				AND a.queuename in 
+					<foreach collection="queuenameList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			<!-- <if test="rowdatetime != null and rowdatetime != ''">
+				AND a.rowdatetime = #{rowdatetime}
+			</if>
+			<if test="sessionid != null and sessionid != ''">
+				AND a.sessionid = #{sessionid}
+			</if> -->
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
 	<insert id="insert">
 		INSERT INTO hqrt_queue_chat(
 			rowguid,
