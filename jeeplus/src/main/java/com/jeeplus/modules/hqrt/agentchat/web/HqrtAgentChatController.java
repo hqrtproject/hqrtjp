@@ -17,24 +17,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.Lists;
-import com.jeeplus.common.utils.DateUtils;
-import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
-import com.jeeplus.core.persistence.Page;
-import com.jeeplus.core.web.BaseController;
+import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
+import com.jeeplus.core.persistence.Page;
+import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentchat.entity.HqrtAgentChat;
 import com.jeeplus.modules.hqrt.agentchat.service.HqrtAgentChatService;
+import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
+import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetailsForExport;
+import com.jeeplus.modules.hqrt.agentchatdetails.service.HqrtAgentChatdetailsService;
 
 /**
  * 客户与坐席会话Controller
@@ -47,6 +48,9 @@ public class HqrtAgentChatController extends BaseController {
 
 	@Autowired
 	private HqrtAgentChatService hqrtAgentChatService;
+	
+	@Autowired
+	private HqrtAgentChatdetailsService hqrtAgentChatdetailsService;
 	
 	@ModelAttribute
 	public HqrtAgentChat get(@RequestParam(required=false) String id) {
@@ -70,7 +74,7 @@ public class HqrtAgentChatController extends BaseController {
 		return "modules/hqrt/agentchat/hqrtAgentChatList";
 	}
 	
-		/**
+	/**
 	 * 客户与坐席会话列表数据
 	 */
 	@ResponseBody
@@ -161,6 +165,12 @@ public class HqrtAgentChatController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "客户与坐席会话"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+    		if (StringUtils.isNotBlank(hqrtAgentChat.getCustomerprovince())) {
+    			hqrtAgentChat.setCustomerprovinceList(Arrays.asList(hqrtAgentChat.getCustomerprovince().split(",")));
+            }
+            if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
+            	hqrtAgentChat.setQueuenameList(Arrays.asList(hqrtAgentChat.getQueuename().split(",")));
+            }
             Page<HqrtAgentChat> page = hqrtAgentChatService.findPage(new Page<HqrtAgentChat>(request, response, -1), hqrtAgentChat);
     		new ExportExcel("客户与坐席会话", HqrtAgentChat.class).setDataList(page.getList()).write(response, fileName).dispose();
     		j.setSuccess(true);
@@ -172,6 +182,45 @@ public class HqrtAgentChatController extends BaseController {
 		}
 			return j;
     }
+	
+	/**
+	 * 导出excel文件
+	 */
+	@ResponseBody
+	@RequiresPermissions("hqrt:agentchat:hqrtAgentChat:export")
+	@RequestMapping(value = "exportdetails")
+	public AjaxJson exportdetails(HqrtAgentChat hqrtAgentChat, HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+		HqrtAgentChatdetails hqrtAgentChatdetails = new HqrtAgentChatdetails();
+		hqrtAgentChatdetails.setSessionid(hqrtAgentChat.getSessionid());
+		try {
+			String fileName = "客户与坐席会话明细"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+			List<HqrtAgentChatdetailsForExport> hqrtAgentChatdetailsForExportList = hqrtAgentChatdetailsService.findListForExport(hqrtAgentChatdetails);
+			for (HqrtAgentChatdetailsForExport hqrtAgentChatdetailsForExport : hqrtAgentChatdetailsForExportList) {
+				if (hqrtAgentChatdetailsForExport.getMessagesender() == 1) {
+					hqrtAgentChatdetailsForExport.setNamecustomer(hqrtAgentChatdetailsForExport.getCustomername());
+					hqrtAgentChatdetailsForExport.setMessagedatetimecustomer(hqrtAgentChatdetailsForExport.getMessagedatetime());
+					hqrtAgentChatdetailsForExport.setMessagecontextcustomer(hqrtAgentChatdetailsForExport.getMessagecontext());
+				} else if (hqrtAgentChatdetailsForExport.getMessagesender() == 2) {
+					hqrtAgentChatdetailsForExport.setNameagent(hqrtAgentChatdetailsForExport.getAgentname());
+					hqrtAgentChatdetailsForExport.setMessagedatetimeagent(hqrtAgentChatdetailsForExport.getMessagedatetime());
+					hqrtAgentChatdetailsForExport.setMessagecontextagent(hqrtAgentChatdetailsForExport.getMessagecontext());
+				} else {
+					hqrtAgentChatdetailsForExport.setNameagent("系统");
+					hqrtAgentChatdetailsForExport.setMessagedatetimeagent(hqrtAgentChatdetailsForExport.getMessagedatetime());
+					hqrtAgentChatdetailsForExport.setMessagecontextagent(hqrtAgentChatdetailsForExport.getMessagecontext());
+				}
+			}
+			new ExportExcel("客户与坐席会话明细", HqrtAgentChatdetailsForExport.class).setDataList(hqrtAgentChatdetailsForExportList).write(response, fileName).dispose();
+			j.setSuccess(true);
+			j.setMsg("导出成功！");
+			return j;
+		} catch (Exception e) {
+			j.setSuccess(false);
+			j.setMsg("导出客户与坐席会话明细记录失败！失败信息："+e.getMessage());
+		}
+		return j;
+	}
 
 	/**
 	 * 导入Excel数据

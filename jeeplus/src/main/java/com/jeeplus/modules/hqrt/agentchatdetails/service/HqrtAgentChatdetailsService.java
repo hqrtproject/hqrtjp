@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.service.CrudService;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
+import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetailsForExport;
 import com.jeeplus.modules.hqrt.agentchatdetails.mapper.HqrtAgentChatdetailsMapper;
 
 /**
@@ -42,6 +43,10 @@ public class HqrtAgentChatdetailsService extends CrudService<HqrtAgentChatdetail
 	@Transactional(readOnly = false)
 	public void delete(HqrtAgentChatdetails hqrtAgentChatdetails) {
 		super.delete(hqrtAgentChatdetails);
+	}
+
+	public List<HqrtAgentChatdetailsForExport> findListForExport(HqrtAgentChatdetails hqrtAgentChatdetails) {
+		return mapper.findListForExport(hqrtAgentChatdetails);
 	}
 	
 }

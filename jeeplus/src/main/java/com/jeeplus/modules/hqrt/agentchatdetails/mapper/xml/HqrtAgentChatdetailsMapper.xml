@@ -24,6 +24,14 @@
 		a.messagedatetime AS "messagedatetime",
 		a.originalsessionid AS "originalsessionid"
 	</sql>
+    
+	<sql id="hqrtAgentChatdetailsForExportColumns">
+		a.customername AS "customername",
+		a.agentname AS "agentname",
+		a.messagecontext AS "messagecontext",
+		a.messagesender AS "messagesender",
+		a.messagedatetime AS "messagedatetime"
+	</sql>
 	
 	<sql id="hqrtAgentChatdetailsJoins">
 		
@@ -60,6 +68,20 @@
 			<otherwise>
 			</otherwise>
 		</choose>
+	</select>
+	
+	<select id="findListForExport" resultType="HqrtAgentChatdetailsForExport" >
+		SELECT 
+			<include refid="hqrtAgentChatdetailsForExportColumns"/>
+		FROM hqrt_agent_chatdetails a
+		<include refid="hqrtAgentChatdetailsJoins"/>
+		<where>
+			${dataScope}
+			<if test="sessionid != null and sessionid != ''">
+				AND a.sessionid = #{sessionid}
+			</if>
+		</where>
+		ORDER BY a.messagedatetime
 	</select>
 	
 	<select id="findAllList" resultType="HqrtAgentChatdetails" >

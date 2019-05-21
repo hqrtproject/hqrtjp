@@ -3,9 +3,12 @@
  */
 package com.jeeplus.modules.hqrt.agentchatdetails.mapper;
 
+import java.util.List;
+
 import com.jeeplus.core.persistence.BaseMapper;
 import com.jeeplus.core.persistence.annotation.MyBatisMapper;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
+import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetailsForExport;
 
 /**
  * 客户与坐席会话消息明细MAPPER接口
@@ -14,5 +17,7 @@ import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
  */
 @MyBatisMapper
 public interface HqrtAgentChatdetailsMapper extends BaseMapper<HqrtAgentChatdetails> {
+
+	List<HqrtAgentChatdetailsForExport> findListForExport(HqrtAgentChatdetails hqrtAgentChatdetails);
 	
 }

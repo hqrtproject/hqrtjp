@@ -62,6 +62,29 @@
 					$('#queuename').val(logicNodeValue);// 给查询字段赋值
 				}
 			});
+			
+			$('#agent').combotree({
+				multiple: true,
+				// cascadeCheck: false,
+				// onlyLeafCheck: true
+		        prompt: '请选择...',
+				onCheck:function(node, checked){
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#agent").combotree("tree");// 获取树对象
+					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue=[];
+					var childLength='';
+					$.each(checkedNodes,function(index){
+						if (typeof(checkedNodes[index].children)=='undefined') {  
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#agent').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#agentname').val(logicNodeValue);// 给查询字段赋值
+				}
+			});
 		});
 	</script>
 </head>
@@ -113,7 +136,8 @@
 			 </div>
 			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="坐席工号（坐席名）："><font size="4">坐席工号（坐席名）：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:input path="agentname" htmlEscape="false" maxlength="50"  class=" form-control" style="height:34px;width:70%"/>
+				<input id="agent" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height:34px;width:70%">
+				<form:hidden path="agentname"/>
 			 </div>
 			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="用户工号（用户名）："><font size="4">用户工号（用户名）：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -124,15 +148,25 @@
 				<form:input path="sessionid" htmlEscape="false" maxlength="50"  class=" form-control" style="height:34px;width:80%"/>
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
+				<label class="label-item single-overflow pull-left" title="聊天内容："><font size="4">聊天内容：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<form:input path="hqrtAgentChatdetails.messagecontext" htmlEscape="false" maxlength="20"  class=" form-control" style="height:34px;width:80%"/>
+			</div>
+			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="评价星级："><font size="4">评价星级：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:input path="evaluatestar" htmlEscape="false" maxlength="20"  class=" form-control" style="height:34px;width:80%"/>
+				<form:select path="evaluatestar" class="form-control" style="width:60%">
+					<option value="">请选择...</option>
+					<form:options items="${fns:getDictList('evaluatestar')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="结束原因："><font size="4">结束原因：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:input path="endreason" htmlEscape="false" maxlength="20"  class=" form-control" style="height:34px;width:80%"/>
+				<form:select path="endreasonno" class="form-control" style="width:60%">
+					<option value="">请选择...</option>
+					<form:options items="${fns:getDictList('endreason')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		 <div class="">
-			<div style="margin-top:130px">
+			<div style="margin-top:220px">
 			  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
 			  <a  id="reset" class="btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a>
 			 </div>

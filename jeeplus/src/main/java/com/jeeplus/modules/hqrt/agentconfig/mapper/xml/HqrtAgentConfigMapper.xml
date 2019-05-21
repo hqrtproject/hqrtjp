@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.agentconfig.mapper.HqrtAgentConfigMapper">
+    
+	<sql id="hqrtAgentConfigColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.agentid AS "agentid",
+		a.agentname AS "agentname",
+		a.agentmobile AS "agentmobile",
+		a.agentprovince AS "agentprovince",
+		a.queueid AS "queueid",
+		a.queuecode AS "queuecode",
+		a.queuename AS "queuename"
+	</sql>
+	
+	<sql id="hqrtAgentConfigJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtAgentConfig" >
+		SELECT 
+			<include refid="hqrtAgentConfigColumns"/>
+		FROM hqrt_agent_config a
+		<include refid="hqrtAgentConfigJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtAgentConfig" >
+		SELECT 
+			<include refid="hqrtAgentConfigColumns"/>
+		FROM hqrt_agent_config a
+		<include refid="hqrtAgentConfigJoins"/>
+		<where>
+			
+			${dataScope}
+			<if test="rowdatetime != null and rowdatetime != ''">
+				AND a.rowdatetime = #{rowdatetime}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtAgentConfig" >
+		SELECT 
+			<include refid="hqrtAgentConfigColumns"/>
+		FROM hqrt_agent_config a
+		<include refid="hqrtAgentConfigJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_agent_config(
+			rowguid,
+			rowdatetime,
+			agentid,
+			agentname,
+			agentmobile,
+			agentprovince,
+			queueid,
+			queuecode,
+			queuename
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{agentid},
+			#{agentname},
+			#{agentmobile},
+			#{agentprovince},
+			#{queueid},
+			#{queuecode},
+			#{queuename}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_agent_config SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			agentid = #{agentid},
+			agentname = #{agentname},
+			agentmobile = #{agentmobile},
+			agentprovince = #{agentprovince},
+			queueid = #{queueid},
+			queuecode = #{queuecode},
+			queuename = #{queuename}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_agent_config
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_agent_config SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtAgentConfig" statementType="STATEMENT">
+		select * FROM hqrt_agent_config  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>

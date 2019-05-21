@@ -35,7 +35,7 @@
 	</sql>
 	
 	<sql id="hqrtAgentChatJoins">
-		
+		LEFT JOIN hqrt_agent_chatdetails b ON a.sessionid = b.sessionid
 	</sql>
 	
     
@@ -85,7 +85,14 @@
 			<if test="endreasonno != null and endreasonno != ''">
 				AND a.endreasonno = #{endreasonno}
 			</if>
+			<if test="hqrtAgentChatdetails != null and hqrtAgentChatdetails.messagecontext != null and hqrtAgentChatdetails.messagecontext != ''">
+				AND b.messagecontext like 
+						<if test="dbName == 'oracle'">'%'||#{hqrtAgentChatdetails.messagecontext}||'%'</if>
+						<if test="dbName == 'mysql'">CONCAT('%', #{hqrtAgentChatdetails.messagecontext}, '%')</if>
+						<if test="dbName == 'mssql'">'%'+#{hqrtAgentChatdetails.messagecontext}+'%'</if>
+			</if>
 		</where>
+		GROUP BY a.sessionid
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}

@@ -158,7 +158,10 @@ $(document).ready(function() {
 		        field: 'isvalid',
 		        title: '是否有效会话',
 		        sortable: false,
-		        sortName: 'isvalid'
+		        sortName: 'isvalid',
+		        formatter:function(value, row , index){
+		        	return jp.getDictLabel(${fns:toJson(fns:getDictList('isvalid'))}, value, "-");
+		        }
 		       
 		    }
 			,{
@@ -193,7 +196,10 @@ $(document).ready(function() {
 		        field: 'evaluatestar',
 		        title: '评价星级(对客服)',
 		        sortable: false,
-		        sortName: 'evaluatestar'
+		        sortName: 'evaluatestar',
+		        formatter:function(value, row , index){
+		        	return jp.getDictLabel(${fns:toJson(fns:getDictList('evaluatestar'))}, value, "-");
+		        }
 		       
 		    }
 			,{
@@ -209,6 +215,29 @@ $(document).ready(function() {
 		        sortable: false,
 		        sortName: 'endreason'
 		       
+		    }
+			,{
+		        field: 'operate',
+		        title: '聊天内容',
+		        events: {
+    		        'click .view': function (e, value, row, index) {
+    		        	jp.openViewDialog('查看聊天内容', '${ctx}/sys/dict/form?id=' + row.id,'800px', '500px');
+    		        },
+    		        'click .export': function (e, value, row, index) {
+    		        	
+    		        }
+    		    },
+                formatter:  function operateFormatter(value, row, index) {
+    		        return [
+    		        	<shiro:hasPermission name="hqrt:agentchat:hqrtAgentChat:view">
+							'<a href="#" class="view" title="查看" ><i class="fa fa-eye"></i> 查看 </a>',
+						</shiro:hasPermission>
+						<shiro:hasPermission name="hqrt:agentchat:hqrtAgentChat:export"> 
+							'<a href="#" onclick="jp.downloadFile(\'${ctx}/hqrt/agentchat/hqrtAgentChat/exportdetails?sessionid=' + row.sessionid + '\');" class="export" title="修改"><i class="fa fa-download"></i> 导出 </a>',
+							
+						</shiro:hasPermission>
+    		        ].join('');
+    		    }
 		    }
 		     ]
 		

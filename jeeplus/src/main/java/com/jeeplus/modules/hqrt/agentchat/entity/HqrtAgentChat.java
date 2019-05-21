@@ -5,10 +5,12 @@ package com.jeeplus.modules.hqrt.agentchat.entity;
 
 
 import com.jeeplus.core.persistence.DataEntity;
+import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
 
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 
 /**
@@ -32,8 +34,8 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 	private String agentname;		// 坐席姓名
 	private String agentmobile;		// 坐席手机号码
 	private String agentprovince;		// 坐席所在省
-	private String startdatetime;		// 会话开始时间
-	private String enddatetime;		// 会话结束时间
+	private Date startdatetime;		// 会话开始时间
+	private Date enddatetime;		// 会话结束时间
 	private String timelen;		// 会话持续时长(单位：秒)
 	private String endreasonno;		// 会话结束原因：1客户关闭、2坐席关闭、3系统关闭、4超时结束、5转接其他坐席
 	private String endreason;		// 会话结束原因：1客户关闭、2坐席关闭、3系统关闭、4超时结束、5转接其他坐席
@@ -52,6 +54,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 	// 过滤的开始结束时间
 	private Date starttime;
 	private Date endttime;
+	private HqrtAgentChatdetails hqrtAgentChatdetails;
 	
 	public HqrtAgentChat() {
 		super();
@@ -178,21 +181,23 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.agentprovince = agentprovince;
 	}
 	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ExcelField(title="会话开始时间", align=2, sort=13)
-	public String getStartdatetime() {
+	public Date getStartdatetime() {
 		return startdatetime;
 	}
 
-	public void setStartdatetime(String startdatetime) {
+	public void setStartdatetime(Date startdatetime) {
 		this.startdatetime = startdatetime;
 	}
 	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ExcelField(title="会话结束时间", align=2, sort=14)
-	public String getEnddatetime() {
+	public Date getEnddatetime() {
 		return enddatetime;
 	}
 
-	public void setEnddatetime(String enddatetime) {
+	public void setEnddatetime(Date enddatetime) {
 		this.enddatetime = enddatetime;
 	}
 	
@@ -344,6 +349,14 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 
 	public void setEndttime(Date endttime) {
 		this.endttime = endttime;
+	}
+
+	public HqrtAgentChatdetails getHqrtAgentChatdetails() {
+		return hqrtAgentChatdetails;
+	}
+
+	public void setHqrtAgentChatdetails(HqrtAgentChatdetails hqrtAgentChatdetails) {
+		this.hqrtAgentChatdetails = hqrtAgentChatdetails;
 	}
 	
 }
