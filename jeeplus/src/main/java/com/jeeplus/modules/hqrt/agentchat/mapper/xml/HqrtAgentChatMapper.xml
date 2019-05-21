@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.agentchat.mapper.HqrtAgentChatMapper">
+    
+	<sql id="hqrtAgentChatColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.sessionid AS "sessionid",
+		a.talkindex AS "talkindex",
+		a.customerid AS "customerid",
+		a.customername AS "customername",
+		a.customermobile AS "customermobile",
+		a.customerprovince AS "customerprovince",
+		a.agentid AS "agentid",
+		a.agentname AS "agentname",
+		a.agentmobile AS "agentmobile",
+		a.agentprovince AS "agentprovince",
+		a.startdatetime AS "startdatetime",
+		a.enddatetime AS "enddatetime",
+		a.timelen AS "timelen",
+		a.endreasonno AS "endreasonno",
+		a.endreason AS "endreason",
+		a.queueid AS "queueid",
+		a.queuecode AS "queuecode",
+		a.queuename AS "queuename",
+		a.isvalid AS "isvalid",
+		a.firstresponsetimelen AS "firstresponsetimelen",
+		a.avgresponsetimelen AS "avgresponsetimelen",
+		a.customermessagecount AS "customermessagecount",
+		a.agentmessagecount AS "agentmessagecount",
+		a.evaluatestar AS "evaluatestar",
+		a.evaluatetext AS "evaluatetext",
+		a.originalsessionid AS "originalsessionid"
+	</sql>
+	
+	<sql id="hqrtAgentChatJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtAgentChat" >
+		SELECT 
+			<include refid="hqrtAgentChatColumns"/>
+		FROM hqrt_agent_chat a
+		<include refid="hqrtAgentChatJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtAgentChat" >
+		SELECT 
+			<include refid="hqrtAgentChatColumns"/>
+		FROM hqrt_agent_chat a
+		<include refid="hqrtAgentChatJoins"/>
+		<where>
+			
+			${dataScope}
+			<if test="customerprovinceList != null and customerprovinceList.size() &gt; 0">
+				AND a.customerprovince in 
+					<foreach collection="customerprovinceList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			<if test="queuenameList != null and queuenameList.size() &gt; 0">
+				AND a.queuename in 
+					<foreach collection="queuenameList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
+			<if test="starttime != null and endttime != null ">
+				AND a.startdatetime BETWEEN #{starttime} AND #{endttime}
+			</if>
+			<if test="agentname != null and agentname != ''">
+				AND a.agentname = #{agentname}
+			</if>
+			<if test="customername != null and customername != ''">
+				AND a.customername = #{customername}
+			</if>
+			<if test="sessionid != null and sessionid != ''">
+				AND a.sessionid = #{sessionid}
+			</if>
+			<if test="evaluatestar != null and evaluatestar != ''">
+				AND a.evaluatestar = #{evaluatestar}
+			</if>
+			<if test="endreasonno != null and endreasonno != ''">
+				AND a.endreasonno = #{endreasonno}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtAgentChat" >
+		SELECT 
+			<include refid="hqrtAgentChatColumns"/>
+		FROM hqrt_agent_chat a
+		<include refid="hqrtAgentChatJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_agent_chat(
+			rowguid,
+			rowdatetime,
+			sessionid,
+			talkindex,
+			customerid,
+			customername,
+			customermobile,
+			customerprovince,
+			agentid,
+			agentname,
+			agentmobile,
+			agentprovince,
+			startdatetime,
+			enddatetime,
+			timelen,
+			endreasonno,
+			endreason,
+			queueid,
+			queuecode,
+			queuename,
+			isvalid,
+			firstresponsetimelen,
+			avgresponsetimelen,
+			customermessagecount,
+			agentmessagecount,
+			evaluatestar,
+			evaluatetext,
+			originalsessionid
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{sessionid},
+			#{talkindex},
+			#{customerid},
+			#{customername},
+			#{customermobile},
+			#{customerprovince},
+			#{agentid},
+			#{agentname},
+			#{agentmobile},
+			#{agentprovince},
+			#{startdatetime},
+			#{enddatetime},
+			#{timelen},
+			#{endreasonno},
+			#{endreason},
+			#{queueid},
+			#{queuecode},
+			#{queuename},
+			#{isvalid},
+			#{firstresponsetimelen},
+			#{avgresponsetimelen},
+			#{customermessagecount},
+			#{agentmessagecount},
+			#{evaluatestar},
+			#{evaluatetext},
+			#{originalsessionid}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_agent_chat SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			sessionid = #{sessionid},
+			talkindex = #{talkindex},
+			customerid = #{customerid},
+			customername = #{customername},
+			customermobile = #{customermobile},
+			customerprovince = #{customerprovince},
+			agentid = #{agentid},
+			agentname = #{agentname},
+			agentmobile = #{agentmobile},
+			agentprovince = #{agentprovince},
+			startdatetime = #{startdatetime},
+			enddatetime = #{enddatetime},
+			timelen = #{timelen},
+			endreasonno = #{endreasonno},
+			endreason = #{endreason},
+			queueid = #{queueid},
+			queuecode = #{queuecode},
+			queuename = #{queuename},
+			isvalid = #{isvalid},
+			firstresponsetimelen = #{firstresponsetimelen},
+			avgresponsetimelen = #{avgresponsetimelen},
+			customermessagecount = #{customermessagecount},
+			agentmessagecount = #{agentmessagecount},
+			evaluatestar = #{evaluatestar},
+			evaluatetext = #{evaluatetext},
+			originalsessionid = #{originalsessionid}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_agent_chat
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_agent_chat SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtAgentChat" statementType="STATEMENT">
+		select * FROM hqrt_agent_chat  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>

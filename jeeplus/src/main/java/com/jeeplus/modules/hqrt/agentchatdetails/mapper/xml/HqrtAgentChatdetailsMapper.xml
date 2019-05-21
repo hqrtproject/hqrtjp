@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.agentchatdetails.mapper.HqrtAgentChatdetailsMapper">
+    
+	<sql id="hqrtAgentChatdetailsColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.sessionid AS "sessionid",
+		a.customerid AS "customerid",
+		a.customername AS "customername",
+		a.customermobile AS "customermobile",
+		a.customerprovince AS "customerprovince",
+		a.agentid AS "agentid",
+		a.agentname AS "agentname",
+		a.agentmobile AS "agentmobile",
+		a.agentprovince AS "agentprovince",
+		a.queueid AS "queueid",
+		a.queuecode AS "queuecode",
+		a.queuename AS "queuename",
+		a.messagetype AS "messagetype",
+		a.messagecontext AS "messagecontext",
+		a.messagesender AS "messagesender",
+		a.messagedatetime AS "messagedatetime",
+		a.originalsessionid AS "originalsessionid"
+	</sql>
+	
+	<sql id="hqrtAgentChatdetailsJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtAgentChatdetails" >
+		SELECT 
+			<include refid="hqrtAgentChatdetailsColumns"/>
+		FROM hqrt_agent_chatdetails a
+		<include refid="hqrtAgentChatdetailsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtAgentChatdetails" >
+		SELECT 
+			<include refid="hqrtAgentChatdetailsColumns"/>
+		FROM hqrt_agent_chatdetails a
+		<include refid="hqrtAgentChatdetailsJoins"/>
+		<where>
+			
+			${dataScope}
+			<if test="rowdatetime != null and rowdatetime != ''">
+				AND a.rowdatetime = #{rowdatetime}
+			</if>
+			<if test="sessionid != null and sessionid != ''">
+				AND a.sessionid = #{sessionid}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtAgentChatdetails" >
+		SELECT 
+			<include refid="hqrtAgentChatdetailsColumns"/>
+		FROM hqrt_agent_chatdetails a
+		<include refid="hqrtAgentChatdetailsJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_agent_chatdetails(
+			rowguid,
+			rowdatetime,
+			sessionid,
+			customerid,
+			customername,
+			customermobile,
+			customerprovince,
+			agentid,
+			agentname,
+			agentmobile,
+			agentprovince,
+			queueid,
+			queuecode,
+			queuename,
+			messagetype,
+			messagecontext,
+			messagesender,
+			messagedatetime,
+			originalsessionid
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{sessionid},
+			#{customerid},
+			#{customername},
+			#{customermobile},
+			#{customerprovince},
+			#{agentid},
+			#{agentname},
+			#{agentmobile},
+			#{agentprovince},
+			#{queueid},
+			#{queuecode},
+			#{queuename},
+			#{messagetype},
+			#{messagecontext},
+			#{messagesender},
+			#{messagedatetime},
+			#{originalsessionid}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_agent_chatdetails SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			sessionid = #{sessionid},
+			customerid = #{customerid},
+			customername = #{customername},
+			customermobile = #{customermobile},
+			customerprovince = #{customerprovince},
+			agentid = #{agentid},
+			agentname = #{agentname},
+			agentmobile = #{agentmobile},
+			agentprovince = #{agentprovince},
+			queueid = #{queueid},
+			queuecode = #{queuecode},
+			queuename = #{queuename},
+			messagetype = #{messagetype},
+			messagecontext = #{messagecontext},
+			messagesender = #{messagesender},
+			messagedatetime = #{messagedatetime},
+			originalsessionid = #{originalsessionid}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_agent_chatdetails
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_agent_chatdetails SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtAgentChatdetails" statementType="STATEMENT">
+		select * FROM hqrt_agent_chatdetails  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>
