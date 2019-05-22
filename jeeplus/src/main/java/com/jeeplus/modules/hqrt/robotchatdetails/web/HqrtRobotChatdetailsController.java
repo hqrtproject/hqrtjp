@@ -93,17 +93,21 @@ public class HqrtRobotChatdetailsController extends BaseController {
         	paramList.add(ft.format(hqrtRobotChatdetails.getParent().getStarttime()));
         	paramList.add(ft.format(hqrtRobotChatdetails.getParent().getEndttime()));
         }
+        Page<HqrtRobotChatdetails> page = new Page<HqrtRobotChatdetails>(request, response);
         if (StringUtils.isNotBlank(sqlcondition)) {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
         	sqlcondition  = " where" + sqlcondition;
         }
-        sql += sqlcondition;
+        // 该语句仅仅为了查询当前条件下有多少符合条件的数据
+        String selectcountsql = sql + sqlcondition;
+        sql += sqlcondition + "limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get("company");
-        List<HqrtRobotChatdetails> queryList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
-        Page<HqrtRobotChatdetails> page = new Page<HqrtRobotChatdetails>(request, response);
+        List<HqrtRobotChatdetails> detailsList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
+        List<HqrtRobotChatdetails> allDetailslList = md.queryList(selectcountsql, HqrtRobotChatdetails.class, paramList.toArray());
+        page.setCount(allDetailslList.size());
 		BaseService.dataRuleFilter(hqrtRobotChatdetails);
 		hqrtRobotChatdetails.setPage(page);
-		page.setList(queryList);
+		page.setList(detailsList);
 		return getBootstrapData(page);
 	}
 
