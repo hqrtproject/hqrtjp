@@ -24,7 +24,6 @@ import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.core.persistence.Page;
-import com.jeeplus.core.service.BaseService;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentchat.entity.HqrtAgentChat;
 import com.jeeplus.modules.hqrt.agentchat.service.HqrtAgentChatService;
@@ -76,7 +75,6 @@ public class HqrtAgentChatController extends BaseController {
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtAgentChat hqrtAgentChat, HttpServletRequest request, HttpServletResponse response, Model model) {
         Page<HqrtAgentChat> page = new Page<>(request, response);
-        BaseService.dataRuleFilter(hqrtAgentChat);
         hqrtAgentChat.setPage(page);
 		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.talkindex AS 'talkindex',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',a.isvalid AS 'isvalid',a.firstresponsetimelen AS 'firstresponsetimelen',a.avgresponsetimelen AS 'avgresponsetimelen',a.customermessagecount AS 'customermessagecount',a.agentmessagecount AS 'agentmessagecount',a.evaluatestar AS 'evaluatestar',a.evaluatetext AS 'evaluatetext',a.originalsessionid AS 'originalsessionid' FROM hqrt_agent_chat a LEFT JOIN hqrt_agent_chatdetails b ON a.sessionid = b.sessionid";
         String sqlcondition = "";
@@ -126,24 +124,13 @@ public class HqrtAgentChatController extends BaseController {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
         	sqlcondition  = " where" + sqlcondition;
         }
-        sql += sqlcondition + " GROUP BY a.sessionid";
+        String selectcountsql = sql + sqlcondition;
+        sql += sqlcondition + " GROUP BY a.sessionid" + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get("company");
-       /* List<HqrtAgentChat> hqrtAgentChatList = new ArrayList<HqrtAgentChat>();
-        List<Map<String, Object>> queryList = md.queryList(sql, paramList.toArray());
-        for (Map<String, Object> map : queryList) {
-        	try {
-        		Object obj = new HqrtAgentChat();
-				org.apache.commons.beanutils.BeanUtils.populate(obj, map);
-				hqrtAgentChatList.add((HqrtAgentChat)obj);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}  
-		}*/
-        List<HqrtAgentChat> queryList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
-		/*Page<HqrtAgentChat> page = hqrtAgentChatService.findPage(new Page<HqrtAgentChat>(request, response), hqrtAgentChat);*/
-		page.setList(queryList);
+        List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
+        List<HqrtAgentChat> allDetailslList = md.queryList(selectcountsql, HqrtAgentChat.class, paramList.toArray());
+		page.setList(detailsList);
+		page.setCount(allDetailslList.size());
 		return getBootstrapData(page);
 	}
 
@@ -195,8 +182,21 @@ public class HqrtAgentChatController extends BaseController {
 		hqrtAgentChatdetails.setSessionid(hqrtAgentChat.getSessionid());
 		try {
 			String fileName = "客户与坐席会话明细"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-			List<HqrtAgentChatdetailsForExport> hqrtAgentChatdetailsForExportList = hqrtAgentChatdetailsService.findListForExport(hqrtAgentChatdetails);
-			for (HqrtAgentChatdetailsForExport hqrtAgentChatdetailsForExport : hqrtAgentChatdetailsForExportList) {
+			String sql = "select a.customername AS 'customername',a.agentname AS 'agentname',a.messagecontext AS 'messagecontext',a.messagesender AS 'messagesender',a.messagedatetime AS 'messagedatetime'";
+            String sqlcondition = "";
+            List<Object> paramList = new ArrayList<Object>();
+            if (StringUtils.isNotBlank(hqrtAgentChatdetails.getSessionid())) {
+            	sqlcondition += " AND a.sessionid = ?";
+            	paramList.add(hqrtAgentChatdetails.getSessionid());
+            }
+            if (StringUtils.isNotBlank(sqlcondition)) {
+            	sqlcondition = sqlcondition.replaceFirst(" AND", "");
+            	sqlcondition  = " where" + sqlcondition;
+            }
+            sql += sqlcondition + " GROUP BY a.messagedatetime";
+            MultiDBUtils md = MultiDBUtils.get("company");
+            List<HqrtAgentChatdetailsForExport> detailsList = md.queryList(sql, HqrtAgentChatdetailsForExport.class, paramList.toArray());
+			for (HqrtAgentChatdetailsForExport hqrtAgentChatdetailsForExport : detailsList) {
 				if (hqrtAgentChatdetailsForExport.getMessagesender() == 1) {
 					hqrtAgentChatdetailsForExport.setNamecustomer(hqrtAgentChatdetailsForExport.getCustomername());
 					hqrtAgentChatdetailsForExport.setMessagedatetimecustomer(hqrtAgentChatdetailsForExport.getMessagedatetime());
@@ -211,7 +211,7 @@ public class HqrtAgentChatController extends BaseController {
 					hqrtAgentChatdetailsForExport.setMessagecontextagent(hqrtAgentChatdetailsForExport.getMessagecontext());
 				}
 			}
-			new ExportExcel("客户与坐席会话明细", HqrtAgentChatdetailsForExport.class).setDataList(hqrtAgentChatdetailsForExportList).write(response, fileName).dispose();
+			new ExportExcel("客户与坐席会话明细", HqrtAgentChatdetailsForExport.class).setDataList(detailsList).write(response, fileName).dispose();
 			j.setSuccess(true);
 			j.setMsg("导出成功！");
 			return j;

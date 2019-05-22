@@ -11,7 +11,7 @@ $(document).ready(function() {
                //显示检索按钮
 	          /* showSearch: true,*/
                //显示刷新按钮
-            /*   showRefresh: true,*/
+               showRefresh: true,
                //显示切换手机试图按钮
                /*showToggle: true,*/
                //显示 内容列下拉框
@@ -19,7 +19,7 @@ $(document).ready(function() {
     	       //显示到处按钮
     	       /*showExport: true,*/
     	       //显示切换分页按钮
-    	       showPaginationSwitch: true,
+    	      // showPaginationSwitch: true,
     	       //最低显示2行
     	       minimumCountColumns: 2,
                //是否显示行间隔色
