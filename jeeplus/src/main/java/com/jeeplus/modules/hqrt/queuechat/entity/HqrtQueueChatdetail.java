@@ -29,7 +29,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 	private String startdatetime;		// 进入队列时间
 	private String enddatetime;		// 退出队列时间
 	private String timelen;		// 会话持续时长(单位：秒)
-	private Integer endreasonno;		// 会话结束原因：1转人工成功、2客户取消、3超时结束
+	private String endreasonno;		// 会话结束原因：1转人工成功、2客户取消、3超时结束
 	private String endreason;		// 会话结束原因：1转人工成功、2客户取消、3超时结束
 	private String queueid;		// 队列（技能组）编号
 	private String queuename;		// 队列（技能组）名称
@@ -67,7 +67,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.rowdatetime = rowdatetime;
 	}
 	
-	
+	@ExcelField(title="会话ID", align=2, sort=2)
 	public String getSessionid() {
 		return sessionid;
 	}
@@ -139,11 +139,11 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.timelen = timelen;
 	}
 	
-	public Integer getEndreasonno() {
+	public String getEndreasonno() {
 		return endreasonno;
 	}
 
-	public void setEndreasonno(Integer endreasonno) {
+	public void setEndreasonno(String endreasonno) {
 		this.endreasonno = endreasonno;
 	}
 	
@@ -182,7 +182,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.queuenameList = queuenameList;
 	}
 	
-	@ExcelField(title="会话ID", align=2, sort=2)
+	
 	public String getOriginalsessionid() {
 		return originalsessionid;
 	}

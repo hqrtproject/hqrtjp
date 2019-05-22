@@ -100,7 +100,7 @@ public class HqrtRobotChatController extends BaseController {
         MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtRobotChat> hqrtRobotChatlist = md.queryList(sql, HqrtRobotChat.class, paramList.toArray());
 		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
-			String _sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a ";
+			String _sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a";
 			String _sqlcondition = "";
 			paramList = new ArrayList<Object>();
 			if (StringUtils.isNotBlank(robotChat.getQueuename())) {

@@ -22,6 +22,21 @@
 				// cascadeCheck: false,
 				// onlyLeafCheck: true
 		        prompt: '请选择...',
+		        onClick:function(node, checked){
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#province").combotree("tree");// 获取树对象
+					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue=[];
+					var childLength='';
+					$.each(checkedNodes,function(index){
+						if (typeof(checkedNodes[index].children)=='undefined') {
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#province').combotree('setText', logicNodeValue);// 给文本框赋值
+				},
 				onCheck:function(node, checked){
 					//选择故障模式，文本框只显示子节点，不显示父节点
 					var tt = $("#province").combotree("tree");// 获取树对象
