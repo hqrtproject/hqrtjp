@@ -95,7 +95,7 @@ public class MultiDBUtils {
 		if (ArrayUtils.isEmpty(param)) {
 			list = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<T>(clazz));
 		} else {
-			list = jdbcTemplate.query(sql.toString(), new Object[] {param}, new BeanPropertyRowMapper<T>(clazz));
+			list = jdbcTemplate.query(sql.toString(), param, new BeanPropertyRowMapper<T>(clazz));
 		}
 		return list;
 	}
