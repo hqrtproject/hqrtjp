@@ -4,14 +4,12 @@
 package com.jeeplus.modules.hqrt.agentchat.entity;
 
 
-import com.jeeplus.core.persistence.DataEntity;
-import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
-
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
+import com.jeeplus.core.persistence.DataEntity;
+import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
 
 /**
  * 客户与坐席会话Entity
@@ -32,6 +30,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 	private List<String> customerprovinceList;		// 选中客户所在省（可能是多个）
 	private String agentid;		// 坐席ID编号
 	private String agentname;		// 坐席姓名
+	private List<String> agentnameList;		// 坐席姓名
 	private String agentmobile;		// 坐席手机号码
 	private String agentprovince;		// 坐席所在省
 	private String startdatetime;		// 会话开始时间
@@ -161,6 +160,14 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 
 	public void setAgentname(String agentname) {
 		this.agentname = agentname;
+	}
+
+	public List<String> getAgentnameList() {
+		return agentnameList;
+	}
+
+	public void setAgentnameList(List<String> agentnameList) {
+		this.agentnameList = agentnameList;
 	}
 	
 	@ExcelField(title="坐席手机号码", align=2, sort=11)

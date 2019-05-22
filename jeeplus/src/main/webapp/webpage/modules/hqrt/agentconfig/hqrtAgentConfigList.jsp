@@ -37,52 +37,27 @@
 	
 	<!-- 工具栏 -->
 	<div id="toolbar">
-			<shiro:hasPermission name="hqrt:agentconfig:hqrtAgentConfig:add">
 				<button id="add" class="btn btn-primary" onclick="add()">
 					<i class="glyphicon glyphicon-plus"></i> 新建
 				</button>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="hqrt:agentconfig:hqrtAgentConfig:edit">
 			    <button id="edit" class="btn btn-success" disabled onclick="edit()">
 	            	<i class="glyphicon glyphicon-edit"></i> 修改
 	        	</button>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="hqrt:agentconfig:hqrtAgentConfig:del">
 				<button id="remove" class="btn btn-danger" disabled onclick="deleteAll()">
 	            	<i class="glyphicon glyphicon-remove"></i> 删除
 	        	</button>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="hqrt:agentconfig:hqrtAgentConfig:import">
 				<button id="btnImport" class="btn btn-info"><i class="fa fa-folder-open-o"></i> 导入</button>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="hqrt:agentconfig:hqrtAgentConfig:export">
 	        		<button id="export" class="btn btn-warning">
 					<i class="fa fa-file-excel-o"></i> 导出
 				</button>
-			 </shiro:hasPermission>
-	                 <shiro:hasPermission name="hqrt:agentconfig:hqrtAgentConfig:view">
 				<button id="view" class="btn btn-default" disabled onclick="view()">
 					<i class="fa fa-search-plus"></i> 查看
 				</button>
-			</shiro:hasPermission>
 		    </div>
 		
 	<!-- 表格 -->
 	<table id="hqrtAgentConfigTable"   data-toolbar="#toolbar"></table>
 
-    <!-- context menu -->
-    <ul id="context-menu" class="dropdown-menu">
-    	<shiro:hasPermission name="hqrt:agentconfig:hqrtAgentConfig:view">
-        <li data-item="view"><a>查看</a></li>
-        </shiro:hasPermission>
-    	<shiro:hasPermission name="hqrt:agentconfig:hqrtAgentConfig:edit">
-        <li data-item="edit"><a>编辑</a></li>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="hqrt:agentconfig:hqrtAgentConfig:del">
-        <li data-item="delete"><a>删除</a></li>
-        </shiro:hasPermission>
-        <li data-item="action1"><a>取消</a></li>
-    </ul>  
 	</div>
 	</div>
 	</div>

@@ -67,11 +67,14 @@
 						#{item}
 					</foreach>
 			</if>
+			<if test="agentnameList != null and agentnameList.size() &gt; 0">
+				AND a.agentname in 
+					<foreach collection="agentnameList" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			</if>
 			<if test="starttime != null and endttime != null ">
 				AND a.startdatetime BETWEEN #{starttime} AND #{endttime}
-			</if>
-			<if test="agentname != null and agentname != ''">
-				AND a.agentname = #{agentname}
 			</if>
 			<if test="customername != null and customername != ''">
 				AND a.customername = #{customername}

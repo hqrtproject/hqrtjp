@@ -221,7 +221,7 @@ $(document).ready(function() {
 		        title: '聊天内容',
 		        events: {
     		        'click .view': function (e, value, row, index) {
-    		        	jp.openViewDialog('查看聊天内容', '${ctx}/sys/dict/form?id=' + row.id,'800px', '500px');
+    		        	jp.openViewDialog('查看聊天内容', '${ctx}/hqrt/agentchat/hqrtAgentChat/form/view?sessionid=' + row.sessionid,'800px', '500px');
     		        },
     		        'click .export': function (e, value, row, index) {
     		        	
@@ -229,13 +229,8 @@ $(document).ready(function() {
     		    },
                 formatter:  function operateFormatter(value, row, index) {
     		        return [
-    		        	<shiro:hasPermission name="hqrt:agentchat:hqrtAgentChat:view">
-							'<a href="#" class="view" title="查看" ><i class="fa fa-eye"></i> 查看 </a>',
-						</shiro:hasPermission>
-						<shiro:hasPermission name="hqrt:agentchat:hqrtAgentChat:export"> 
-							'<a href="#" onclick="jp.downloadFile(\'${ctx}/hqrt/agentchat/hqrtAgentChat/exportdetails?sessionid=' + row.sessionid + '\');" class="export" title="修改"><i class="fa fa-download"></i> 导出 </a>',
-							
-						</shiro:hasPermission>
+						'<a href="#" class="view" title="查看" ><i class="fa fa-eye"></i> 查看 </a>',
+						'<a href="#" onclick="jp.downloadFile(\'${ctx}/hqrt/agentchat/hqrtAgentChat/exportdetails?sessionid=' + row.sessionid + '\');" class="export" title="修改"><i class="fa fa-download"></i> 导出 </a>',
     		        ].join('');
     		    }
 		    }
