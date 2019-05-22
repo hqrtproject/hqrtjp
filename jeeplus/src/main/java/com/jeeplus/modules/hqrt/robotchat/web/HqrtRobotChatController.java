@@ -4,6 +4,8 @@
 package com.jeeplus.modules.hqrt.robotchat.web;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +14,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,7 @@ import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
 import com.jeeplus.modules.hqrt.robotchat.service.HqrtRobotChatService;
 import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
 import com.jeeplus.modules.hqrt.robotchatdetails.service.HqrtRobotChatdetailsService;
+import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
  * 机器人对话Controller
@@ -73,18 +75,48 @@ public class HqrtRobotChatController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtRobotChat hqrtRobotChat, HttpServletRequest request, HttpServletResponse response, Model model) {
-		// Page<HqrtRobotChat> page = hqrtRobotChatService.findPage(new Page<HqrtRobotChat>(request, response), hqrtRobotChat);
 		Map<String, Object> map = new HashMap<String, Object>();
-        if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
-        	hqrtRobotChat.setCustomerprovinceList(Arrays.asList(hqrtRobotChat.getCustomerprovince().split(",")));
+		// 首先根据业务和省份分组查询
+        String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a ";
+        String sqlcondition = "";
+        List<Object> paramList = new ArrayList<Object>();
+		if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
+        	sqlcondition += " AND a.customerprovince in ('" + hqrtRobotChat.getCustomerprovince().replace(",", "','") + "')";
         }
         if (StringUtils.isNotBlank(hqrtRobotChat.getQueuename())) {
-        	hqrtRobotChat.setQueuenameList(Arrays.asList(hqrtRobotChat.getQueuename().split(",")));
+        	sqlcondition += " AND a.queuename in ('" + hqrtRobotChat.getQueuename().replace(",", "','") + "')";
         }
-		// 首先根据业务和省份分组查询
-		List<HqrtRobotChat> hqrtRobotChatlist = hqrtRobotChatService.findListGroupBy(hqrtRobotChat);
+        if (hqrtRobotChat.getStarttime() != null && hqrtRobotChat.getEndttime() != null) {
+        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	paramList.add(ft.format(hqrtRobotChat.getStarttime()));
+        	paramList.add(ft.format(hqrtRobotChat.getEndttime()));
+        }
+        if (StringUtils.isNotBlank(sqlcondition)) {
+        	sqlcondition = sqlcondition.replaceFirst(" AND", "");
+        	sqlcondition  = " where" + sqlcondition;
+        }
+        sql += sqlcondition + " GROUP BY a.QueueName,a.CustomerProvince";
+        MultiDBUtils md = MultiDBUtils.get("company");
+        List<HqrtRobotChat> hqrtRobotChatlist = md.queryList(sql, HqrtRobotChat.class, paramList.toArray());
 		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
-			List<HqrtRobotChat> queueNameAndCustomerProvinceList = hqrtRobotChatService.findListByQueueNameAndCustomerProvince(robotChat);
+			String _sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a ";
+			String _sqlcondition = "";
+			paramList = new ArrayList<Object>();
+			if (StringUtils.isNotBlank(robotChat.getQueuename())) {
+				_sqlcondition += " AND a.queuename = ?";
+	        	paramList.add(robotChat.getQueuename());
+	        }
+			if (StringUtils.isNotBlank(robotChat.getCustomerprovince())) {
+				_sqlcondition += " AND a.customerprovince = ?";
+	        	paramList.add(robotChat.getCustomerprovince());
+	        }
+	        if (StringUtils.isNotBlank(_sqlcondition)) {
+	        	_sqlcondition = _sqlcondition.replaceFirst(" AND", "");
+	        	_sqlcondition  = " where" + _sqlcondition;
+	        }
+			_sql += _sqlcondition;
+			List<HqrtRobotChat> queueNameAndCustomerProvinceList = md.queryList(_sql, HqrtRobotChat.class, paramList.toArray());
 			robotChat.setTotalincount(queueNameAndCustomerProvinceList.size());
 			// 转人工量
 			int conversionvolume = 0;
@@ -101,7 +133,19 @@ public class HqrtRobotChatController extends BaseController {
 			HqrtRobotChatdetails hqrtRobotChatdetails = new HqrtRobotChatdetails();
 			for (HqrtRobotChat hrc : queueNameAndCustomerProvinceList) {
 				hqrtRobotChatdetails.setSessionid(hrc.getSessionid());
-				List<HqrtRobotChatdetails> hqrtRobotChatdetailsList = hqrtRobotChatdetailsService.findList(hqrtRobotChatdetails);
+				String __sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.queueid AS 'queueid',a.queuename AS 'queuename', a.requestcontext AS 'requestcontext',a.responsecontext AS 'responsecontext', a.responseno AS 'responseno', a.responsenodesc AS 'responsenodesc',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel', a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.satisfyno AS 'satisfyno',a.satisfydesc AS 'satisfydesc',a.MessageDateTime  AS 'messagedatetime',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chatdetails a ";
+				String __sqlcondition = "";
+				paramList = new ArrayList<Object>();
+				if (StringUtils.isNotBlank(hrc.getSessionid())) {
+					__sqlcondition += " AND a.sessionid = ?";
+		        	paramList.add(hrc.getSessionid());
+		        }
+		        if (StringUtils.isNotBlank(__sqlcondition)) {
+		        	__sqlcondition = __sqlcondition.replaceFirst(" AND", "");
+		        	__sqlcondition  = " where" + __sqlcondition;
+		        }
+				__sql += __sqlcondition;
+				List<HqrtRobotChatdetails> hqrtRobotChatdetailsList = md.queryList(__sql, HqrtRobotChatdetails.class, paramList.toArray());
 				if (hrc.getEndreasonno() == 1) {
 					conversionvolume++;
 				}
@@ -144,17 +188,47 @@ public class HqrtRobotChatController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "机器人对话"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-            // 首先根据业务和省份分组查询
-            if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
-            	hqrtRobotChat.setCustomerprovinceList(Arrays.asList(hqrtRobotChat.getCustomerprovince().split(",")));
+         // 首先根据业务和省份分组查询
+            String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a ";
+            String sqlcondition = "";
+            List<Object> paramList = new ArrayList<Object>();
+    		if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
+            	sqlcondition += " AND a.customerprovince in ('" + hqrtRobotChat.getCustomerprovince().replace(",", "','") + "')";
             }
             if (StringUtils.isNotBlank(hqrtRobotChat.getQueuename())) {
-            	hqrtRobotChat.setQueuenameList(Arrays.asList(hqrtRobotChat.getQueuename().split(",")));
+            	sqlcondition += " AND a.queuename in ('" + hqrtRobotChat.getQueuename().replace(",", "','") + "')";
             }
-    		List<HqrtRobotChat> hqrtRobotChatlist = hqrtRobotChatService.findListGroupBy(hqrtRobotChat);
-    		// 所有业务省份的进线总量
+            if (hqrtRobotChat.getStarttime() != null && hqrtRobotChat.getEndttime() != null) {
+            	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+            	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	paramList.add(ft.format(hqrtRobotChat.getStarttime()));
+            	paramList.add(ft.format(hqrtRobotChat.getEndttime()));
+            }
+            if (StringUtils.isNotBlank(sqlcondition)) {
+            	sqlcondition = sqlcondition.replaceFirst(" AND", "");
+            	sqlcondition  = " where" + sqlcondition;
+            }
+            sql += sqlcondition + " GROUP BY a.QueueName,a.CustomerProvince";
+            MultiDBUtils md = MultiDBUtils.get("company");
+            List<HqrtRobotChat> hqrtRobotChatlist = md.queryList(sql, HqrtRobotChat.class, paramList.toArray());
     		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
-    			List<HqrtRobotChat> queueNameAndCustomerProvinceList = hqrtRobotChatService.findListByQueueNameAndCustomerProvince(robotChat);
+    			String _sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a ";
+    			String _sqlcondition = "";
+    			paramList = new ArrayList<Object>();
+    			if (StringUtils.isNotBlank(robotChat.getQueuename())) {
+    				_sqlcondition += " AND a.queuename = ?";
+    	        	paramList.add(robotChat.getQueuename());
+    	        }
+    			if (StringUtils.isNotBlank(robotChat.getCustomerprovince())) {
+    				_sqlcondition += " AND a.customerprovince = ?";
+    	        	paramList.add(robotChat.getCustomerprovince());
+    	        }
+    	        if (StringUtils.isNotBlank(_sqlcondition)) {
+    	        	_sqlcondition = _sqlcondition.replaceFirst(" AND", "");
+    	        	_sqlcondition  = " where" + _sqlcondition;
+    	        }
+    			_sql += _sqlcondition;
+    			List<HqrtRobotChat> queueNameAndCustomerProvinceList = md.queryList(_sql, HqrtRobotChat.class, paramList.toArray());
     			robotChat.setTotalincount(queueNameAndCustomerProvinceList.size());
     			// 转人工量
     			int conversionvolume = 0;
@@ -171,7 +245,19 @@ public class HqrtRobotChatController extends BaseController {
     			HqrtRobotChatdetails hqrtRobotChatdetails = new HqrtRobotChatdetails();
     			for (HqrtRobotChat hrc : queueNameAndCustomerProvinceList) {
     				hqrtRobotChatdetails.setSessionid(hrc.getSessionid());
-    				List<HqrtRobotChatdetails> hqrtRobotChatdetailsList = hqrtRobotChatdetailsService.findList(hqrtRobotChatdetails);
+    				String __sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.queueid AS 'queueid',a.queuename AS 'queuename', a.requestcontext AS 'requestcontext',a.responsecontext AS 'responsecontext', a.responseno AS 'responseno', a.responsenodesc AS 'responsenodesc',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel', a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.satisfyno AS 'satisfyno',a.satisfydesc AS 'satisfydesc',a.MessageDateTime  AS 'messagedatetime',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chatdetails a ";
+    				String __sqlcondition = "";
+    				paramList = new ArrayList<Object>();
+    				if (StringUtils.isNotBlank(hrc.getSessionid())) {
+    					__sqlcondition += " AND a.sessionid = ?";
+    		        	paramList.add(hrc.getSessionid());
+    		        }
+    		        if (StringUtils.isNotBlank(__sqlcondition)) {
+    		        	__sqlcondition = __sqlcondition.replaceFirst(" AND", "");
+    		        	__sqlcondition  = " where" + __sqlcondition;
+    		        }
+    				__sql += __sqlcondition;
+    				List<HqrtRobotChatdetails> hqrtRobotChatdetailsList = md.queryList(__sql, HqrtRobotChatdetails.class, paramList.toArray());
     				if (hrc.getEndreasonno() == 1) {
     					conversionvolume++;
     				}
