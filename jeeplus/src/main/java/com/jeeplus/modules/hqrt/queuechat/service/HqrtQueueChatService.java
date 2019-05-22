@@ -45,23 +45,23 @@ public class HqrtQueueChatService extends CrudService<HqrtQueueChatMapper, HqrtQ
 	public void delete(HqrtQueueChat hqrtQueueChat) {
 		super.delete(hqrtQueueChat);
 	}
-	@Transactional(readOnly = false)
+	
 	public List<HqrtQueueChat> findListGroupBy(HqrtQueueChat hqrtQueueChat) {
 		return mapper.findListGroupBy(hqrtQueueChat);
 	}
-	@Transactional(readOnly = false)
+	
 	public List<HqrtQueueChat> findListByQueueName(HqrtQueueChat hqrtQueueChat) {
 		return mapper.findListByQueueName(hqrtQueueChat);
 	}
-	@Transactional(readOnly = false)
-	public HqrtQueueChatdetail getDetail(String id) {
-		return mapper.getQueueChatdetail(id);
-	}
-	@Transactional(readOnly = false)
+	
 	public List<HqrtQueueChatdetail> findDetailList(HqrtQueueChatdetail hqrtQueueChatdetail) {
 		return mapper.findDetailList(hqrtQueueChatdetail) ;
 	}
+	
 	public Page<HqrtQueueChatdetail> findDetailPage(Page<HqrtQueueChatdetail> page, HqrtQueueChatdetail hqrtQueueChatdetail) {
-		return mapper.findDetailPage(page, hqrtQueueChatdetail);
+		dataRuleFilter(hqrtQueueChatdetail);
+		hqrtQueueChatdetail.setPage(page);
+		return page.setList(mapper.findDetailList(hqrtQueueChatdetail));
 	}
+	
 }

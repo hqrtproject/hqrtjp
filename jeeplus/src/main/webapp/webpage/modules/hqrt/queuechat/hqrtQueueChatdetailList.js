@@ -1,25 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <script>
 $(document).ready(function() {
-	$('#hqrtQueueChatTable').bootstrapTable({
+	$('#hqrtqueuechatdetailTable').bootstrapTable({
 		 
-		  //请求方法
+		  	   //请求方法
                method: 'post',
                //类型json
                dataType: "json",
                contentType: "application/x-www-form-urlencoded",
                //显示检索按钮
-	       /*    showSearch: true,*/
+               //showSearch: true,
                //显示刷新按钮
-            showRefresh: true,
+                showRefresh: true,
                //显示切换手机试图按钮
-             /*  showToggle: true,*/
+               //showToggle: true,
                //显示 内容列下拉框
-//    	       showColumns: true,
+    	       //showColumns: true,
     	       //显示到处按钮
-    	      /* showExport: true,*/
+    	       //showExport: true,
     	       //显示切换分页按钮
-//    	       showPaginationSwitch: true,
+               //showPaginationSwitch: true,
     	       //最低显示2行
     	       minimumCountColumns: 2,
                //是否显示行间隔色
@@ -63,7 +63,7 @@ $(document).ready(function() {
                        	jp.loading();
                        	jp.get("${ctx}/hqrt/queuechat/hqrtQueueChat/delete?id="+row.id, function(data){
                    	  		if(data.success){
-                   	  			$('#hqrtQueueChatTable').bootstrapTable('refresh');
+                   	  			$('#hqrtqueuechatdetailTable').bootstrapTable('refresh');
                    	  			jp.success(data.msg);
                    	  		}else{
                    	  			jp.error(data.msg);
@@ -81,7 +81,7 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: true
+		        checkbox: false
 		       
 		    }
 			,{
@@ -127,13 +127,6 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'endreasonno',
-		        title: '是否成功',
-		        sortable: false,
-		        sortName: 'endreasonno'
-		       
-		    }
-			,{
 		        field: 'endreason',
 		        title: ' 结束原因',
 		        sortable: false,
@@ -148,13 +141,13 @@ $(document).ready(function() {
 	  if(navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)){//如果是移动端
 
 		 
-		  $('#hqrtQueueChatTable').bootstrapTable("toggleView");
+		  $('#hqrtqueuechatdetailTable').bootstrapTable("toggleView");
 		}
 	  
-	  $('#hqrtQueueChatTable').on('check.bs.table uncheck.bs.table load-success.bs.table ' +
+	  $('#hqrtqueuechatdetailTable').on('check.bs.table uncheck.bs.table load-success.bs.table ' +
                 'check-all.bs.table uncheck-all.bs.table', function () {
-            $('#remove').prop('disabled', ! $('#hqrtQueueChatTable').bootstrapTable('getSelections').length);
-            $('#view,#edit').prop('disabled', $('#hqrtQueueChatTable').bootstrapTable('getSelections').length!=1);
+            $('#remove').prop('disabled', ! $('#hqrtqueuechatdetailTable').bootstrapTable('getSelections').length);
+            $('#view,#edit').prop('disabled', $('#hqrtqueuechatdetailTable').bootstrapTable('getSelections').length!=1);
         });
 		  
 		$("#btnImport").click(function(){
@@ -193,8 +186,8 @@ $(document).ready(function() {
 	        var searchParam = $("#searchForm").serializeJSON();
 	        searchParam.pageNo = 1;
 	        searchParam.pageSize = -1;
-            var sortName = $('#hqrtQueueChatTable').bootstrapTable("getOptions", "none").sortName;
-            var sortOrder = $('#hqrtQueueChatTable').bootstrapTable("getOptions", "none").sortOrder;
+            var sortName = $('#hqrtqueuechatdetailTable').bootstrapTable("getOptions", "none").sortName;
+            var sortOrder = $('#hqrtqueuechatdetailTable').bootstrapTable("getOptions", "none").sortOrder;
             var values = "";
             for(var key in searchParam){
                 values = values + key + "=" + searchParam[key] + "&";
@@ -208,14 +201,15 @@ $(document).ready(function() {
 
 		    
 	  $("#search").click("click", function() {// 绑定查询按扭
-		  $('#hqrtQueueChatTable').bootstrapTable('refresh');
+		  $('#hqrtqueuechatdetailTable').bootstrapTable('refresh');
 		});
 	 
 	 $("#reset").click("click", function() {// 绑定查询按扭
+		  $('.easyui-combotree').combotree("clear");
 		  $("#searchForm  input").val("");
 		  $("#searchForm  select").val("");
 		  $("#searchForm  .select-item").html("");
-		  $('#hqrtQueueChatTable').bootstrapTable('refresh');
+		  $('#hqrtqueuechatdetailTable').bootstrapTable('refresh');
 		});
 		$('#starttime').datetimepicker({
 			 format: "YYYY-MM-DD HH:mm:ss"
@@ -227,7 +221,7 @@ $(document).ready(function() {
 	});
 		
   function getIdSelections() {
-        return $.map($("#hqrtQueueChatTable").bootstrapTable('getSelections'), function (row) {
+        return $.map($("#hqrtqueuechatdetailTable").bootstrapTable('getSelections'), function (row) {
             return row.id
         });
     }
@@ -238,7 +232,7 @@ $(document).ready(function() {
 			jp.loading();  	
 			jp.get("${ctx}/hqrt/queuechat/hqrtQueueChat/deleteAll?ids=" + getIdSelections(), function(data){
          	  		if(data.success){
-         	  			$('#hqrtQueueChatTable').bootstrapTable('refresh');
+         	  			$('#hqrtqueuechatdetailTable').bootstrapTable('refresh');
          	  			jp.success(data.msg);
          	  		}else{
          	  			jp.error(data.msg);
@@ -248,7 +242,7 @@ $(document).ready(function() {
 		})
   }
   function refresh(){
-  	$('#hqrtQueueChatTable').bootstrapTable('refresh');
+  	$('#hqrtqueuechatdetailTable').bootstrapTable('refresh');
   }
   function add(){
 		jp.go("${ctx}/hqrt/queuechat/hqrtQueueChat/form/add");

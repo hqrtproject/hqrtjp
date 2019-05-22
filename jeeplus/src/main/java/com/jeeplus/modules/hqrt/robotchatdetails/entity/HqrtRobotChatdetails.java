@@ -44,7 +44,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 	private String faqcreatedatetime;		// 知识创建时间
 	private Integer satisfyno;		// 是否解决了客户的问题(0未评价；1未解决；2已解决)
 	private String satisfydesc;		// 是否解决了客户的问题描述
-	private Date messagedatetime;		// 消息时间
+	private String messagedatetime;		// 消息时间
 	private String originalsessionid;  // 原始SessionID
 	private HqrtRobotChat parent ;
 	
@@ -271,12 +271,11 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.satisfydesc = satisfydesc;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date getMessagedatetime() {
+	public String getMessagedatetime() {
 		return messagedatetime;
 	}
 
-	public void setMessagedatetime(Date messagedatetime) {
+	public void setMessagedatetime(String messagedatetime) {
 		this.messagedatetime = messagedatetime;
 	}
 	

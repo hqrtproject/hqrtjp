@@ -81,7 +81,7 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: true
+		        checkbox: false
 		       
 		    }
 			,{
@@ -212,6 +212,7 @@ $(document).ready(function() {
 		});
 	 
 	 $("#reset").click("click", function() {// 绑定查询按扭
+		  $('.easyui-combotree').combotree("clear");
 		  $("#searchForm  input").val("");
 		  $("#searchForm  select").val("");
 		  $("#searchForm  .select-item").html("");

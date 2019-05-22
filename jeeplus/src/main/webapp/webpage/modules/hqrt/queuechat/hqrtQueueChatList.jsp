@@ -89,52 +89,13 @@
 	
 	<!-- 工具栏 -->
 	<div id="toolbar">
-		<%-- 	<shiro:hasPermission name="hqrt:queuechat:hqrtQueueChat:add">
-				<button id="add" class="btn btn-primary" onclick="add()">
-					<i class="glyphicon glyphicon-plus"></i> 新建
-				</button>
-			</shiro:hasPermission> --%>
-		<%-- 	<shiro:hasPermission name="hqrt:queuechat:hqrtQueueChat:edit">
-			    <button id="edit" class="btn btn-success" disabled onclick="edit()">
-	            	<i class="glyphicon glyphicon-edit"></i> 修改
-	        	</button>
-			</shiro:hasPermission> --%>
-			<%-- <shiro:hasPermission name="hqrt:queuechat:hqrtQueueChat:del">
-				<button id="remove" class="btn btn-danger" disabled onclick="deleteAll()">
-	            	<i class="glyphicon glyphicon-remove"></i> 删除
-	        	</button>
-			</shiro:hasPermission> --%>
-			<%-- <shiro:hasPermission name="hqrt:queuechat:hqrtQueueChat:import">
-				<button id="btnImport" class="btn btn-info"><i class="fa fa-folder-open-o"></i> 导入</button>
-			</shiro:hasPermission> --%>
-			<shiro:hasPermission name="hqrt:queuechat:hqrtQueueChat:export">
-	        		<button id="export" class="btn btn-warning">
-					<i class="fa fa-file-excel-o"></i> 导出
-				</button>
-			  </shiro:hasPermission>
-	          <%--        <shiro:hasPermission name="hqrt:queuechat:hqrtQueueChat:view">
-				<button id="view" class="btn btn-default" disabled onclick="view()">
-					<i class="fa fa-search-plus"></i> 查看
-				</button>
-			</shiro:hasPermission>  --%>
-		    </div>
+       		<button id="export" class="btn btn-warning">
+			<i class="fa fa-file-excel-o"></i> 导出
+		</button>
+    </div>
 		
 	<!-- 表格 -->
 	<table id="hqrtQueueChatTable"   data-toolbar="#toolbar"></table>
-
-    <!-- context menu -->
-    <ul id="context-menu" class="dropdown-menu">
-    	<shiro:hasPermission name="hqrt:queuechat:hqrtQueueChat:view">
-        <li data-item="view"><a>查看</a></li>
-        </shiro:hasPermission>
-    	<shiro:hasPermission name="hqrt:queuechat:hqrtQueueChat:edit">
-        <li data-item="edit"><a>编辑</a></li>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="hqrt:queuechat:hqrtQueueChat:del">
-        <li data-item="delete"><a>删除</a></li>
-        </shiro:hasPermission>
-        <li data-item="action1"><a>取消</a></li>
-    </ul>  
 	</div>
 	</div>
 	</div>

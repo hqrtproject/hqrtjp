@@ -27,7 +27,7 @@
 		 a.faqcreatedatetime AS "faqcreatedatetime",
 	     a.satisfyno AS "satisfyno",
 		 a.satisfydesc AS "satisfydesc",
-	    str_to_date(a.MessageDateTime, '%Y-%m-%d %H:%i:%s')  AS "messagedatetime",
+	     a.MessageDateTime  AS "messagedatetime",
 		 a.originalsessionid AS "originalsessionid"
 	</sql>
 	<!--  <resultMap type="com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails" id="HqrtRobotChatdetailsMapper" autoMapping="true">

@@ -34,8 +34,8 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 	private String agentname;		// 坐席姓名
 	private String agentmobile;		// 坐席手机号码
 	private String agentprovince;		// 坐席所在省
-	private Date startdatetime;		// 会话开始时间
-	private Date enddatetime;		// 会话结束时间
+	private String startdatetime;		// 会话开始时间
+	private String enddatetime;		// 会话结束时间
 	private String timelen;		// 会话持续时长(单位：秒)
 	private String endreasonno;		// 会话结束原因：1客户关闭、2坐席关闭、3系统关闭、4超时结束、5转接其他坐席
 	private String endreason;		// 会话结束原因：1客户关闭、2坐席关闭、3系统关闭、4超时结束、5转接其他坐席
@@ -181,23 +181,21 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.agentprovince = agentprovince;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ExcelField(title="会话开始时间", align=2, sort=13)
-	public Date getStartdatetime() {
+	public String getStartdatetime() {
 		return startdatetime;
 	}
 
-	public void setStartdatetime(Date startdatetime) {
+	public void setStartdatetime(String startdatetime) {
 		this.startdatetime = startdatetime;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ExcelField(title="会话结束时间", align=2, sort=14)
-	public Date getEnddatetime() {
+	public String getEnddatetime() {
 		return enddatetime;
 	}
 
-	public void setEnddatetime(Date enddatetime) {
+	public void setEnddatetime(String enddatetime) {
 		this.enddatetime = enddatetime;
 	}
 	

@@ -16,6 +16,7 @@
 			<value>
 				/static/** = anon
 				/userfiles/** = anon
+				${adminPath}/hqrt/** = anon
 				${adminPath}/sys/user/infoCareStatus = anon
 				${adminPath}/sys/user/validateLoginName = anon
 				${adminPath}/sys/user/validateMobile = anon

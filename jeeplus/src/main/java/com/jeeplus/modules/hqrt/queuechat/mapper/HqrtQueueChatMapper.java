@@ -24,5 +24,5 @@ public interface HqrtQueueChatMapper extends BaseMapper<HqrtQueueChat> {
 	List<HqrtQueueChat> findListByQueueName(HqrtQueueChat hqrtQueueChat);
 	HqrtQueueChatdetail getQueueChatdetail(String id);
 	List<HqrtQueueChatdetail> findDetailList(HqrtQueueChatdetail hqrtQueueChatdetail);
-	Page<HqrtQueueChatdetail> findDetailPage(Page<HqrtQueueChatdetail> page, HqrtQueueChatdetail hqrtQueueChatdetail);
+	
 }

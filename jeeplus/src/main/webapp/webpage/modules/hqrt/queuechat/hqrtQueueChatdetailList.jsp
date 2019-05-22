@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+\<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/webpage/include/taglib.jsp"%>
 <html>
 <head>
@@ -7,7 +7,7 @@
 	<meta name="decorator" content="ani"/>
 	<%@ include file="/webpage/include/bootstraptable.jsp"%>
 	<%@include file="/webpage/include/treeview.jsp" %>
-	<%@include file="hqrtqueuechatdetailList.js" %>
+	<%@include file="hqrtQueueChatdetailList.js" %>
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/icon.css">
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/demo.css">
@@ -49,7 +49,7 @@
 	<!-- 搜索 -->
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
-			<form:form id="searchForm" modelAttribute="hqrtqueuechatdetail" class="form form-horizontal well clearfix">
+			<form:form id="searchForm" modelAttribute="hqrtQueueChatdetail" class="form form-horizontal well clearfix">
 				<div class="col-xs-12 col-sm-6 col-md-6" style="height:34px;">
 				 <div class="form-group">
 					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;<font size="4">进线开始/结束时间：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -72,79 +72,38 @@
 					        </div>
 				</div>
 			</div>
-			  <div class="col-xs-12 col-sm-6 col-md-6">
+			<div class="col-xs-12 col-sm-6 col-md-6">
 				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/queuename.json',method:'get'" style="height:34px;width:60%">
 				<form:hidden path="queuename"/>
 			</div>
-			  <div class="col-xs-12 col-sm-6 col-md-6">
-				<label class="label-item single-overflow pull-left" title="是否成功："><font size="4">是否成功：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/queuename.json',method:'get'" style="height:34px;width:60%">
-				<form:hidden path="queuename"/>
-			</div>
-			  <div class="col-xs-12 col-sm-6 col-md-6">
+			<div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="结束原因"><font size="4">结束原因：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/queuename.json',method:'get'" style="height:34px;width:60%">
-				<form:hidden path="queuename"/>
+				<form:select path="endreasonno" class="form-control" style="width:60%">
+					<option value="">请选择...</option>
+					<form:options items="${fns:getDictList('endreasonqueue')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+				
 			</div>
 		 <div class="">
-			<div style="margin-top:80px">
+			<div style="margin-top:90px">
 			  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
 			  <a  id="reset" class="btn btn-warning"><i class="fa fa-refresh"></i> 重置</a>
 			 </div>
-	    </div>	
+	    </div>
 	</form:form>
 	</div>
 	</div>
 	
 	<!-- 工具栏 -->
 	<div id="toolbar">
-		<%-- 	<shiro:hasPermission name="hqrt:queuechatdetail:hqrtqueuechatdetail:add">
-				<button id="add" class="btn btn-primary" onclick="add()">
-					<i class="glyphicon glyphicon-plus"></i> 新建
-				</button>
-			</shiro:hasPermission> --%>
-		<%-- 	<shiro:hasPermission name="hqrt:queuechatdetail:hqrtqueuechatdetail:edit">
-			    <button id="edit" class="btn btn-success" disabled onclick="edit()">
-	            	<i class="glyphicon glyphicon-edit"></i> 修改
-	        	</button>
-			</shiro:hasPermission> --%>
-			<%-- <shiro:hasPermission name="hqrt:queuechatdetail:hqrtqueuechatdetail:del">
-				<button id="remove" class="btn btn-danger" disabled onclick="deleteAll()">
-	            	<i class="glyphicon glyphicon-remove"></i> 删除
-	        	</button>
-			</shiro:hasPermission> --%>
-			<%-- <shiro:hasPermission name="hqrt:queuechatdetail:hqrtqueuechatdetail:import">
-				<button id="btnImport" class="btn btn-info"><i class="fa fa-folder-open-o"></i> 导入</button>
-			</shiro:hasPermission> --%>
-			<shiro:hasPermission name="hqrt:queuechatdetail:hqrtqueuechatdetail:export">
-	        		<button id="export" class="btn btn-warning">
-					<i class="fa fa-file-excel-o"></i> 导出
-				</button>
-			  </shiro:hasPermission>
-	          <%--        <shiro:hasPermission name="hqrt:queuechatdetail:hqrtqueuechatdetail:view">
-				<button id="view" class="btn btn-default" disabled onclick="view()">
-					<i class="fa fa-search-plus"></i> 查看
-				</button>
-			</shiro:hasPermission>  --%>
-		    </div>
+       	<button id="export" class="btn btn-warning">
+			<i class="fa fa-file-excel-o"></i> 导出
+		</button>
+    </div>
 		
 	<!-- 表格 -->
 	<table id="hqrtqueuechatdetailTable"   data-toolbar="#toolbar"></table>
-
-    <!-- context menu -->
-    <ul id="context-menu" class="dropdown-menu">
-    	<shiro:hasPermission name="hqrt:queuechatdetail:hqrtqueuechatdetail:view">
-        <li data-item="view"><a>查看</a></li>
-        </shiro:hasPermission>
-    	<shiro:hasPermission name="hqrt:queuechatdetail:hqrtqueuechatdetail:edit">
-        <li data-item="edit"><a>编辑</a></li>
-        </shiro:hasPermission>
-        <shiro:hasPermission name="hqrt:queuechatdetail:hqrtqueuechatdetail:del">
-        <li data-item="delete"><a>删除</a></li>
-        </shiro:hasPermission>
-        <li data-item="action1"><a>取消</a></li>
-    </ul>  
 	</div>
 	</div>
 	</div>

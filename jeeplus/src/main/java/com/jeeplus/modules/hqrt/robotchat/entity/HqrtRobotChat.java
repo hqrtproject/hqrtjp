@@ -27,7 +27,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 	private String customermobile;		// 客户手机号码
 	private String customerprovince;		// 客户所在省
 	private List<String> customerprovinceList;		// 选中客户所在省（可能是多个）
-	private Date startdatetime;		// 会话开始时间
+	private String startdatetime;		// 会话开始时间
 	private String enddatetime;		// 会话结束时间
 	private Integer timelen;		// 会话持续时长(单位：秒)
 	private Integer endreasonno;		// 会话结束原因：1转人工、2客户关闭、3超时结束
@@ -123,12 +123,11 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.customerprovinceList = customerprovinceList;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date getStartdatetime() {
+	public String getStartdatetime() {
 		return startdatetime;
 	}
 
-	public void setStartdatetime(Date startdatetime) {
+	public void setStartdatetime(String startdatetime) {
 		this.startdatetime = startdatetime;
 	}
 	
