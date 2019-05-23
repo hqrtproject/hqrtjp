@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.agentdnd.mapper.HqrtAgentDndMapper">
+    
+	<sql id="hqrtAgentDndColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.agentid AS "agentid",
+		a.agentname AS "agentname",
+		a.agentmobile AS "agentmobile",
+		a.agentprovince AS "agentprovince",
+		a.startdatetime AS "startdatetime",
+		a.enddatetime AS "enddatetime",
+		a.timelen AS "timelen",
+		a.dndvalue AS "dndvalue",
+		a.dndvaluedesc AS "dndvaluedesc"
+	</sql>
+	
+	<sql id="hqrtAgentDndJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtAgentDnd" >
+		SELECT 
+			<include refid="hqrtAgentDndColumns"/>
+		FROM hqrt_agent_dnd a
+		<include refid="hqrtAgentDndJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtAgentDnd" >
+		SELECT 
+			<include refid="hqrtAgentDndColumns"/>
+		FROM hqrt_agent_dnd a
+		<include refid="hqrtAgentDndJoins"/>
+		<where>
+			
+			${dataScope}
+			<if test="agentid != null and agentid != ''">
+				AND a.agentid = #{agentid}
+			</if>
+			<if test="agentname != null and agentname != ''">
+				AND a.agentname = #{agentname}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtAgentDnd" >
+		SELECT 
+			<include refid="hqrtAgentDndColumns"/>
+		FROM hqrt_agent_dnd a
+		<include refid="hqrtAgentDndJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_agent_dnd(
+			rowguid,
+			rowdatetime,
+			agentid,
+			agentname,
+			agentmobile,
+			agentprovince,
+			startdatetime,
+			enddatetime,
+			timelen,
+			dndvalue,
+			dndvaluedesc
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{agentid},
+			#{agentname},
+			#{agentmobile},
+			#{agentprovince},
+			#{startdatetime},
+			#{enddatetime},
+			#{timelen},
+			#{dndvalue},
+			#{dndvaluedesc}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_agent_dnd SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			agentid = #{agentid},
+			agentname = #{agentname},
+			agentmobile = #{agentmobile},
+			agentprovince = #{agentprovince},
+			startdatetime = #{startdatetime},
+			enddatetime = #{enddatetime},
+			timelen = #{timelen},
+			dndvalue = #{dndvalue},
+			dndvaluedesc = #{dndvaluedesc}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_agent_dnd
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_agent_dnd SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtAgentDnd" statementType="STATEMENT">
+		select * FROM hqrt_agent_dnd  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>

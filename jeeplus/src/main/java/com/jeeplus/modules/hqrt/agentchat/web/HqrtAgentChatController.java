@@ -59,6 +59,15 @@ public class HqrtAgentChatController extends BaseController {
 	}
 	
 	/**
+	 * 客户与坐席会话列表页面
+	 */
+	@RequestMapping(value = "evaluatelist")
+	public String evaluatelist(HqrtAgentChat hqrtAgentChat, Model model) {
+		model.addAttribute("hqrtAgentChat", hqrtAgentChat);
+		return "modules/hqrt/agentchat/hqrtAgentChatEvaluateList";
+	}
+	
+	/**
 	 * 客户与坐席会话列表数据
 	 */
 	@ResponseBody
