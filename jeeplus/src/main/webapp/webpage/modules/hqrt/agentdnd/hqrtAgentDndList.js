@@ -105,13 +105,13 @@ $(document).ready(function() {
 		        sortName: 'agentname'
 		       
 		    }
-			,{
+			/*,{
 		        field: 'dndvaluedesc',
 		        title: '坐席状态',
 		        sortable: true,
 		        sortName: 'dndvaluedesc'
 		       
-		    }
+		    }*/
 			,{
 		        field: 'startdatetime',
 		        title: '开始时间',

@@ -312,13 +312,6 @@ $(document).ready(function() {
 		  $("#searchForm  .select-item").html("");
 		  $('#hqrtAgentChatTable').bootstrapTable('refresh');
 		});
-
-		$('#starttime').datetimepicker({
-			 format: "YYYY-MM-DD HH:mm:ss"
-		});
-		$('#endttime').datetimepicker({
-			 format: "YYYY-MM-DD HH:mm:ss"
-		});
 		
 	});
 		
