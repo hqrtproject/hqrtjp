@@ -58,7 +58,7 @@
 							<div class="col-xs-12 col-sm-6 col-md-4" style="height: 34px;">
 								<div class="form-group">
 									<label class="label-item single-overflow pull-left"
-										title="请假开始/结束日期：">&nbsp;<font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;
+										title="请假开始：">&nbsp;<font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;
 									</label>
 									<div class="col-xs-12 col-sm-4">
 										<div class='input-group date' id='starttime'

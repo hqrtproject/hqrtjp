@@ -144,23 +144,23 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtAgentChat" class="form form-horizontal well clearfix">
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="height:34px;">
+			 <div class="col-xs-12 col-sm-6 col-md-5" style="height:34px;">
 				 <div class="form-group">
 					<div class="col-xs-12">
-						<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;<font size="4">进线开始/结束时间：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<label class="label-item single-overflow pull-left" title="请假开始："><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
 					        	  <div class='input-group date' id='starttime' style="left: -10px;" >
-					                   <input type='text'  name="starttime" class="form-control"  />
-					                   <span class="input-group-addon">
+					                   <input type='text'  name="starttime" class="form-control" style="border-radius: 6px;" />
+					                   <span class="input-group-addon" style="border-radius: 6px;">
 					                       <span class="glyphicon glyphicon-calendar"></span>
 					                   </span>
 					             </div>	
 					        </div>
-					        <div class="col-xs-12 col-sm-1" style="width:45px;">~</div>
+					        <div class="col-xs-12 col-sm-1" style="width:40px;">~</div>
 					        <div class="col-xs-12 col-sm-4">
 					          	<div class='input-group date' id='endttime' style="left: -10px;" >
-					                   <input type='text'  name="endttime" class="form-control" />
-					                   <span class="input-group-addon">
+					                   <input type='text'  name="endttime" class="form-control" style="border-radius: 6px;"/>
+					                   <span class="input-group-addon" style="border-radius: 6px;">
 					                       <span class="glyphicon glyphicon-calendar"></span>
 					                   </span>
 					           	</div>
@@ -170,44 +170,44 @@
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-6">
 				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/queuename.json',method:'get'" style="height:34px;width:80%">
+				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:60%">
 				<form:hidden path="queuename"/>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
-				<label class="label-item single-overflow pull-left" title="省份："><font size="4">省份：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:80%">
+			 <div class="col-xs-12 col-sm-6 col-md-5" style="margin-top:10px">
+				<label class="label-item single-overflow pull-left" title="用户省份："><font size="4">用户省份：</font>&nbsp;&nbsp;&nbsp;</label>
+				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:70%">
 				<form:hidden path="customerprovince"/>
 			 </div>
 			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
-				<label class="label-item single-overflow pull-left" title="坐席工号（坐席名）："><font size="4">坐席工号（坐席名）：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="agentID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height:34px;width:70%">
+				<label class="label-item single-overflow pull-left" title="坐席工号："><font size="4">坐席工号：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<input id="agentID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height:34px;width:60%">
 				<form:hidden path="agentname"/>
 			 </div>
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
-				<label class="label-item single-overflow pull-left" title="用户工号（用户名）："><font size="4">用户工号（用户名）：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:input path="customername" htmlEscape="false" maxlength="50"  class=" form-control" style="height:34px;width:70%"/>
+			 <div class="col-xs-12 col-sm-6 col-md-2" style="margin-top:10px">
+				<label class="label-item single-overflow pull-left" title="用户姓名："><font size="4">用户姓名：</font>&nbsp;&nbsp;&nbsp;</label>
+				<form:input path="customername" htmlEscape="false" maxlength="50"  class=" form-control" style="width:65%;border-radius: 6px;"/>
 			 </div>
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
-				<label class="label-item single-overflow pull-left" title="会话ID："><font size="4">会话ID：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:input path="sessionid" htmlEscape="false" maxlength="50"  class=" form-control" style="height:34px;width:80%"/>
+			 <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top:10px">
+				<label class="label-item single-overflow pull-left" title="会话ID："><font size="4">会话&nbsp;I&nbsp;D：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<form:input path="sessionid" htmlEscape="false" maxlength="50"  class=" form-control" style="width:48.5%;border-radius: 6px;"/>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
-				<label class="label-item single-overflow pull-left" title="聊天内容："><font size="4">聊天内容：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:input path="hqrtAgentChatdetails.messagecontext" htmlEscape="false" maxlength="20"  class=" form-control" style="height:34px;width:80%"/>
+			<div class="col-xs-12 col-sm-6 col-md-2" style="margin-top:10px">
+				<label class="label-item single-overflow pull-left" title="结束原因："><font size="4">结束原因：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<form:select path="endreasonno" class="form-control" style="width:65%;border-radius: 6px;">
+					<option value="">请选择...</option>
+					<form:options items="${fns:getDictList('endreason')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
+			 <div class="col-xs-12 col-sm-6 col-md-3" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="评价星级："><font size="4">评价星级：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:select path="evaluatestar" class="form-control" style="width:60%">
+				<form:select path="evaluatestar" class="form-control" style="width:45%;border-radius: 6px;">
 					<option value="">请选择...</option>
 					<form:options items="${fns:getDictList('evaluatestar')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
-				<label class="label-item single-overflow pull-left" title="结束原因："><font size="4">结束原因：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:select path="endreasonno" class="form-control" style="width:60%">
-					<option value="">请选择...</option>
-					<form:options items="${fns:getDictList('endreason')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
+			<div class="col-xs-12 col-sm-6 col-md-5" style="margin-top:10px">
+				<label class="label-item single-overflow pull-left" title="聊天内容："><font size="4">聊天内容：</font>&nbsp;&nbsp;&nbsp;</label>
+				<form:input path="hqrtAgentChatdetails.messagecontext" htmlEscape="false" maxlength="20"  class=" form-control" style="width:70%;border-radius: 6px;"/>
 			</div>
 		 <div class="">
 			<div style="margin-top:220px">
@@ -220,7 +220,7 @@
 	</div>
 	
 	<!-- 工具栏 -->
-	<div id="toolbar">
+	<div id="toolbar" style="margin-left:31px">
        		<button id="export" class="btn btn-warning">
 			<i class="fa fa-file-excel-o"></i> 导出
 		</button>

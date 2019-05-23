@@ -96,7 +96,7 @@
 			<div class="col-xs-12 col-sm-6 col-md-4" style="height:34px;">
 				 <div class="form-group">
 					<div class="col-xs-12">
-						<label class="label-item single-overflow pull-left" title="请假开始/结束日期："><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<label class="label-item single-overflow pull-left" title="请假开始："><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
 					        	  <div class='input-group date' id='starttime' style="left: -10px;" >
 					                   <input type='text'  name="starttime" class="form-control" style="border-radius: 6px;width: 192px" />
@@ -122,9 +122,9 @@
 				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:60%">
 				<form:hidden path="queuename"/>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
+			 <div class="col-xs-12 col-sm-6 col-md-4" style="margin-top:10px">
 				<label class="label-item single-overflow pull-left" title="用户省份："><font size="4">用户省份：</font>&nbsp;&nbsp;&nbsp;</label>
-				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:479px">
+				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:72%">
 				<form:hidden path="customerprovince"/>
 			</div>
 			<div class="">
