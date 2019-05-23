@@ -227,7 +227,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.faqtitle = faqtitle;
 	}
 	
-	
+	@ExcelField(title="知识创建人", align=2, sort=13)
 	public String getFaqcreaterid() {
 		return faqcreaterid;
 	}
@@ -236,7 +236,6 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.faqcreaterid = faqcreaterid;
 	}
 	
-	@ExcelField(title="知识创建人", align=2, sort=13)
 	public String getFaqcreatername() {
 		return faqcreatername;
 	}

@@ -50,22 +50,22 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtQueueChatdetail" class="form form-horizontal well clearfix">
-				<div class="col-xs-12 col-sm-6 col-md-6" style="height:34px;">
-				 <div class="form-group">
-					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;<font size="4">进线开始/结束时间：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<div class="col-xs-12 col-sm-6 col-md-4" style="height:34px;">
+				 <div class="form-group" >
+					<label class="label-item single-overflow pull-left" title="请假开始：">&nbsp;<font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
 					        	  <div class='input-group date' id='starttime' style="left: -10px;" >
-					                   <input type='text'  name="starttime" class="form-control"  />
-					                   <span class="input-group-addon">
+					                   <input type='text'  name="starttime" class="form-control" style="border-radius: 6px;width: 192px"/>
+					                   <span class="input-group-addon"style="border-radius: 6px;">
 					                       <span class="glyphicon glyphicon-calendar"></span>
 					                   </span>
 					             </div>	
 					        </div>
-						 <div class="col-xs-12 col-sm-1" style="width:45px;">~</div>
+						 <div class="col-xs-12 col-sm-1" style="width:23px;">~</div>
 					        <div class="col-xs-12 col-sm-4">
 					          	<div class='input-group date' id='endttime' style="left: -10px;" >
-					                   <input type='text'  name="endttime" class="form-control" />
-					                   <span class="input-group-addon">
+					                   <input type='text'  name="endttime" class="form-control"  style="border-radius: 6px;width: 192px"/>
+					                   <span class="input-group-addon" style="border-radius: 6px;">
 					                       <span class="glyphicon glyphicon-calendar"></span>
 					                   </span>
 					           	</div>	
@@ -74,12 +74,12 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:80%">
+				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:60%">
 				<form:hidden path="queuename"/>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6" style="margin-top:10px">
-				<label class="label-item single-overflow pull-left" title="结束原因"><font size="4">结束原因：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<form:select path="endreasonno" class="form-control" style="width:60%">
+			<div class="col-xs-12 col-sm-6 col-md-4" style="margin-top:10px;margin-right: 28px">
+				<label class="label-item single-overflow pull-left" title="结束原因"><font size="4">结束原因：</font>&nbsp;&nbsp;&nbsp;</label>
+				<form:select path="endreasonno" class="form-control" style="width:234px;border-radius: 6px">
 					<option value="">请选择...</option>
 					<form:options items="${fns:getDictList('endreasonqueue')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
@@ -96,7 +96,7 @@
 	</div>
 	
 	<!-- 工具栏 -->
-	<div id="toolbar">
+	<div id="toolbar"style="margin-left:31px">
        	<button id="export" class="btn btn-warning">
 			<i class="fa fa-file-excel-o"></i> 导出
 		</button>

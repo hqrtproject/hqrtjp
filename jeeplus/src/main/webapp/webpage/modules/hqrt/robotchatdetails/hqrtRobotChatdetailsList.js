@@ -81,7 +81,7 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: true
+		        checkbox: false
 		       
 		    }
 			,
@@ -170,10 +170,10 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'faqcreatername',
+		        field: 'faqcreaterid',
 		        title: '知识创建人',
 		        sortable: false,
-		        sortName: 'faqcreatername'
+		        sortName: 'faqcreaterid'
 		       
 		    }
 			,{

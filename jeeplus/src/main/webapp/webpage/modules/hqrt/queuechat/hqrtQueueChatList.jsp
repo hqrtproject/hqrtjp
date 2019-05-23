@@ -50,22 +50,22 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtQueueChat" class="form form-horizontal well clearfix">
-				<div class="col-xs-12 col-sm-6 col-md-6" style="height:34px;">
+				<div class="col-xs-12 col-sm-6 col-md-4" style="height:34px;">
 				 <div class="form-group">
-					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;<font size="4">进线开始/结束时间：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+					<label class="label-item single-overflow pull-left" title="请假开始/结束日期：">&nbsp;<font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
 					        	  <div class='input-group date' id='starttime' style="left: -10px;" >
-					                   <input type='text'  name="starttime" class="form-control"  />
-					                   <span class="input-group-addon">
+					                   <input type='text'  name="starttime" class="form-control" style="border-radius: 6px;width: 192px" />
+					                   <span class="input-group-addon" style="border-radius: 6px;">
 					                       <span class="glyphicon glyphicon-calendar"></span>
 					                   </span>
 					             </div>	
 					        </div>
-						 <div class="col-xs-12 col-sm-1" style="width:45px;">~</div>
+						 <div class="col-xs-12 col-sm-1" style="width:23px;">~</div>
 					        <div class="col-xs-12 col-sm-4">
 					          	<div class='input-group date' id='endttime' style="left: -10px;" >
-					                   <input type='text'  name="endttime" class="form-control" />
-					                   <span class="input-group-addon">
+					                   <input type='text'  name="endttime" class="form-control" style="border-radius: 6px;width: 192px" />
+					                   <span class="input-group-addon" style="border-radius: 6px;">
 					                       <span class="glyphicon glyphicon-calendar"></span>
 					                   </span>
 					           	</div>	
@@ -74,11 +74,11 @@
 			</div>
 			  <div class="col-xs-12 col-sm-6 col-md-6">
 				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:80%">
+				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:60%">
 				<form:hidden path="queuename"/>
 			</div>
 		 <div class="">
-			<div style="margin-top:80px">
+			<div style="margin-top:50px">
 			  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
 			  <a  id="reset" class="btn btn-warning"><i class="fa fa-refresh"></i> 重置</a>
 			 </div>
@@ -89,7 +89,7 @@
 	
 	<!-- 工具栏 -->
 	<div id="toolbar">
-       		<button id="export" class="btn btn-warning">
+       		<button id="export" class="btn btn-warning" style="margin-left:31px" >
 			<i class="fa fa-file-excel-o"></i> 导出
 		</button>
     </div>
