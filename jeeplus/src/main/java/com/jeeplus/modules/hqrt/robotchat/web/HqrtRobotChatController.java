@@ -6,7 +6,6 @@ package com.jeeplus.modules.hqrt.robotchat.web;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

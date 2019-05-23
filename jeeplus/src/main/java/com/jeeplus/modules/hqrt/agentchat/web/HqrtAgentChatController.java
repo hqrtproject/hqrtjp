@@ -5,14 +5,12 @@ package com.jeeplus.modules.hqrt.agentchat.web;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +24,8 @@ import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentchat.entity.HqrtAgentChat;
-import com.jeeplus.modules.hqrt.agentchat.service.HqrtAgentChatService;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetailsForExport;
-import com.jeeplus.modules.hqrt.agentchatdetails.service.HqrtAgentChatdetailsService;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -40,12 +36,6 @@ import com.jeeplus.modules.tools.utils.MultiDBUtils;
 @Controller
 @RequestMapping(value = "${adminPath}/hqrt/agentchat/hqrtAgentChat")
 public class HqrtAgentChatController extends BaseController {
-
-	@Autowired
-	private HqrtAgentChatService hqrtAgentChatService;
-	
-	@Autowired
-	private HqrtAgentChatdetailsService hqrtAgentChatdetailsService;
 	
 	/*@ModelAttribute
 	public HqrtAgentChat get(@RequestParam(required=false) String id) {
@@ -139,7 +129,15 @@ public class HqrtAgentChatController extends BaseController {
 	 */
 	@RequestMapping(value = "form/{mode}")
 	public String form(@PathVariable String mode, HqrtAgentChat hqrtAgentChat, Model model) {
-		model.addAttribute("hqrtAgentChat", hqrtAgentChat);
+		String sql = "select a.messagecontext AS 'messagecontext',a.messagesender AS 'messagesender',a.messagedateTime AS 'messagedateTime' FROM hqrt_agent_chatdetails a where a.sessionid = ?";
+        List<Object> paramList = new ArrayList<Object>();
+        if (StringUtils.isNotBlank(hqrtAgentChat.getSessionid())) {
+        	paramList.add(hqrtAgentChat.getSessionid());
+        }
+        sql = sql + " ORDER BY a.messagedatetime";
+        MultiDBUtils md = MultiDBUtils.get("company");
+        List<HqrtAgentChatdetails> detailsList = md.queryList(sql, HqrtAgentChatdetails.class, paramList.toArray());
+		model.addAttribute("detailsList", detailsList);
 		model.addAttribute("mode", mode);
 		return "modules/hqrt/agentchat/hqrtAgentChatForm";
 	}
@@ -203,23 +201,11 @@ public class HqrtAgentChatController extends BaseController {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
             	sqlcondition  = " where" + sqlcondition;
             }
-            String selectcountsql = sql + sqlcondition + " GROUP BY a.sessionid";
-            sql += sqlcondition + " GROUP BY a.sessionid" + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+            sql += sqlcondition + " GROUP BY a.sessionid";
             MultiDBUtils md = MultiDBUtils.get("company");
             List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
-            List<HqrtAgentChat> allDetailslList = md.queryList(selectcountsql, HqrtAgentChat.class, paramList.toArray());
-    		page.setList(detailsList);
-    		page.setCount(allDetailslList.size());
-    		
-    		
-    		if (StringUtils.isNotBlank(hqrtAgentChat.getCustomerprovince())) {
-    			hqrtAgentChat.setCustomerprovinceList(Arrays.asList(hqrtAgentChat.getCustomerprovince().split(",")));
-            }
-            if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
-            	hqrtAgentChat.setQueuenameList(Arrays.asList(hqrtAgentChat.getQueuename().split(",")));
-            }
-            // Page<HqrtAgentChat> page = hqrtAgentChatService.findPage(new Page<HqrtAgentChat>(request, response, -1), hqrtAgentChat);
-    		new ExportExcel("客户与坐席会话", HqrtAgentChat.class).setDataList(page.getList()).write(response, fileName).dispose();
+	            // Page<HqrtAgentChat> page = hqrtAgentChatService.findPage(new Page<HqrtAgentChat>(request, response, -1), hqrtAgentChat);
+    		new ExportExcel("客户与坐席会话", HqrtAgentChat.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;
@@ -241,7 +227,7 @@ public class HqrtAgentChatController extends BaseController {
 		hqrtAgentChatdetails.setSessionid(hqrtAgentChat.getSessionid());
 		try {
 			String fileName = "客户与坐席会话明细"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-			String sql = "select a.customername AS 'customername',a.agentname AS 'agentname',a.messagecontext AS 'messagecontext',a.messagesender AS 'messagesender',a.messagedatetime AS 'messagedatetime'";
+			String sql = "select a.customername AS 'customername',a.agentname AS 'agentname',a.messagecontext AS 'messagecontext',a.messagesender AS 'messagesender',a.messagedatetime AS 'messagedatetime' FROM hqrt_agent_chatdetails a";
             String sqlcondition = "";
             List<Object> paramList = new ArrayList<Object>();
             if (StringUtils.isNotBlank(hqrtAgentChatdetails.getSessionid())) {
