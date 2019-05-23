@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.queueconfig.mapper.HqrtQueueConfigMapper">
+    
+	<sql id="hqrtQueueConfigColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.queueid AS "queueid",
+		a.queuecode AS "queuecode",
+		a.queuename AS "queuename"
+	</sql>
+	
+	<sql id="hqrtQueueConfigJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtQueueConfig" >
+		SELECT 
+			<include refid="hqrtQueueConfigColumns"/>
+		FROM hqrt_queue_config a
+		<include refid="hqrtQueueConfigJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtQueueConfig" >
+		SELECT 
+			<include refid="hqrtQueueConfigColumns"/>
+		FROM hqrt_queue_config a
+		<include refid="hqrtQueueConfigJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtQueueConfig" >
+		SELECT 
+			<include refid="hqrtQueueConfigColumns"/>
+		FROM hqrt_queue_config a
+		<include refid="hqrtQueueConfigJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_queue_config(
+			rowguid,
+			rowdatetime,
+			queueid,
+			queuecode,
+			queuename
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{queueid},
+			#{queuecode},
+			#{queuename}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_queue_config SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			queueid = #{queueid},
+			queuecode = #{queuecode},
+			queuename = #{queuename}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_queue_config
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_queue_config SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtQueueConfig" statementType="STATEMENT">
+		select * FROM hqrt_queue_config  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>

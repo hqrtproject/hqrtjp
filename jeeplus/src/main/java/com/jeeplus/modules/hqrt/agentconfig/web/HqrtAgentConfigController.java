@@ -25,6 +25,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentconfig.entity.HqrtAgentConfig;
 import com.jeeplus.modules.hqrt.agentconfig.service.HqrtAgentConfigService;
+import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
  * 坐席配置Controller
@@ -75,14 +76,17 @@ public class HqrtAgentConfigController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "combotreedata")
 	public List<Map<String, Object>> combotreedata(HqrtAgentConfig hqrtAgentConfig, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<HqrtAgentConfig> page = hqrtAgentConfigService.findPage(new Page<HqrtAgentConfig>(request, response), hqrtAgentConfig); 
+		
+		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename' FROM hqrt_agent_config a";
+		MultiDBUtils md = MultiDBUtils.get("company");
+		List<HqrtAgentConfig> queryList = md.queryList(sql, HqrtAgentConfig.class);
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		int id = 1;
-		while(page.getList().size() > 0) {
+		while(queryList.size() > 0) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			List<Map<String, Object>> mapListChild = new ArrayList<Map<String, Object>>();
 			int idChildBase = 1;
-			Iterator<HqrtAgentConfig> it = page.getList().iterator();
+			Iterator<HqrtAgentConfig> it = queryList.iterator();
 			while(it.hasNext()){
 				HqrtAgentConfig config = it.next();
 				Map<String, Object> mapChild = new HashMap<String, Object>();

@@ -124,7 +124,7 @@ public class HqrtAgentChatController extends BaseController {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
         	sqlcondition  = " where" + sqlcondition;
         }
-        String selectcountsql = sql + sqlcondition;
+        String selectcountsql = sql + sqlcondition + " GROUP BY a.sessionid";
         sql += sqlcondition + " GROUP BY a.sessionid" + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
@@ -153,13 +153,72 @@ public class HqrtAgentChatController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "客户与坐席会话"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+            Page<HqrtAgentChat> page = new Page<>(request, response);
+            hqrtAgentChat.setPage(page);
+    		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.talkindex AS 'talkindex',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',a.isvalid AS 'isvalid',a.firstresponsetimelen AS 'firstresponsetimelen',a.avgresponsetimelen AS 'avgresponsetimelen',a.customermessagecount AS 'customermessagecount',a.agentmessagecount AS 'agentmessagecount',a.evaluatestar AS 'evaluatestar',a.evaluatetext AS 'evaluatetext',a.originalsessionid AS 'originalsessionid' FROM hqrt_agent_chat a LEFT JOIN hqrt_agent_chatdetails b ON a.sessionid = b.sessionid";
+            String sqlcondition = "";
+            List<Object> paramList = new ArrayList<Object>();
+    		if (StringUtils.isNotBlank(hqrtAgentChat.getCustomerprovince())) {
+            	// List<String> customerprovinceList = Arrays.asList(hqrtAgentChat.getCustomerprovince().split(","));
+            	sqlcondition += " AND a.customerprovince in ('" + hqrtAgentChat.getCustomerprovince().replace(",", "','") + "')";
+            	// paramList.add(customerprovinceList);
+            }
+            if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
+            	// List<String> queuenameList = Arrays.asList(hqrtAgentChat.getQueuename().split(","));
+            	sqlcondition += " AND a.queuename in ('" + hqrtAgentChat.getQueuename().replace(",", "','") + "')";
+            	// paramList.add(queuenameList);
+            }
+            if (StringUtils.isNotBlank(hqrtAgentChat.getAgentname())) {
+            	// List<String> agentnameList = Arrays.asList(hqrtAgentChat.getAgentname().split(","));
+            	sqlcondition += " AND a.agentname in ('" + hqrtAgentChat.getAgentname().replace(",", "','") + "')";
+            	// paramList.add(agentnameList);
+            }
+            if (hqrtAgentChat.getStarttime() != null && hqrtAgentChat.getEndttime() != null) {
+            	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+            	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	paramList.add(ft.format(hqrtAgentChat.getStarttime()));
+            	paramList.add(ft.format(hqrtAgentChat.getEndttime()));
+            }
+            if (StringUtils.isNotBlank(hqrtAgentChat.getCustomername())) {
+            	sqlcondition += " AND a.customername = ?";
+            	paramList.add(hqrtAgentChat.getCustomername());
+            }
+            if (StringUtils.isNotBlank(hqrtAgentChat.getSessionid())) {
+            	sqlcondition += " AND a.sessionid = ?";
+            	paramList.add(hqrtAgentChat.getSessionid());
+            }
+            if (StringUtils.isNotBlank(hqrtAgentChat.getEvaluatestar())) {
+            	sqlcondition += " AND a.evaluatestar = ?";
+            	paramList.add(hqrtAgentChat.getEvaluatestar());
+            }
+            if (StringUtils.isNotBlank(hqrtAgentChat.getEndreasonno())) {
+            	sqlcondition += " AND a.endreasonno = ?";
+            	paramList.add(hqrtAgentChat.getEndreasonno());
+            }
+            if (hqrtAgentChat.getHqrtAgentChatdetails() != null && StringUtils.isNotBlank(hqrtAgentChat.getHqrtAgentChatdetails().getMessagecontext())) {
+            	sqlcondition += " AND b.messagecontext like ?";
+            	paramList.add("%" + hqrtAgentChat.getHqrtAgentChatdetails().getMessagecontext() + "%");
+            }
+            if (StringUtils.isNotBlank(sqlcondition)) {
+            	sqlcondition = sqlcondition.replaceFirst(" AND", "");
+            	sqlcondition  = " where" + sqlcondition;
+            }
+            String selectcountsql = sql + sqlcondition + " GROUP BY a.sessionid";
+            sql += sqlcondition + " GROUP BY a.sessionid" + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+            MultiDBUtils md = MultiDBUtils.get("company");
+            List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
+            List<HqrtAgentChat> allDetailslList = md.queryList(selectcountsql, HqrtAgentChat.class, paramList.toArray());
+    		page.setList(detailsList);
+    		page.setCount(allDetailslList.size());
+    		
+    		
     		if (StringUtils.isNotBlank(hqrtAgentChat.getCustomerprovince())) {
     			hqrtAgentChat.setCustomerprovinceList(Arrays.asList(hqrtAgentChat.getCustomerprovince().split(",")));
             }
             if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
             	hqrtAgentChat.setQueuenameList(Arrays.asList(hqrtAgentChat.getQueuename().split(",")));
             }
-            Page<HqrtAgentChat> page = hqrtAgentChatService.findPage(new Page<HqrtAgentChat>(request, response, -1), hqrtAgentChat);
+            // Page<HqrtAgentChat> page = hqrtAgentChatService.findPage(new Page<HqrtAgentChat>(request, response, -1), hqrtAgentChat);
     		new ExportExcel("客户与坐席会话", HqrtAgentChat.class).setDataList(page.getList()).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
@@ -193,7 +252,7 @@ public class HqrtAgentChatController extends BaseController {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
             	sqlcondition  = " where" + sqlcondition;
             }
-            sql += sqlcondition + " GROUP BY a.messagedatetime";
+            sql += sqlcondition + " ORDER BY a.messagedatetime";
             MultiDBUtils md = MultiDBUtils.get("company");
             List<HqrtAgentChatdetailsForExport> detailsList = md.queryList(sql, HqrtAgentChatdetailsForExport.class, paramList.toArray());
 			for (HqrtAgentChatdetailsForExport hqrtAgentChatdetailsForExport : detailsList) {
