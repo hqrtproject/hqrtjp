@@ -119,7 +119,7 @@
 							</div>
 							<div class="">
 								<div
-									style="margin-top: 50px; width: 150px; height: 34px; float: right">
+									style="margin-top: 40px; width: 150px; height: 34px; float: right">
 									<a id="search" class="btn btn-warning"><i
 										class="fa fa-search"></i> 查询</a>
 									<button id="export" class="btn btn-warning">
