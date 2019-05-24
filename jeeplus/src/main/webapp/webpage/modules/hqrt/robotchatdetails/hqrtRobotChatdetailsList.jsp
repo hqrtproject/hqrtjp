@@ -58,8 +58,7 @@
 					<div class="accordion-inner">
 						<form:form id="searchForm" modelAttribute="hqrtRobotChatdetails"
 							class="form form-horizontal well clearfix">
-							<div class="col-xs-12 col-sm-6 col-md-5"
-								style="height: 34px; width: 500px">
+							<div class="col-xs-12 col-sm-6 col-md-5" style="height: 44px; width: 500px">
 								<div class="form-group">
 									<div class="col-xs-12">
 										<label class="label-item single-overflow pull-left"
@@ -83,35 +82,31 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-xs-12 col-sm-6 col-md-6" style="width: 500px">
+							<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
 								<label class="label-item single-overflow pull-left"
-									title="业务系统：" style="margin-top: 4px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;</label>
+									title="业务系统：" style="margin-top: 4px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 								<input id="queuenameID" class="easyui-combotree"
 									data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'"
-									style="height: 34px; width: 360px">
+									style="height: 34px; width: 337px">
 								<form:hidden path="queuename" />
 							</div>
 							<div class="col-xs-12 col-sm-6 col-md-5"
-								style="margin-top: 10px; width: 500px">
-								<label class="label-item single-overflow pull-left" title="用户名" style="margin-top: 4px"><font
-									size="4">用户姓名：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+								style="height: 44px; width: 500px">
+								<label class="label-item single-overflow pull-left" title="用户名" style="margin-top: 4px"><font size="4">用户姓名：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 								<form:input path="customername" htmlEscape="false"
 									maxlength="50" class=" form-control"
-									style="width:69.5%;border-radius: 6px;" />
+									style="width:340px;border-radius: 6px;" />
 							</div>
-							<div class="col-xs-12 col-sm-6 col-md-2"
-								style="margin-top: 10px; width: 250px">
+							<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px; width: 500px">
 								<label class="label-item single-overflow pull-left"
-									title="会话ID：" style="margin-top: 4px"><font size="4">会话&nbsp;I&nbsp;D&nbsp;：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+									title="会话ID：" style="margin-top: 4px"><font size="4">会话&nbsp;I&nbsp;D&nbsp;：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 								<form:input path="sessionid" htmlEscape="false" maxlength="50"
-									class=" form-control" style="width:52%;border-radius: 6px;" />
+									class=" form-control" style="width:340px;border-radius: 6px;" />
 							</div>
-							<div class="col-xs-12 col-sm-6 col-md-3"
-								style="margin-top: 10px;">
+							<div class="col-xs-12 col-sm-6 col-md-5" style="height: 44px; width: 500px">
 								<label class="label-item single-overflow pull-left"
-									title="解决状态：" style="margin-top: 4px"><font size="4">解决状态：</font>&nbsp;</label>
-								<form:select path="satisfydesc" class="form-control"
-									style="width:47%;border-radius: 6px;">
+									title="解决状态：" style="margin-top: 4px"><font size="4">解决状态：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+								<form:select path="satisfydesc" class="form-control" style="width:340px;border-radius: 6px;">
 									<option value="">请选择...</option>
 									<form:options items="${fns:getDictList('satisfy_desc')}"
 										itemLabel="label" itemValue="value" htmlEscape="false" />
