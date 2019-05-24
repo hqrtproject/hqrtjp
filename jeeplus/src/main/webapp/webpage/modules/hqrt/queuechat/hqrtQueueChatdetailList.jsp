@@ -51,7 +51,7 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtQueueChatdetail" class="form form-horizontal well clearfix">
-					 <div class="col-xs-12 col-sm-6 col-md-5" style="height:34px;width: 500px">
+					 <div class="col-xs-12 col-sm-6 col-md-5" style="height:44px;width: 500px">
 				 <div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top:3px"><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -69,12 +69,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6" style="width: 500px">
-				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top:3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:315px">
+			<div class="col-xs-12 col-sm-6 col-md-6" style="width: 500px;height: 44px">
+				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top:3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:340px">
 				<form:hidden path="queuename"/>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-5" style="margin-top:10px;margin-right: 28px;width: 500px">
+			<div class="col-xs-12 col-sm-6 col-md-5" style="margin-right: 28px;width: 500px;height: 44px">
 				<label class="label-item single-overflow pull-left" title="结束原因" style="margin-top:3px"><font size="4">结束原因：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<form:select path="endreasonno" class="form-control" style="width:340px;border-radius: 6px">
 					<option value="">请选择...</option>

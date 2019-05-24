@@ -94,33 +94,32 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtRobotChat" class="form form-horizontal well clearfix">
-		 <div class="col-xs-12 col-sm-6 col-md-6" style="height:34px;width:500px;">
+		 <div class="col-xs-12 col-sm-6 col-md-6" style="height:44px;width:500px;">
 				 <div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top:4px;"><font size="4">进线开始：</font>&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
 								<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="starttime" style="height:34px;border-radius:6px;width: 150px">
+									<input type="text" class="layui-input" id="starttime" name="starttime" style="height:34px;border-radius:6px;width: 150px">
 								</div>
 					        </div>
 					        <div class="col-xs-12 col-sm-1" style="width:25px;margin-top:8px;">~</div>
 					        <div class="col-xs-12 col-sm-4">
 					        	<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="endttime" style="height:34px;border-radius:6px;width: 150px">
+									<input type="text" class="layui-input" id="endttime" name="endttime" style="height:34px;border-radius:6px;width: 150px">
 								</div>
 					        </div>
 					</div>
 				</div>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="width:500px;">
-				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top:4px;"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:350px;">
+			 <div class="col-xs-12 col-sm-6 col-md-6" style="width:500px;height: 44px">
+				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top:4px;"><font size="4">业务系统：</font>&nbsp;&nbsp;</label>
+				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:340px;">
 				<form:hidden path="queuename"/>
 			</div>
-			<br>
-			 <div class="col-xs-12 col-sm-6 col-md-4" style="margin-top:10px;width:500px;">
+			 <div class="col-xs-12 col-sm-6 col-md-4" style="width:500px;height: 44px">
 				<label class="label-item single-overflow pull-left" title="用户省份：" style="margin-top:4px;"><font size="4">用户省份：</font>&nbsp;&nbsp;</label>
-				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:336px">
+				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:340px">
 				<form:hidden path="customerprovince"/>
 			</div>
 			<div class="" style="float:right">
