@@ -123,7 +123,7 @@
 				<form:hidden path="customerprovince"/>
 			</div>
 			<div class="" style="float:right">
-				<div style="margin-top:50px">
+				<div style="margin-top:40px">
 				  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
 				  <!-- <a  id="reset" class="btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a> -->
 				  <button id="export" class="btn btn-warning">
