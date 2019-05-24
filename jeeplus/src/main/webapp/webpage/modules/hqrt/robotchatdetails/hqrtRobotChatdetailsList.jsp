@@ -14,11 +14,12 @@
 	href="${ctxStatic}/plugin/combotree/css/icon.css">
 <link rel="stylesheet" type="text/css"
 	href="${ctxStatic}/plugin/combotree/css/demo.css">
-	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/layui_v2/css/layui.css">
+<link rel="stylesheet" type="text/css"
+	href="${ctxStatic}/plugin/layui_v2/css/layui.css">
 <%-- <script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.min.js"></script> --%>
 <script type="text/javascript"
 	src="${ctxStatic}/plugin/combotree/js/jquery.easyui.min.js"></script>
-	
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#queuenameID').combotree({
@@ -57,50 +58,58 @@
 					<div class="accordion-inner">
 						<form:form id="searchForm" modelAttribute="hqrtRobotChatdetails"
 							class="form form-horizontal well clearfix">
-							<div class="col-xs-12 col-sm-6 col-md-5" style="height:34px;">
-				 <div class="form-group">
-					<div class="col-xs-12">
-						<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top:3px"><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-						   <div class="col-xs-12 col-sm-4">
-								<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="starttime" name="parent.starttime" style="height:34px;border-radius:6px">
+							<div class="col-xs-12 col-sm-6 col-md-5"
+								style="height: 34px; width: 500px">
+								<div class="form-group">
+									<div class="col-xs-12">
+										<label class="label-item single-overflow pull-left"
+											title="进线开始：" style="margin-top: 3px"><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+										<div class="col-xs-12 col-sm-4">
+											<div class="layui-input-inline">
+												<input type="text" class="layui-input" id="starttime"
+													name="parent.starttime"
+													style="height: 34px; border-radius: 6px; width: 150px">
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-1"
+											style="width: 25px; margin-top: 8px">~</div>
+										<div class="col-xs-12 col-sm-4">
+											<div class="layui-input-inline">
+												<input type="text" class="layui-input" id="endttime"
+													name="parent.endttime"
+													style="height: 34px; border-radius: 6px; width: 150px">
+											</div>
+										</div>
+									</div>
 								</div>
-					        </div>
-					        <div class="col-xs-12 col-sm-1" style="width:25px;margin-top: 8px">~</div>
-					        <div class="col-xs-12 col-sm-4">
-					        	<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="endttime" name="parent.endttime" style="height:34px;border-radius:6px">
-								</div>
-					        </div>
-					</div>
-				</div>
-			</div>
-							<div class="col-xs-12 col-sm-6 col-md-6">
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-6" style="width: 500px">
 								<label class="label-item single-overflow pull-left"
-									title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;</label>
+									title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;</label>
 								<input id="queuenameID" class="easyui-combotree"
 									data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'"
-									style="height: 34px; width: 55%">
+									style="height: 34px; width: 360px">
 								<form:hidden path="queuename" />
 							</div>
 							<div class="col-xs-12 col-sm-6 col-md-5"
-								style="margin-top: 10px;">
-								<label class="label-item single-overflow pull-left" title="用户名"><font
+								style="margin-top: 10px; width: 500px">
+								<label class="label-item single-overflow pull-left" title="用户名" style="margin-top: 3px"><font
 									size="4">用户姓名：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 								<form:input path="customername" htmlEscape="false"
 									maxlength="50" class=" form-control"
 									style="width:69.5%;border-radius: 6px;" />
 							</div>
-							<div class="col-xs-12 col-sm-6 col-md-2" style="margin-top: 10px">
+							<div class="col-xs-12 col-sm-6 col-md-2"
+								style="margin-top: 10px; width: 250px">
 								<label class="label-item single-overflow pull-left"
-									title="会话ID："><font size="4">会话&nbsp;I&nbsp;D&nbsp;：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+									title="会话ID：" style="margin-top: 3px"><font size="4">会话&nbsp;I&nbsp;D&nbsp;：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 								<form:input path="sessionid" htmlEscape="false" maxlength="50"
 									class=" form-control" style="width:52%;border-radius: 6px;" />
 							</div>
 							<div class="col-xs-12 col-sm-6 col-md-3"
 								style="margin-top: 10px;">
 								<label class="label-item single-overflow pull-left"
-									title="解决状态：" style=" "><font size="4">解决状态：</font>&nbsp;</label>
+									title="解决状态：" style="margin-top: 3px"><font size="4">解决状态：</font>&nbsp;</label>
 								<form:select path="satisfydesc" class="form-control"
 									style="width:47%;border-radius: 6px;">
 									<option value="">请选择...</option>
@@ -109,23 +118,18 @@
 								</form:select>
 							</div>
 							<div class="">
-								<div style="margin-top: 100px">
-									<a id="search" class=" btn btn-warning"><i
-										class="fa fa-search"></i> 查询</a> <a id="reset"
-										class=" btn btn-warning"><i class="fa fa-refresh"></i> 重置</a>
+								<div
+									style="margin-top: 50px; width: 150px; height: 34px; float: right">
+									<a id="search" class="btn btn-warning"><i
+										class="fa fa-search"></i> 查询</a>
+									<button id="export" class="btn btn-warning">
+										<i class="fa fa-file-excel-o"></i> 导出
+									</button>
 								</div>
 							</div>
 						</form:form>
 					</div>
 				</div>
-
-				<!-- 工具栏 -->
-				<div id="toolbar" style="margin-left: 31px">
-					<button id="export" class="btn btn-warning">
-						<i class="fa fa-file-excel-o"></i> 导出
-					</button>
-				</div>
-
 				<!-- 表格 -->
 				<table id="hqrtRobotChatdetailsTable" data-toolbar="#toolbar"></table>
 			</div>
@@ -133,20 +137,23 @@
 	</div>
 	<script src="${ctxStatic}/plugin/layui_v2/layui.js"></script>
 	<script>
-		layui.use('laydate', function(){
+		layui.use('laydate', function() {
 			var laydate = layui.laydate;
 			//执行一个laydate实例
 			laydate.render({
-				elem: '#starttime',
-				format: 'yyyy-MM-dd HH:mm:ss',
-				type: 'datetime',
-				value: new Date(new Date(new Date().toLocaleDateString()).getTime())
+				elem : '#starttime',
+				format : 'yyyy-MM-dd HH:mm:ss',
+				type : 'datetime',
+				value : new Date(new Date(new Date().toLocaleDateString())
+						.getTime())
 			});
 			laydate.render({
-				elem: '#endttime',
-				format: 'yyyy-MM-dd HH:mm:ss',
-				type: 'datetime',
-				value: new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1)
+				elem : '#endttime',
+				format : 'yyyy-MM-dd HH:mm:ss',
+				type : 'datetime',
+				value : new Date(new Date(new Date().toLocaleDateString())
+						.getTime()
+						+ 24 * 60 * 60 * 1000 - 1)
 			});
 		});
 	</script>

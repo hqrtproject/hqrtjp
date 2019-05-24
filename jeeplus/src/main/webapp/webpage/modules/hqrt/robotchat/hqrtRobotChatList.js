@@ -11,7 +11,7 @@ $(document).ready(function() {
                //显示检索按钮
 	           /*showSearch: true,*/
                //显示刷新按钮
-               showRefresh: true,
+               //showRefresh: true,
                //显示切换手机试图按钮
                /*showToggle: true,*/
                //显示 内容列下拉框

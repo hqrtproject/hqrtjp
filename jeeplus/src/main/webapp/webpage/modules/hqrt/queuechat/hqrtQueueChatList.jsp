@@ -51,33 +51,35 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtQueueChat" class="form form-horizontal well clearfix">
-					 <div class="col-xs-12 col-sm-6 col-md-5" style="height:34px;">
+					 <div class="col-xs-12 col-sm-6 col-md-5" style="height:34px;width: 500px">
 				 <div class="form-group">
-					<div class="col-xs-12">
+					<div class="col-xs-12" >
 						<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top:3px"><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
 								<div class="layui-input-inline" >
-									<input type="text" class="layui-input" id="starttime" name="starttime" style="height:34px;border-radius:6px">
+									<input type="text" class="layui-input" id="starttime" name="starttime" style="height:34px;border-radius:6px;width: 150px">
 								</div>
 					        </div>
 					        <div class="col-xs-12 col-sm-1" style="width:23px; margin-top: 8px">~</div>
 					        <div class="col-xs-12 col-sm-4">
 					        	<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="endttime" name="endttime" style="height:34px;border-radius:6px">
+									<input type="text" class="layui-input" id="endttime" name="endttime" style="height:34px;border-radius:6px;width: 150px">
 								</div>
 					        </div>
 					</div>
 				</div>
 			</div>
-			  <div class="col-xs-12 col-sm-6 col-md-6">
+			  <div class="col-xs-12 col-sm-6 col-md-5" style="width: 500px">
 				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:55%">
+				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:315px">
 				<form:hidden path="queuename"/>
 			</div>
-		 <div class="">
-			<div style="margin-top:50px">
-			  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
-			  <a  id="reset" class="btn btn-warning"><i class="fa fa-refresh"></i> 重置</a>
+		 <div class="" >
+			<div style="margin-top:50px;width: 150px;height: 34px;float: right" >
+			  <a  id="search" class="btn btn-warning" ><i class="fa fa-search"></i> 查询</a>
+       		<button id="export" class="btn btn-warning" >
+			<i class="fa fa-file-excel-o"></i> 导出
+		</button>
 			 </div>
 	    </div>	
 	</form:form>
@@ -85,11 +87,6 @@
 	</div>
 	
 	<!-- 工具栏 -->
-	<div id="toolbar">
-       		<button id="export" class="btn btn-warning" style="margin-left:31px" >
-			<i class="fa fa-file-excel-o"></i> 导出
-		</button>
-    </div>
 		
 	<!-- 表格 -->
 	<table id="hqrtQueueChatTable"   data-toolbar="#toolbar"></table>
