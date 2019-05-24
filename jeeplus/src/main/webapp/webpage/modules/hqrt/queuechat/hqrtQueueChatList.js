@@ -208,6 +208,10 @@ $(document).ready(function() {
 
 		    
 	  $("#search").click("click", function() {// 绑定查询按扭
+		  if ($("#starttime").val() == "" || $("#endttime").val() == "") {
+			  alert("请输入查询时间范围！");
+			  return false;
+		  }
 		  $('#hqrtQueueChatTable').bootstrapTable('refresh');
 		});
 	 

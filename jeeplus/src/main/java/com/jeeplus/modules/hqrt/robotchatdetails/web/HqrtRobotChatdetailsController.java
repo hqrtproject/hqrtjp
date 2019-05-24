@@ -5,6 +5,8 @@ package com.jeeplus.modules.hqrt.robotchatdetails.web;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -92,6 +94,19 @@ public class HqrtRobotChatdetailsController extends BaseController {
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         	paramList.add(ft.format(hqrtRobotChatdetails.getParent().getStarttime()));
         	paramList.add(ft.format(hqrtRobotChatdetails.getParent().getEndttime()));
+        } else {
+        	sqlcondition += " AND a.messagedatetime BETWEEN ? AND ?";
+        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	Calendar cal = Calendar.getInstance();
+            cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+            Date beginOfDate = cal.getTime();
+        	paramList.add(ft.format(beginOfDate));
+        	Calendar calendar2 = Calendar.getInstance();
+        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+        	        23, 59, 59);
+        	Date endOfDate = calendar2.getTime();
+        	paramList.add(ft.format(endOfDate));
+        	
         }
         Page<HqrtRobotChatdetails> page = new Page<HqrtRobotChatdetails>(request, response);
         if (StringUtils.isNotBlank(sqlcondition)) {
@@ -143,6 +158,19 @@ public class HqrtRobotChatdetailsController extends BaseController {
             	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             	paramList.add(ft.format(hqrtRobotChatdetails.getParent().getStarttime()));
             	paramList.add(ft.format(hqrtRobotChatdetails.getParent().getEndttime()));
+            } else {
+            	sqlcondition += " AND a.messagedatetime BETWEEN ? AND ?";
+            	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	Calendar cal = Calendar.getInstance();
+                cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+                Date beginOfDate = cal.getTime();
+            	paramList.add(ft.format(beginOfDate));
+            	Calendar calendar2 = Calendar.getInstance();
+            	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+            	        23, 59, 59);
+            	Date endOfDate = calendar2.getTime();
+            	paramList.add(ft.format(endOfDate));
+            	
             }
             if (StringUtils.isNotBlank(sqlcondition)) {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
