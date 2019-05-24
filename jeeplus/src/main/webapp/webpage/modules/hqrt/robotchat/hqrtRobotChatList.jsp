@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/demo.css">
 	<%-- <script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.min.js"></script> --%>
 	<script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/layui_v2/css/layui.css">
 	<script>
 		$(document).ready(function() {
 			$('#province').combotree({
@@ -93,26 +94,20 @@
 	<div id="search-collapse" class="collapse" style="display: block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtRobotChat" class="form form-horizontal well clearfix">
-			<div class="col-xs-12 col-sm-6 col-md-4" style="height:34px;">
+		 <div class="col-xs-12 col-sm-6 col-md-5" style="height:34px;">
 				 <div class="form-group">
 					<div class="col-xs-12">
-						<label class="label-item single-overflow pull-left" title="请假开始："><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<label class="label-item single-overflow pull-left" title="进线开始："><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
-					        	  <div class='input-group date' id='starttime' style="left: -10px;" >
-					                   <input type='text'  name="starttime" class="form-control" style="border-radius: 6px;width: 192px" />
-					                   <span class="input-group-addon" style="border-radius: 6px;">
-					                       <span class="glyphicon glyphicon-calendar"></span>
-					                   </span>
-					             </div>	
+								<div class="layui-input-inline">
+									<input type="text" class="layui-input" id="starttime">
+								</div>
 					        </div>
-					        <div class="col-xs-12 col-sm-1" style="width:23px;">~</div>
+					        <div class="col-xs-12 col-sm-1" style="width:50px;">~</div>
 					        <div class="col-xs-12 col-sm-4">
-					          	<div class='input-group date' id='endttime' style="left: -10px;" >
-					                   <input type='text'  name="endttime" class="form-control" style="border-radius: 6px;width: 192px" />
-					                   <span class="input-group-addon" style="border-radius: 6px;">
-					                       <span class="glyphicon glyphicon-calendar"></span>
-					                   </span>
-					           	</div>
+					        	<div class="layui-input-inline">
+									<input type="text" class="layui-input" id="endttime">
+								</div>
 					        </div>
 					</div>
 				</div>
@@ -149,5 +144,24 @@
 	</div>
 	</div>
 	</div>
+	<script src="${ctxStatic}/plugin/layui_v2/layui.js"></script>
+	<script>
+		layui.use('laydate', function(){
+			var laydate = layui.laydate;
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#starttime',
+				format: 'yyyy-MM-dd HH:mm:ss',
+				type: 'datetime',
+				value: new Date(new Date(new Date().toLocaleDateString()).getTime())
+			});
+			laydate.render({
+				elem: '#endttime',
+				format: 'yyyy-MM-dd HH:mm:ss',
+				type: 'datetime',
+				value: new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1)
+			});
+		});
+	</script>
 </body>
 </html>
