@@ -100,13 +100,13 @@
 						<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top:4px;"><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
 								<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="starttime" style="width:150px;">
+									<input type="text" class="layui-input" id="starttime" name="starttime" style="width:150px;">
 								</div>
 					        </div>
 					        <div class="col-xs-12 col-sm-1" style="width:20px;margin-top:8px;">~</div>
 					        <div class="col-xs-12 col-sm-4">
 					        	<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="endttime" style="width:150px;">
+									<input type="text" class="layui-input" id="endttime" name="endttime" style="width:150px;">
 								</div>
 					        </div>
 					</div>
