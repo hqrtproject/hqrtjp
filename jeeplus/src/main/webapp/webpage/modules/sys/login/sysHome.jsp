@@ -127,7 +127,7 @@
 		<div class="row home-row">
 			<div class="col-lg-8 col-md-6">
 				<div class="map-container box padder">
-					<!-- <div id="world-map" style="width: 100%; height: 320px"></div> -->
+					<div id="world-map" style="width: 100%; height: 320px"></div>
 					<div class="top-right-chart row">
 								
 								<div class="col-sm-12">

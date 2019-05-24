@@ -102,6 +102,8 @@ public class HqrtQueueChatController extends BaseController {
 			
 			if (StringUtils.isNotBlank(queueChat.getQueuename())) {
 				_sqlcondition += " AND a.queuename in ('" + queueChat.getQueuename().replace(",", "','") + "')";
+			} else {
+				_sqlcondition += " AND (a.queuename = '' || isnull(a.queuename))";
 			}
 			if (hqrtQueueChat.getStarttime() != null && hqrtQueueChat.getEndttime() != null) {
 				_sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";

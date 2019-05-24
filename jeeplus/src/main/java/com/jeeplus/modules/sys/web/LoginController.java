@@ -358,7 +358,8 @@ public class LoginController extends BaseController{
 	@RequestMapping(value = "${adminPath}/home")
 	public String home(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		
-		return "modules/sys/login/sysHome";
+		/*return "modules/sys/login/sysHome";*/
+		return "redirect:" + adminPath+"/hqrt/robotchat/hqrtRobotChat/list";
 		
 	}
 }

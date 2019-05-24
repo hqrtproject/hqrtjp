@@ -266,7 +266,7 @@
 						<div id="nav-col" class="nav-col">
 							<section id="col-left" class="nano">
 								<div id="col-left-inner" class="nano-content">
-									<div id="user-left-box" class="clearfix hidden-sm hidden-xs">
+									<%-- <div id="user-left-box" class="clearfix hidden-sm hidden-xs">
 										<a  href="#"><img  src="<c:if test="${fns:getUser().photo == null || fns:getUser().photo==''}">${ctxStatic}/common/images/flat-avatar.png</c:if> <c:if test="${fns:getUser().photo != null && fns:getUser().photo!=''}">${fns:getUser().photo}</c:if>" /></a>
 										<div class="user-box">
 											<span class="name">
@@ -279,7 +279,7 @@
 
 
 
-									</div>
+									</div> --%>
 									<div class="collapse navbar-collapse navbar-ex1-collapse tab-content" id="sidebar-nav">
 										<ul class="nav nav-pills nav-stacked">
 											<li>

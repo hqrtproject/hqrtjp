@@ -29,7 +29,6 @@ import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
 import com.jeeplus.modules.hqrt.robotchat.service.HqrtRobotChatService;
 import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
-import com.jeeplus.modules.hqrt.robotchatdetails.service.HqrtRobotChatdetailsService;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -43,9 +42,6 @@ public class HqrtRobotChatController extends BaseController {
 
 	@Autowired
 	private HqrtRobotChatService hqrtRobotChatService;
-	
-	@Autowired
-	private HqrtRobotChatdetailsService hqrtRobotChatdetailsService;
 	
 	@ModelAttribute
 	public HqrtRobotChat get(@RequestParam(required=false) String id) {
@@ -105,6 +101,8 @@ public class HqrtRobotChatController extends BaseController {
 			if (StringUtils.isNotBlank(robotChat.getQueuename())) {
 				_sqlcondition += " AND a.queuename = ?";
 	        	paramList.add(robotChat.getQueuename());
+	        } else {
+				_sqlcondition += " AND (a.queuename = '' || isnull(a.queuename))";
 	        }
 			if (StringUtils.isNotBlank(robotChat.getCustomerprovince())) {
 				_sqlcondition += " AND a.customerprovince = ?";
