@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/demo.css">
 	<%-- <script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.min.js"></script> --%>
 	<script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/layui_v2/css/layui.css">
 	<script>
 		$(document).ready(function() {
 			$('#queuenameID').combotree({
@@ -67,31 +68,25 @@
 	<div id="search-collapse" class="collapse" style="display:block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtAgentDnd" class="form form-horizontal well clearfix">
-			 <div class="col-xs-12 col-sm-6 col-md-6" style="height:34px;">
+			 <div class="col-xs-12 col-sm-6 col-md-4" style="height:34px;">
 				 <div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-item single-overflow pull-left" title="进线时间：">&nbsp;<font size="4">进线时间：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-						   <div class="col-xs-12 col-sm-4">
-					        	  <div class='input-group date' id='starttime' style="left: -10px;" >
-					                   <input type='text'  name="starttime" class="form-control"  />
-					                   <span class="input-group-addon">
-					                       <span class="glyphicon glyphicon-calendar"></span>
-					                   </span>
-					             </div>	
-					        </div>
-					        <div class="col-xs-12 col-sm-1" style="width:45px;">~</div>
-					        <div class="col-xs-12 col-sm-4">
-					          	<div class='input-group date' id='endttime' style="left: -10px;" >
-					                   <input type='text'  name="endttime" class="form-control" />
-					                   <span class="input-group-addon">
-					                       <span class="glyphicon glyphicon-calendar"></span>
-					                   </span>
-					           	</div>
-					        </div>
+					    <div class="col-xs-12 col-sm-4">
+							<div class="layui-input-inline">
+								<input type="text" class="layui-input" id="starttime" name="starttime" placeholder="yyyy-MM-dd HH:mm:ss">
+							</div>
+				        </div>
+				        <div class="col-xs-12 col-sm-1" style="width:20px;">~</div>
+				        <div class="col-xs-12 col-sm-4">
+				        	<div class="layui-input-inline">
+								<input type="text" class="layui-input" id="endtime" name="endtime" placeholder="yyyy-MM-dd HH:mm:ss">
+							</div>
+					     </div>
 					</div>
 				</div>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-6">
+			 <div class="col-xs-12 col-sm-6 col-md-5">
 				<label class="label-item single-overflow pull-left" title="业务系统："><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/queuename.json',method:'get'" style="height:34px;width:80%">
 				<form:hidden path="exqueuename"/>
@@ -118,5 +113,24 @@
 	</div>
 	</div>
 	</div>
+	<script src="${ctxStatic}/plugin/layui_v2/layui.js"></script>
+	<script>
+		layui.use('laydate', function(){
+			var laydate = layui.laydate;
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#starttime',
+				format: 'yyyy-MM-dd HH:mm:ss',
+				type: 'datetime',
+				value: new Date(new Date(new Date().toLocaleDateString()).getTime())
+			});
+			laydate.render({
+				elem: '#endtime',
+				format: 'yyyy-MM-dd HH:mm:ss',
+				type: 'datetime',
+				value: new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1)
+			});
+		});
+	</script>
 </body>
 </html>
