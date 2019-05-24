@@ -97,16 +97,16 @@
 		 <div class="col-xs-12 col-sm-6 col-md-6" style="height:34px;width:500px;">
 				 <div class="form-group">
 					<div class="col-xs-12">
-						<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top:4px;"><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top:4px;"><font size="4">进线开始：</font>&nbsp;</label>
 						   <div class="col-xs-12 col-sm-4">
 								<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="starttime" name="starttime" style="width:150px;">
+									<input type="text" class="layui-input" id="starttime" name="starttime" style="height:34px;border-radius:6px;width: 150px">
 								</div>
 					        </div>
-					        <div class="col-xs-12 col-sm-1" style="width:20px;margin-top:8px;">~</div>
+					        <div class="col-xs-12 col-sm-1" style="width:25px;margin-top:8px;">~</div>
 					        <div class="col-xs-12 col-sm-4">
 					        	<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="endttime" name="endttime" style="width:150px;">
+									<input type="text" class="layui-input" id="endttime" name="endttime" style="height:34px;border-radius:6px;width: 150px">
 								</div>
 					        </div>
 					</div>
@@ -117,9 +117,10 @@
 				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:350px;">
 				<form:hidden path="queuename"/>
 			</div>
+			<br>
 			 <div class="col-xs-12 col-sm-6 col-md-4" style="margin-top:10px;width:500px;">
-				<label class="label-item single-overflow pull-left" title="用户省份："><font size="4">用户省份：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:336px;">
+				<label class="label-item single-overflow pull-left" title="用户省份：" style="margin-top:4px;"><font size="4">用户省份：</font>&nbsp;&nbsp;</label>
+				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:336px">
 				<form:hidden path="customerprovince"/>
 			</div>
 			<div class="" style="float:right">
@@ -134,14 +135,6 @@
 	</form:form>
 	</div>
 	</div>
-	
-	<!-- 工具栏 -->
-	<div id="toolbar" style="margin-left:31px">
-       	<button id="export" class="btn btn-warning">
-			<i class="fa fa-file-excel-o"></i> 导出
-		</button>
-    </div>
-		
 	<!-- 表格 -->
 	<table id="hqrtRobotChatTable"   data-toolbar="#toolbar"></table>
 	</div>
