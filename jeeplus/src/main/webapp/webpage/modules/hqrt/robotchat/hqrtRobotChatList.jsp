@@ -127,8 +127,8 @@
 				  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
 				  <!-- <a  id="reset" class="btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a> -->
 				  <button id="export" class="btn btn-warning">
-						<i class="fa fa-file-excel-o"></i> 导出
-					</button>
+				<i class="fa fa-file-excel-o"></i> 导出
+			</button>
 				 </div>
 		    </div>
 	</form:form>
@@ -136,11 +136,11 @@
 	</div>
 	
 	<!-- 工具栏 -->
-	<!-- <div id="toolbar" style="margin-left:31px">
+	<div id="toolbar" style="margin-left:31px">
        	<button id="export" class="btn btn-warning">
 			<i class="fa fa-file-excel-o"></i> 导出
 		</button>
-    </div> -->
+    </div>
 		
 	<!-- 表格 -->
 	<table id="hqrtRobotChatTable"   data-toolbar="#toolbar"></table>

@@ -17,6 +17,7 @@ import com.google.common.collect.Lists;
 import com.jeeplus.common.sms.SMSUtils;
 import com.jeeplus.common.utils.CacheUtils;
 import com.jeeplus.common.utils.SpringContextHolder;
+import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.core.service.BaseService;
 import com.jeeplus.modules.sys.entity.Area;
 import com.jeeplus.modules.sys.entity.DataRule;
@@ -25,11 +26,11 @@ import com.jeeplus.modules.sys.entity.Office;
 import com.jeeplus.modules.sys.entity.Role;
 import com.jeeplus.modules.sys.entity.User;
 import com.jeeplus.modules.sys.mapper.AreaMapper;
+import com.jeeplus.modules.sys.mapper.DataRuleMapper;
 import com.jeeplus.modules.sys.mapper.MenuMapper;
 import com.jeeplus.modules.sys.mapper.OfficeMapper;
 import com.jeeplus.modules.sys.mapper.RoleMapper;
 import com.jeeplus.modules.sys.mapper.UserMapper;
-import com.jeeplus.modules.sys.mapper.DataRuleMapper;
 import com.jeeplus.modules.sys.security.SystemAuthorizingRealm.Principal;
 
 /**
@@ -411,6 +412,21 @@ public class UserUtils {
 	
 	public static boolean hasPermission(String permission){
 		return SecurityUtils.getSubject().isPermitted(permission);
+	}
+	
+	/**
+	 * 根据登录名获取用户
+	 * @param loginName
+	 * @return 取不到返回nulljuyy`
+	 */
+	
+	public static String getLegalProvince(String province){
+		final String areas = "江苏、浙江、广西、广东、四川、天津、山东、内蒙古、湖北、上海、安徽、江西、河南、福建、河北、海南、湖南、山西、贵州、北京、辽宁、吉林、黑龙江、重庆、云南、西藏、陕西、甘肃、青海、宁夏、新疆、香港、深圳";
+		if (StringUtils.isNotBlank(province) && areas.contains(province)) {
+			return province;
+		} else {
+			return "其他";
+		}
 	}
 	
 }

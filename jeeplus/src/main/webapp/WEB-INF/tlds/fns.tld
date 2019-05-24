@@ -305,4 +305,19 @@
     <example>${fns:getFieldArray()}</example>  
   </function>
   
+   <function>
+    <description>判断当前省份是否存在</description>
+    <name>isLegalProvince</name>
+    <function-class>com.jeeplus.modules.gen.util.a</function-class>
+    <function-signature>java.lang.String a18()</function-signature>
+    <example>${fns:isLegalProvince()}</example>  
+  </function>
+  <function>
+    <description>判断当前省份是否存在</description>
+    <name>getLegalProvince</name>
+    <function-class>com.jeeplus.modules.sys.utils.UserUtils</function-class>
+    <function-signature>java.lang.String getLegalProvince(java.lang.String)</function-signature>
+    <example>${fns:getLegalProvince(province)}</example>  
+  </function>
+  
 </taglib>

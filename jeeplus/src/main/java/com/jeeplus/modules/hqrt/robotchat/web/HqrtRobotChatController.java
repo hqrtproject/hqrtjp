@@ -6,6 +6,8 @@ package com.jeeplus.modules.hqrt.robotchat.web;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,9 +77,6 @@ public class HqrtRobotChatController extends BaseController {
         String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a ";
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
-		if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
-        	sqlcondition += " AND a.customerprovince in ('" + hqrtRobotChat.getCustomerprovince().replace(",", "','") + "')";
-        }
         if (StringUtils.isNotBlank(hqrtRobotChat.getQueuename())) {
         	sqlcondition += " AND a.queuename in ('" + hqrtRobotChat.getQueuename().replace(",", "','") + "')";
         }
@@ -86,6 +85,29 @@ public class HqrtRobotChatController extends BaseController {
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         	paramList.add(ft.format(hqrtRobotChat.getStarttime()));
         	paramList.add(ft.format(hqrtRobotChat.getEndttime()));
+        } else {
+        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	Calendar cal = Calendar.getInstance();
+            cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+            Date beginOfDate = cal.getTime();
+        	paramList.add(ft.format(beginOfDate));
+        	Calendar calendar2 = Calendar.getInstance();
+        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+        	        23, 59, 59);
+        	Date endOfDate = calendar2.getTime();
+        	paramList.add(ft.format(endOfDate));
+        	
+        }
+		if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
+			String[] provincesplit = hqrtRobotChat.getCustomerprovince().split(",");
+			sqlcondition += " AND (";
+			for (String province : provincesplit) {
+				sqlcondition += "a.customerprovince like ? OR ";
+				paramList.add("%" + province + "%");
+			}
+			sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
+			sqlcondition += ")";
         }
         if (StringUtils.isNotBlank(sqlcondition)) {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
@@ -102,11 +124,38 @@ public class HqrtRobotChatController extends BaseController {
 				_sqlcondition += " AND a.queuename = ?";
 	        	paramList.add(robotChat.getQueuename());
 	        } else {
-				_sqlcondition += " AND (a.queuename = '' || isnull(a.queuename))";
+				_sqlcondition += " AND (a.queuename = '' OR isnull(a.queuename))";
 	        }
 			if (StringUtils.isNotBlank(robotChat.getCustomerprovince())) {
-				_sqlcondition += " AND a.customerprovince = ?";
-	        	paramList.add(robotChat.getCustomerprovince());
+				String[] provincesplit = hqrtRobotChat.getCustomerprovince().split(",");
+				sqlcondition += " AND (";
+				for (String province : provincesplit) {
+					sqlcondition += "a.customerprovince like ? OR ";
+					paramList.add("%" + province + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
+				sqlcondition += ")";
+	        } else {
+				_sqlcondition += " AND (a.customerprovince = '' OR isnull(a.customerprovince))";
+	        }
+			if (hqrtRobotChat.getStarttime() != null && hqrtRobotChat.getEndttime() != null) {
+	        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+	        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        	paramList.add(ft.format(hqrtRobotChat.getStarttime()));
+	        	paramList.add(ft.format(hqrtRobotChat.getEndttime()));
+	        } else {
+	        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+	        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        	Calendar cal = Calendar.getInstance();
+	            cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+	            Date beginOfDate = cal.getTime();
+	        	paramList.add(ft.format(beginOfDate));
+	        	Calendar calendar2 = Calendar.getInstance();
+	        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+	        	        23, 59, 59);
+	        	Date endOfDate = calendar2.getTime();
+	        	paramList.add(ft.format(endOfDate));
+	        	
 	        }
 	        if (StringUtils.isNotBlank(_sqlcondition)) {
 	        	_sqlcondition = _sqlcondition.replaceFirst(" AND", "");
