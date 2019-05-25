@@ -68,7 +68,7 @@
 	<div id="search-collapse" class="collapse" style="display:block;">
 		<div class="accordion-inner">
 			<form:form id="searchForm" modelAttribute="hqrtAgentDnd" class="form form-horizontal well clearfix">
-			 <div class="col-xs-12 col-sm-6 col-md-4" style="height:34px;width: 500px">
+			 <div class="col-xs-12 col-sm-6 col-md-4" style="height:44px;width: 500px">
 				 <div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-item single-overflow pull-left" title="进线时间：" style="margin-top: 3px">&nbsp;<font size="4">进线时间：</font>&nbsp;&nbsp;</label>
@@ -88,19 +88,19 @@
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-5"style="width: 500px">
 				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:360px">
+				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:340px">
 				<form:hidden path="exqueuename"/>
 			</div>
-				<div class="">
-								<div
-									style="margin-top: 40px; width: 150px; height: 34px; float: right">
-									<a id="search" class="btn btn-warning"><i
-										class="fa fa-search"></i> 查询</a>
-									<button id="export" class="btn btn-warning">
-										<i class="fa fa-file-excel-o"></i> 导出
-									</button>
-								</div>
-							</div>
+			<div class="">
+				<div
+					style="margin-top: 40px; width: 150px; height: 34px; float: right">
+					<a id="search" class="btn btn-warning"><i
+						class="fa fa-search"></i> 查询</a>
+					<a id="export" class="btn btn-warning">
+						<i class="fa fa-file-excel-o"></i> 导出
+					</a>
+				</div>
+			</div>
 	</form:form>
 	</div>
 	</div>

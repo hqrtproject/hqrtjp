@@ -190,7 +190,7 @@ public class HqrtQueueChatController extends BaseController {
 	public AjaxJson exportFile(HqrtQueueChat hqrtQueueChat, HttpServletRequest request, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		try {
-			String fileName = "客户排队日志" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
+			String fileName = "排队统计" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
 			String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_queue_chat a";
 			String sqlcondition = "";
 			List<Object> paramList = new ArrayList<Object>();
@@ -290,14 +290,14 @@ public class HqrtQueueChatController extends BaseController {
 
 				}
 			}
-			new ExportExcel("在线客服排队统计", HqrtQueueChat.class).setDataList(queryListGroupby).write(response, fileName)
+			new ExportExcel("排队统计", HqrtQueueChat.class).setDataList(queryListGroupby).write(response, fileName)
 					.dispose();
 			j.setSuccess(true);
 			j.setMsg("导出成功！");
 			return j;
 		} catch (Exception e) {
 			j.setSuccess(false);
-			j.setMsg("导出客户排队日志记录失败！失败信息：" + e.getMessage());
+			j.setMsg("导出排队统计记录失败！失败信息：" + e.getMessage());
 		}
 		return j;
 	}
@@ -389,7 +389,7 @@ public class HqrtQueueChatController extends BaseController {
 			HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		try {
-			String fileName = "客户排队日志" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
+			String fileName = "排队明细日志" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
 			String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_queue_chat a";
 			String sqlcondition = "";
 			List<Object> paramList = new ArrayList<Object>();
@@ -427,14 +427,14 @@ public class HqrtQueueChatController extends BaseController {
 			sql += sqlcondition;
 			MultiDBUtils md = MultiDBUtils.get("company");
 			List<HqrtQueueChatdetail> queryList = md.queryList(sql, HqrtQueueChatdetail.class, paramList.toArray());
-			new ExportExcel("在线客服排队统计", HqrtQueueChatdetail.class).setDataList(queryList).write(response, fileName)
+			new ExportExcel("排队明细日志", HqrtQueueChatdetail.class).setDataList(queryList).write(response, fileName)
 					.dispose();
 			j.setSuccess(true);
 			j.setMsg("导出成功！");
 			return j;
 		} catch (Exception e) {
 			j.setSuccess(false);
-			j.setMsg("导出客户排队日志记录失败！失败信息：" + e.getMessage());
+			j.setMsg("导出排队明细日志记录失败！失败信息：" + e.getMessage());
 		}
 		return j;
 	}

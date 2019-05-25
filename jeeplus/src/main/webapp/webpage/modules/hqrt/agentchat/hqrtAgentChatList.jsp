@@ -155,20 +155,16 @@
 								style="height: 34px; width: 500px">
 								<div class="form-group">
 									<div class="col-xs-12">
-										<label class="label-item single-overflow pull-left"
-											title="进线开始：" style="margin-top: 3px"><font size="4">进线开始：</font>&nbsp;</label>
+										<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top: 3px"><font size="4">进线开始：</font>&nbsp;</label>
 										<div class="col-xs-12 col-sm-4">
 											<div class="layui-input-inline">
-												<input type="text" class="layui-input" id="starttime"
-													style="height: 34px; border-radius: 6px; width: 150px">
+												<input type="text" class="layui-input" id="starttime" name="starttime" style="height: 34px; border-radius: 6px; width: 150px">
 											</div>
 										</div>
-										<div class="col-xs-12 col-sm-1"
-											style="width: 25px; margin-top: 8px">~</div>
+										<div class="col-xs-12 col-sm-1" style="width: 25px; margin-top: 8px">~</div>
 										<div class="col-xs-12 col-sm-4">
 											<div class="layui-input-inline">
-												<input type="text" class="layui-input" id="endttime"
-													style="height: 34px; border-radius: 6px; width: 150px">
+												<input type="text" class="layui-input" id="endttime" name="endttime" style="height: 34px; border-radius: 6px; width: 150px">
 											</div>
 										</div>
 									</div>
@@ -250,9 +246,9 @@
 									style="margin-top: 40px; width: 150px; height: 34px; float: right">
 									<a id="search" class="btn btn-warning"><i
 										class="fa fa-search"></i> 查询</a>
-									<button id="export" class="btn btn-warning">
+									<a id="export" class="btn btn-warning">
 										<i class="fa fa-file-excel-o"></i> 导出
-									</button>
+									</a>
 								</div>
 							</div>
 						</form:form>

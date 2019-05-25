@@ -5,6 +5,8 @@ package com.jeeplus.modules.hqrt.agentdnd.web;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -83,6 +85,18 @@ public class HqrtAgentDndController extends BaseController {
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         	paramList.add(ft.format(hqrtAgentDnd.getStarttime()));
         	paramList.add(ft.format(hqrtAgentDnd.getEndtime()));
+        } else {
+        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	Calendar cal = Calendar.getInstance();
+            cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+            Date beginOfDate = cal.getTime();
+        	paramList.add(ft.format(beginOfDate));
+        	Calendar calendar2 = Calendar.getInstance();
+        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+        	        23, 59, 59);
+        	Date endOfDate = calendar2.getTime();
+        	paramList.add(ft.format(endOfDate));
         }
         if (StringUtils.isNotBlank(sqlcondition)) {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
@@ -107,8 +121,39 @@ public class HqrtAgentDndController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "坐席置忙日志"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-            Page<HqrtAgentDnd> page = hqrtAgentDndService.findPage(new Page<HqrtAgentDnd>(request, response, -1), hqrtAgentDnd);
-    		new ExportExcel("坐席置忙日志", HqrtAgentDnd.class).setDataList(page.getList()).write(response, fileName).dispose();
+    		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.dndvalue AS 'dndvalue',a.dndvaluedesc AS 'dndvaluedesc',b.queuename AS 'exqueuename' FROM hqrt_agent_dnd a LEFT JOIN hqrt_agent_config b ON a.agentid = b.agentid";
+            String sqlcondition = "";
+            List<Object> paramList = new ArrayList<Object>();
+            if (StringUtils.isNotBlank(hqrtAgentDnd.getExqueuename())) {
+            	sqlcondition += " AND b.queuename in ('" + hqrtAgentDnd.getExqueuename().replace(",", "','") + "')";
+            }
+            if (hqrtAgentDnd.getStarttime() != null && hqrtAgentDnd.getEndtime() != null) {
+            	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+            	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	paramList.add(ft.format(hqrtAgentDnd.getStarttime()));
+            	paramList.add(ft.format(hqrtAgentDnd.getEndtime()));
+            } else {
+            	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+            	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	Calendar cal = Calendar.getInstance();
+                cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+                Date beginOfDate = cal.getTime();
+            	paramList.add(ft.format(beginOfDate));
+            	Calendar calendar2 = Calendar.getInstance();
+            	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+            	        23, 59, 59);
+            	Date endOfDate = calendar2.getTime();
+            	paramList.add(ft.format(endOfDate));
+            }
+            if (StringUtils.isNotBlank(sqlcondition)) {
+            	sqlcondition = sqlcondition.replaceFirst(" AND", "");
+            	sqlcondition  = " where" + sqlcondition;
+            }
+            sql += sqlcondition;
+            MultiDBUtils md = MultiDBUtils.get("company");
+            List<HqrtAgentDnd> detailsList = md.queryList(sql, HqrtAgentDnd.class, paramList.toArray());
+            
+    		new ExportExcel("坐席置忙日志", HqrtAgentDnd.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;

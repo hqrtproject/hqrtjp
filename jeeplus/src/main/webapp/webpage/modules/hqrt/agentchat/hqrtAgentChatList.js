@@ -229,8 +229,8 @@ $(document).ready(function() {
     		    },
                 formatter:  function operateFormatter(value, row, index) {
     		        return [
-						'<a href="#" class="view" title="查看" ><i class="fa fa-eye"></i> 查看 </a>',
-						'<a href="#" onclick="jp.downloadFile(\'${ctx}/hqrt/agentchat/hqrtAgentChat/exportdetails?sessionid=' + row.sessionid + '\');" class="export" title="修改"><i class="fa fa-download"></i> 导出 </a>',
+						'<a href="#" class="view" title="查看" style="color:DeepSkyBlue;"><i class="fa fa-eye"></i> 查看 </a>',
+						'<a href="#" onclick="jp.downloadFile(\'${ctx}/hqrt/agentchat/hqrtAgentChat/exportdetails?sessionid=' + row.sessionid + '\');" class="export" title="修改" style="color:DeepSkyBlue;"><i class="fa fa-download"></i> 导出 </a>',
     		        ].join('');
     		    }
 		    }

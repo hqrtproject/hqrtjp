@@ -41,7 +41,6 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		super(id);
 	}
 
-	@ExcelField(title="唯一记录标识（主键）", align=2, sort=1)
 	public String getRowguid() {
 		return rowguid;
 	}
@@ -50,7 +49,6 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.rowguid = rowguid;
 	}
 	
-	@ExcelField(title="记录创建时间", align=2, sort=2)
 	public String getRowdatetime() {
 		return rowdatetime;
 	}
@@ -59,7 +57,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.rowdatetime = rowdatetime;
 	}
 	
-	@ExcelField(title="坐席ID编号", align=2, sort=3)
+	@ExcelField(title="坐席ID", align=2, sort=2)
 	public String getAgentid() {
 		return agentid;
 	}
@@ -68,7 +66,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.agentid = agentid;
 	}
 	
-	@ExcelField(title="坐席姓名", align=2, sort=4)
+	@ExcelField(title="坐席姓名", align=2, sort=3)
 	public String getAgentname() {
 		return agentname;
 	}
@@ -77,7 +75,6 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.agentname = agentname;
 	}
 	
-	@ExcelField(title="坐席手机号码", align=2, sort=5)
 	public String getAgentmobile() {
 		return agentmobile;
 	}
@@ -86,7 +83,6 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.agentmobile = agentmobile;
 	}
 	
-	@ExcelField(title="坐席所在省", align=2, sort=6)
 	public String getAgentprovince() {
 		return agentprovince;
 	}
@@ -95,7 +91,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.agentprovince = agentprovince;
 	}
 	
-	@ExcelField(title="置忙开始时间", align=2, sort=7)
+	@ExcelField(title="开始时间", align=2, sort=4)
 	public String getStartdatetime() {
 		return startdatetime;
 	}
@@ -104,7 +100,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.startdatetime = startdatetime;
 	}
 	
-	@ExcelField(title="置忙结束时间", align=2, sort=8)
+	@ExcelField(title="结束时间", align=2, sort=5)
 	public String getEnddatetime() {
 		return enddatetime;
 	}
@@ -113,7 +109,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.enddatetime = enddatetime;
 	}
 	
-	@ExcelField(title="置忙时长(单位：秒)", align=2, sort=9)
+	@ExcelField(title="持续时长", align=2, sort=6)
 	public String getTimelen() {
 		return timelen;
 	}
@@ -122,7 +118,6 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.timelen = timelen;
 	}
 	
-	@ExcelField(title="置忙值", align=2, sort=10)
 	public String getDndvalue() {
 		return dndvalue;
 	}
@@ -131,7 +126,6 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.dndvalue = dndvalue;
 	}
 	
-	@ExcelField(title="置忙值描述", align=2, sort=11)
 	public String getDndvaluedesc() {
 		return dndvaluedesc;
 	}
@@ -140,6 +134,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.dndvaluedesc = dndvaluedesc;
 	}
 
+	@ExcelField(title="业务系统", align=2, sort=1)
 	public String getExqueuename() {
 		return exqueuename;
 	}

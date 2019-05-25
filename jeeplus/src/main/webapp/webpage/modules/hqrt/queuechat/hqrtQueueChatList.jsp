@@ -77,9 +77,9 @@
 		 <div class="" >
 			<div style="margin-top:40px;width: 150px;height: 34px;float: right" >
 			  <a  id="search" class="btn btn-warning" ><i class="fa fa-search"></i> 查询</a>
-       		<button id="export" class="btn btn-warning" >
-			<i class="fa fa-file-excel-o"></i> 导出
-		</button>
+       		<a id="export" class="btn btn-warning" >
+				<i class="fa fa-file-excel-o"></i> 导出
+			</a>
 			 </div>
 	    </div>	
 	</form:form>

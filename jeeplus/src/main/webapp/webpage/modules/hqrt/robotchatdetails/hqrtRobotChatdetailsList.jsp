@@ -92,14 +92,14 @@
 							</div>
 							<div class="col-xs-12 col-sm-6 col-md-5"
 								style="height: 44px; width: 500px">
-								<label class="label-item single-overflow pull-left" title="用户名" style="margin-top: 4px"><font size="4">用户姓名：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+								<label class="label-item single-overflow pull-left" title="用户名" style="margin-top: 4px"><font size="4">用户姓名：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 								<form:input path="customername" htmlEscape="false"
 									maxlength="50" class=" form-control"
 									style="width:340px;border-radius: 6px;" />
 							</div>
 							<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px; width: 500px">
 								<label class="label-item single-overflow pull-left"
-									title="会话ID：" style="margin-top: 4px"><font size="4">会话&nbsp;I&nbsp;D&nbsp;：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+									title="会话ID：" style="margin-top: 4px"><font size="4">会话&nbsp;I&nbsp;D&nbsp;：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 								<form:input path="sessionid" htmlEscape="false" maxlength="50"
 									class=" form-control" style="width:340px;border-radius: 6px;" />
 							</div>
@@ -117,9 +117,9 @@
 									style="margin-top: 40px; width: 150px; height: 34px; float: right">
 									<a id="search" class="btn btn-warning"><i
 										class="fa fa-search"></i> 查询</a>
-									<button id="export" class="btn btn-warning">
+									<a id="export" class="btn btn-warning">
 										<i class="fa fa-file-excel-o"></i> 导出
-									</button>
+									</a>
 								</div>
 							</div>
 						</form:form>

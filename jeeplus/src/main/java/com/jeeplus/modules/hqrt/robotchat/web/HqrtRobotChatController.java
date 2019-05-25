@@ -97,7 +97,6 @@ public class HqrtRobotChatController extends BaseController {
         	        23, 59, 59);
         	Date endOfDate = calendar2.getTime();
         	paramList.add(ft.format(endOfDate));
-        	
         }
 		if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
 			String[] provincesplit = hqrtRobotChat.getCustomerprovince().split(",");
@@ -227,7 +226,7 @@ public class HqrtRobotChatController extends BaseController {
     public AjaxJson exportFile(HqrtRobotChat hqrtRobotChat, HttpServletRequest request, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		try {
-            String fileName = "机器人对话"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+            String fileName = "机器人拦截统计"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
          // 首先根据业务和省份分组查询
             String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a ";
             String sqlcondition = "";
@@ -368,13 +367,13 @@ public class HqrtRobotChatController extends BaseController {
     			robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
     		}
             
-    		new ExportExcel("机器人对话", HqrtRobotChat.class).setDataList(hqrtRobotChatlist).write(response, fileName).dispose();
+    		new ExportExcel("机器人拦截统计", HqrtRobotChat.class).setDataList(hqrtRobotChatlist).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;
 		} catch (Exception e) {
 			j.setSuccess(false);
-			j.setMsg("导出机器人对话记录失败！失败信息："+e.getMessage());
+			j.setMsg("导出机器人拦截统计记录失败！失败信息："+e.getMessage());
 		}
 			return j;
     }

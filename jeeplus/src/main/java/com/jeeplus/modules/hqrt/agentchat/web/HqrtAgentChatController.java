@@ -5,6 +5,8 @@ package com.jeeplus.modules.hqrt.agentchat.web;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -79,9 +81,14 @@ public class HqrtAgentChatController extends BaseController {
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
 		if (StringUtils.isNotBlank(hqrtAgentChat.getCustomerprovince())) {
-        	// List<String> customerprovinceList = Arrays.asList(hqrtAgentChat.getCustomerprovince().split(","));
-        	sqlcondition += " AND a.customerprovince in ('" + hqrtAgentChat.getCustomerprovince().replace(",", "','") + "')";
-        	// paramList.add(customerprovinceList);
+			String[] provincesplit = hqrtAgentChat.getCustomerprovince().split(",");
+			sqlcondition += " AND (";
+			for (String province : provincesplit) {
+				sqlcondition += "a.customerprovince like ? OR ";
+				paramList.add("%" + province + "%");
+			}
+			sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
+			sqlcondition += ")";
         }
         if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
         	// List<String> queuenameList = Arrays.asList(hqrtAgentChat.getQueuename().split(","));
@@ -98,6 +105,18 @@ public class HqrtAgentChatController extends BaseController {
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         	paramList.add(ft.format(hqrtAgentChat.getStarttime()));
         	paramList.add(ft.format(hqrtAgentChat.getEndttime()));
+        } else {
+        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	Calendar cal = Calendar.getInstance();
+            cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+            Date beginOfDate = cal.getTime();
+        	paramList.add(ft.format(beginOfDate));
+        	Calendar calendar2 = Calendar.getInstance();
+        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+        	        23, 59, 59);
+        	Date endOfDate = calendar2.getTime();
+        	paramList.add(ft.format(endOfDate));
         }
         if (StringUtils.isNotBlank(hqrtAgentChat.getCustomername())) {
         	sqlcondition += " AND a.customername = ?";
