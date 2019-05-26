@@ -9,17 +9,17 @@ $(document).ready(function() {
                dataType: "json",
                contentType: "application/x-www-form-urlencoded",
                //显示检索按钮
-	           showSearch: true,
+	           //showSearch: true,
                //显示刷新按钮
-               showRefresh: true,
+               //showRefresh: true,
                //显示切换手机试图按钮
-               showToggle: true,
+               //showToggle: true,
                //显示 内容列下拉框
-    	       showColumns: true,
+    	       //showColumns: true,
     	       //显示到处按钮
-    	       showExport: true,
+    	       //showExport: true,
     	       //显示切换分页按钮
-    	       showPaginationSwitch: true,
+    	       //showPaginationSwitch: true,
     	       //最低显示2行
     	       minimumCountColumns: 2,
                //是否显示行间隔色
@@ -85,75 +85,149 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'rowdatetime',
-		        title: '记录创建时间',
-		        sortable: true,
-		        sortName: 'rowdatetime'
-		        ,formatter:function(value, row , index){
-		        	value = jp.unescapeHTML(value);
-				   <c:choose>
-					   <c:when test="${fns:hasPermission('hqrt:agentconfig:hqrtAgentConfig:edit')}">
-					      return "<a href='javascript:edit(\""+row.id+"\")'>"+value+"</a>";
-				      </c:when>
-					  <c:when test="${fns:hasPermission('hqrt:agentconfig:hqrtAgentConfig:view')}">
-					      return "<a href='javascript:view(\""+row.id+"\")'>"+value+"</a>";
-				      </c:when>
-					  <c:otherwise>
-					      return value;
-				      </c:otherwise>
-				   </c:choose>
-		         }
-		       
+		        field: 'queuename',
+		        title: '业务系统',
+		        sortable: false,
+		        sortName: 'queuename'
 		    }
 			,{
 		        field: 'agentid',
-		        title: '坐席ID编号',
-		        sortable: true,
+		        title: '坐席工号',
+		        sortable: false,
 		        sortName: 'agentid'
-		       
 		    }
 			,{
 		        field: 'agentname',
 		        title: '坐席姓名',
-		        sortable: true,
+		        sortable: false,
 		        sortName: 'agentname'
-		       
 		    }
 			,{
-		        field: 'agentmobile',
-		        title: '坐席手机号码',
-		        sortable: true,
-		        sortName: 'agentmobile'
-		       
+		        field: 'timelenlogin',
+		        title: '登陆时长',
+		        sortable: false,
+		        sortName: 'timelenlogin'
 		    }
 			,{
-		        field: 'agentprovince',
-		        title: '坐席所在省',
-		        sortable: true,
-		        sortName: 'agentprovince'
-		       
+		        field: 'timelenonline',
+		        title: '在线时长',
+		        sortable: false,
+		        sortName: 'timelenonline'
 		    }
 			,{
-		        field: 'queueid',
-		        title: '所在技能组编号',
-		        sortable: true,
-		        sortName: 'queueid'
-		       
+		        field: 'timelendnd',
+		        title: '置忙时长',
+		        sortable: false,
+		        sortName: 'timelendnd'
 		    }
 			,{
-		        field: 'queuecode',
-		        title: '技能组代码',
-		        sortable: true,
-		        sortName: 'queuecode'
-		       
+		        field: 'timelenwork',
+		        title: '接待时长',
+		        sortable: false,
+		        sortName: 'timelenwork'
 		    }
 			,{
-		        field: 'queuename',
-		        title: '技能组名称',
-		        sortable: true,
-		        sortName: 'queuename'
-		       
+		        field: 'timelenfree',
+		        title: '空闲时长',
+		        sortable: false,
+		        sortName: 'timelenfree'
 		    }
+			,{
+		        field: 'advicecount',
+		        title: '咨询量',
+		        sortable: false,
+		        sortName: 'advicecount'
+		    }
+			,{
+		        field: 'receivecount',
+		        title: '接待量',
+		        sortable: false,
+		        sortName: 'receivecount'
+		    }
+			,{
+		        field: 'invalidcount',
+		        title: '无效量',
+		        sortable: false,
+		        sortName: 'invalidcount'
+		    }
+			,{
+		        field: 'chattotaltime',
+		        title: '会话总时长',
+		        sortable: false,
+		        sortName: 'chattotaltime'
+		    }
+			,{
+		        field: 'chatavgtime',
+		        title: '会话平均时长',
+		        sortable: false,
+		        sortName: 'chatavgtime'
+		    }
+			,{
+		        field: 'firstresponsetimelenavg',
+		        title: '首次响应平均时长',
+		        sortable: false,
+		        sortName: 'firstresponsetimelenavg'
+		    }
+			,{
+		        field: 'avgresponsetimelen',
+		        title: '响应平均时长',
+		        sortable: false,
+		        sortName: 'avgresponsetimelen'
+		    }
+			,{
+				field: 'qaratio',
+				title: '问答比',
+				sortable: false,
+				sortName: 'qaratio'
+			}
+			,{
+				field: 'participationcount',
+				title: '参评量',
+				sortable: false,
+				sortName: 'participationcount'
+			}
+			,{
+				field: 'participationrate',
+				title: '参评率',
+				sortable: false,
+				sortName: 'participationrate'
+			}
+			,{
+				field: 'onestarcount',
+				title: '一星评价量',
+				sortable: false,
+				sortName: 'onestarcount'
+			}
+			,{
+				field: 'twostarcount',
+				title: '二星评价量',
+				sortable: false,
+				sortName: 'twostarcount'
+			}
+			,{
+				field: 'threestarcount',
+				title: '三星评价量',
+				sortable: false,
+				sortName: 'threestarcount'
+			}
+			,{
+				field: 'fourstarcount',
+				title: '四星评价量',
+				sortable: false,
+				sortName: 'fourstarcount'
+			}
+			,{
+				field: 'fivestarcount',
+				title: '五星评价量',
+				sortable: false,
+				sortName: 'fivestarcount'
+			}
+			,{
+				field: 'avgstarcount',
+				title: '平均评价',
+				sortable: false,
+				sortName: 'avgstarcount'
+			}
 		     ]
 		
 		});
@@ -226,6 +300,7 @@ $(document).ready(function() {
 		});
 	 
 	 $("#reset").click("click", function() {// 绑定查询按扭
+		  $('.easyui-combotree').combotree("clear");
 		  $("#searchForm  input").val("");
 		  $("#searchForm  select").val("");
 		  $("#searchForm  .select-item").html("");

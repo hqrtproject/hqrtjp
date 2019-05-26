@@ -91,14 +91,10 @@ public class HqrtAgentChatController extends BaseController {
 			sqlcondition += ")";
         }
         if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
-        	// List<String> queuenameList = Arrays.asList(hqrtAgentChat.getQueuename().split(","));
         	sqlcondition += " AND a.queuename in ('" + hqrtAgentChat.getQueuename().replace(",", "','") + "')";
-        	// paramList.add(queuenameList);
         }
-        if (StringUtils.isNotBlank(hqrtAgentChat.getAgentname())) {
-        	// List<String> agentnameList = Arrays.asList(hqrtAgentChat.getAgentname().split(","));
-        	sqlcondition += " AND a.agentname in ('" + hqrtAgentChat.getAgentname().replace(",", "','") + "')";
-        	// paramList.add(agentnameList);
+        if (StringUtils.isNotBlank(hqrtAgentChat.getAgentid())) {
+        	sqlcondition += " AND a.agentid in ('" + hqrtAgentChat.getAgentid().replace(",", "','") + "')";
         }
         if (hqrtAgentChat.getStarttime() != null && hqrtAgentChat.getEndttime() != null) {
         	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
@@ -185,19 +181,13 @@ public class HqrtAgentChatController extends BaseController {
             String sqlcondition = "";
             List<Object> paramList = new ArrayList<Object>();
     		if (StringUtils.isNotBlank(hqrtAgentChat.getCustomerprovince())) {
-            	// List<String> customerprovinceList = Arrays.asList(hqrtAgentChat.getCustomerprovince().split(","));
             	sqlcondition += " AND a.customerprovince in ('" + hqrtAgentChat.getCustomerprovince().replace(",", "','") + "')";
-            	// paramList.add(customerprovinceList);
             }
             if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
-            	// List<String> queuenameList = Arrays.asList(hqrtAgentChat.getQueuename().split(","));
             	sqlcondition += " AND a.queuename in ('" + hqrtAgentChat.getQueuename().replace(",", "','") + "')";
-            	// paramList.add(queuenameList);
             }
-            if (StringUtils.isNotBlank(hqrtAgentChat.getAgentname())) {
-            	// List<String> agentnameList = Arrays.asList(hqrtAgentChat.getAgentname().split(","));
-            	sqlcondition += " AND a.agentname in ('" + hqrtAgentChat.getAgentname().replace(",", "','") + "')";
-            	// paramList.add(agentnameList);
+            if (StringUtils.isNotBlank(hqrtAgentChat.getAgentid())) {
+            	sqlcondition += " AND a.agentid in ('" + hqrtAgentChat.getAgentid().replace(",", "','") + "')";
             }
             if (hqrtAgentChat.getStarttime() != null && hqrtAgentChat.getEndttime() != null) {
             	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
@@ -232,7 +222,6 @@ public class HqrtAgentChatController extends BaseController {
             sql += sqlcondition + " GROUP BY a.sessionid";
             MultiDBUtils md = MultiDBUtils.get("company");
             List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
-	            // Page<HqrtAgentChat> page = hqrtAgentChatService.findPage(new Page<HqrtAgentChat>(request, response, -1), hqrtAgentChat);
     		new ExportExcel("客户与坐席会话", HqrtAgentChat.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");

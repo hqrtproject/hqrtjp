@@ -2,141 +2,136 @@
 <%@ include file="/webpage/include/taglib.jsp"%>
 <html>
 <head>
-<title>客户与坐席会话管理</title>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-<meta name="decorator" content="ani" />
-<%@ include file="/webpage/include/bootstraptable.jsp"%>
-<%@include file="/webpage/include/treeview.jsp"%>
-<%@include file="hqrtAgentChatList.js"%>
-<link rel="stylesheet" type="text/css"
-	href="${ctxStatic}/plugin/combotree/css/easyui.css">
-<link rel="stylesheet" type="text/css"
-	href="${ctxStatic}/plugin/combotree/css/icon.css">
-<link rel="stylesheet" type="text/css"
-	href="${ctxStatic}/plugin/combotree/css/demo.css">
-<%-- <script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.min.js"></script> --%>
-<script type="text/javascript"
-	src="${ctxStatic}/plugin/combotree/js/jquery.easyui.min.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="${ctxStatic}/plugin/layui_v2/css/layui.css">
-<script>
-	$(document).ready(function() {
-		$('#province').combotree({
-			multiple : true,
-			// editable:true,
-			value : [],
-			// cascadeCheck: false,
-			// onlyLeafCheck: true
-			prompt : '请选择...',
-			onClick : function(node, checked) {
-				//选择故障模式，文本框只显示子节点，不显示父节点
-				var tt = $("#province").combotree("tree");// 获取树对象
-				var checkedNodes = tt.tree("getChecked"); // 所有选中节点
-				// console.log(checkedNodes);
-				var logicNodeValue = [];
-				var childLength = '';
-				$.each(checkedNodes, function(index) {
-					if (typeof (checkedNodes[index].children) == 'undefined') {
-						logicNodeValue.push(checkedNodes[index].text);
-					}
-				});
-				// console.log(logicNodeValue);
-				$('#province').combotree('setText', logicNodeValue);// 给文本框赋值
-			},
-			onCheck : function(node, checked) {
-				//选择故障模式，文本框只显示子节点，不显示父节点
-				var tt = $("#province").combotree("tree");// 获取树对象
-				var checkedNodes = tt.tree("getChecked"); // 所有选中节点
-				// console.log(checkedNodes);
-				var logicNodeValue = [];
-				var childLength = '';
-				$.each(checkedNodes, function(index) {
-					if (typeof (checkedNodes[index].children) == 'undefined') {
-						logicNodeValue.push(checkedNodes[index].text);
-					}
-				});
-				// console.log(logicNodeValue);
-				$('#province').combotree('setText', logicNodeValue);// 给文本框赋值
-				$('#customerprovince').val(logicNodeValue);// 给查询字段赋值
-			}
+	<title>客户与坐席会话管理</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="decorator" content="ani" />
+	<%@ include file="/webpage/include/bootstraptable.jsp"%>
+	<%@include file="/webpage/include/treeview.jsp"%>
+	<%@include file="hqrtAgentChatList.js"%>
+	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/easyui.css">
+	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/icon.css">
+	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/demo.css">
+	<script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/layui_v2/css/layui.css">
+	<script>
+		$(document).ready(function() {
+			$('#province').combotree({
+				multiple : true,
+				// editable:true,
+				value : [],
+				// cascadeCheck: false,
+				// onlyLeafCheck: true
+				prompt : '请选择...',
+				onClick : function(node, checked) {
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#province").combotree("tree");// 获取树对象
+					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue = [];
+					var childLength = '';
+					$.each(checkedNodes, function(index) {
+						if (typeof (checkedNodes[index].children) == 'undefined') {
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#province').combotree('setText', logicNodeValue);// 给文本框赋值
+				},
+				onCheck : function(node, checked) {
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#province").combotree("tree");// 获取树对象
+					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue = [];
+					var childLength = '';
+					$.each(checkedNodes, function(index) {
+						if (typeof (checkedNodes[index].children) == 'undefined') {
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#province').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#customerprovince').val(logicNodeValue);// 给查询字段赋值
+				}
+			});
+	
+			$('#queuenameID').combotree({
+				multiple : true,
+				// cascadeCheck: false,
+				// onlyLeafCheck: true
+				prompt : '请选择...',
+				onClick : function(node, checked) {
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#queuenameID").combotree("tree");// 获取树对象
+					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue = [];
+					var childLength = '';
+					$.each(checkedNodes, function(index) {
+						if (typeof (checkedNodes[index].children) == 'undefined') {
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
+				},
+				onCheck : function(node, checked) {
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#queuenameID").combotree("tree");// 获取树对象
+					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue = [];
+					var childLength = '';
+					$.each(checkedNodes, function(index) {
+						if (typeof (checkedNodes[index].children) == 'undefined') {
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#queuename').val(logicNodeValue);// 给查询字段赋值
+				}
+			});
+	
+			$('#agentID').combotree({
+				multiple : true,
+				// cascadeCheck: false,
+				// onlyLeafCheck: true
+				prompt : '请选择...',
+				onClick : function(node, checked) {
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#agentID").combotree("tree");// 获取树对象
+					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue = [];
+					var childLength = '';
+					$.each(checkedNodes, function(index) {
+						if (typeof (checkedNodes[index].children) == 'undefined') {
+							logicNodeValue.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
+				},
+				onCheck : function(node, checked) {
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#agentID").combotree("tree");// 获取树对象
+					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue = [];
+					var childLength = '';
+					$.each(checkedNodes, function(index) {
+						if (typeof (checkedNodes[index].children) == 'undefined') {
+							console.log(checkedNodes[index].text.split("(")[1].split(")")[0]);
+							logicNodeValue.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
+						}
+					});
+					$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#agentid').val(logicNodeValue);// 给查询字段赋值
+				}
+			});
 		});
-
-		$('#queuenameID').combotree({
-			multiple : true,
-			// cascadeCheck: false,
-			// onlyLeafCheck: true
-			prompt : '请选择...',
-			onClick : function(node, checked) {
-				//选择故障模式，文本框只显示子节点，不显示父节点
-				var tt = $("#queuenameID").combotree("tree");// 获取树对象
-				var checkedNodes = tt.tree("getChecked"); // 所有选中节点
-				// console.log(checkedNodes);
-				var logicNodeValue = [];
-				var childLength = '';
-				$.each(checkedNodes, function(index) {
-					if (typeof (checkedNodes[index].children) == 'undefined') {
-						logicNodeValue.push(checkedNodes[index].text);
-					}
-				});
-				// console.log(logicNodeValue);
-				$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
-			},
-			onCheck : function(node, checked) {
-				//选择故障模式，文本框只显示子节点，不显示父节点
-				var tt = $("#queuenameID").combotree("tree");// 获取树对象
-				var checkedNodes = tt.tree("getChecked"); // 所有选中节点
-				// console.log(checkedNodes);
-				var logicNodeValue = [];
-				var childLength = '';
-				$.each(checkedNodes, function(index) {
-					if (typeof (checkedNodes[index].children) == 'undefined') {
-						logicNodeValue.push(checkedNodes[index].text);
-					}
-				});
-				// console.log(logicNodeValue);
-				$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
-				$('#queuename').val(logicNodeValue);// 给查询字段赋值
-			}
-		});
-
-		$('#agentID').combotree({
-			multiple : true,
-			// cascadeCheck: false,
-			// onlyLeafCheck: true
-			prompt : '请选择...',
-			onClick : function(node, checked) {
-				//选择故障模式，文本框只显示子节点，不显示父节点
-				var tt = $("#agentID").combotree("tree");// 获取树对象
-				var checkedNodes = tt.tree("getChecked"); // 所有选中节点
-				// console.log(checkedNodes);
-				var logicNodeValue = [];
-				var childLength = '';
-				$.each(checkedNodes, function(index) {
-					if (typeof (checkedNodes[index].children) == 'undefined') {
-						logicNodeValue.push(checkedNodes[index].text);
-					}
-				});
-				// console.log(logicNodeValue);
-				$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
-			},
-			onCheck : function(node, checked) {
-				//选择故障模式，文本框只显示子节点，不显示父节点
-				var tt = $("#agentID").combotree("tree");// 获取树对象
-				var checkedNodes = tt.tree("getChecked"); // 所有选中节点
-				// console.log(checkedNodes);
-				var logicNodeValue = [];
-				var childLength = '';
-				$.each(checkedNodes, function(index) {
-					if (typeof (checkedNodes[index].children) == 'undefined') {
-						logicNodeValue.push(checkedNodes[index].text);
-					}
-				});
-				$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
-				$('#agentname').val(logicNodeValue);// 给查询字段赋值
-			}
-		});
-	});
-</script>
+	</script>
 </head>
 <body>
 	<div class="wrapper wrapper-content">
@@ -187,14 +182,10 @@
 									style="height: 34px; width: 340px">
 								<form:hidden path="customerprovince" />
 							</div>
-							<div class="col-xs-12 col-sm-6 col-md-6"
-								style="margin-top: 10px; width: 500px">
-								<label class="label-item single-overflow pull-left"
-									title="坐席工号：" style="margin-top: 3px"><font size="4">坐席工号：</font>&nbsp;&nbsp;</label>
-								<input id="agentID" class="easyui-combotree"
-									data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'"
-									style="height: 34px; width: 360px">
-								<form:hidden path="agentname" />
+							<div class="col-xs-12 col-sm-6 col-md-6" style="margin-top: 10px; width: 500px">
+								<label class="label-item single-overflow pull-left" title="坐席工号：" style="margin-top: 3px"><font size="4">坐席工号：</font>&nbsp;&nbsp;</label>
+								<input id="agentID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height: 34px; width: 360px">
+								<form:hidden path="agentid" />
 							</div>
 							<div class="col-xs-12 col-sm-6 col-md-2"
 								style="margin-top: 10px; width: 240px">
@@ -242,8 +233,7 @@
 									style="width:70%;border-radius: 6px;" />
 							</div>
 							<div class="">
-								<div
-									style="margin-top: 40px; width: 150px; height: 34px; float: right">
+								<div style="margin-top: 40px; width: 150px; height: 34px; float: right">
 									<a id="search" class="btn btn-warning"><i
 										class="fa fa-search"></i> 查询</a>
 									<a id="export" class="btn btn-warning">
