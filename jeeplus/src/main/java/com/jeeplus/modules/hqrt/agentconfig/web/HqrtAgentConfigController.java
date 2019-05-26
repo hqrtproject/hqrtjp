@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jeeplus.common.json.AjaxJson;
+import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
+import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentconfig.entity.HqrtAgentConfig;
@@ -230,24 +233,66 @@ public class HqrtAgentConfigController extends BaseController {
 	/**
 	 * 导出excel文件
 	 */
-	/*@ResponseBody
-	@RequiresPermissions("hqrt:agentconfig:hqrtAgentConfig:export")
+	@ResponseBody
     @RequestMapping(value = "export")
     public AjaxJson exportFile(HqrtAgentConfig hqrtAgentConfig, HttpServletRequest request, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		try {
-            String fileName = "坐席配置"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-            Page<HqrtAgentConfig> page = hqrtAgentConfigService.findPage(new Page<HqrtAgentConfig>(request, response, -1), hqrtAgentConfig);
-    		new ExportExcel("坐席配置", HqrtAgentConfig.class).setDataList(page.getList()).write(response, fileName).dispose();
+            String fileName = "在线客服坐席统计"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+            String sql = "SELECT a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',IFNULL(b.TimeLen,0) AS timelenlogin,IFNULL((b.TimeLen-c.TimeLen),0) AS timelenonline,IFNULL(c.TimeLen,0) AS timelendnd,IFNULL(d.TimeLen,0) AS timelenwork,IFNULL((b.TimeLen-c.TimeLen-d.TimeLen),0) AS timelenfree,IFNULL(e.advicecount,0) AS advicecount,IFNULL(e.receivecount,0) AS receivecount,IFNULL(e.invalidcount,0) AS invalidcount,IFNULL(e.chattotaltime,0) AS chattotaltime,IFNULL(e.chatavgtime,0) AS chatavgtime,IFNULL(e.firstresponsetimelenavg,0) AS firstresponsetimelenavg,IFNULL(e.avgresponsetimelen,0) AS avgresponsetimelen,IFNULL(e.qaratio,0) AS qaratio,IFNULL(e.participationcount,0) AS participationcount,FORMAT(IFNULL(e.participationcount,0)/IFNULL(e.advicecount,0),2) AS participationrate,IFNULL(e.avgstarcount,0) AS avgstarcount,IFNULL(e.onestarcount,0) AS onestarcount,IFNULL(e.twostarcount,0) AS twostarcount,IFNULL(e.threestarcount,0) AS threestarcount,IFNULL(e.fourstarcount,0) AS fourstarcount,IFNULL(e.fivestarcount,0) AS fivestarcount FROM hqrt_agent_config a LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_login WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS b ON a.AgentID = b.AgentID LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_dnd WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS c ON a.AgentID = c.AgentID LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_work WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS d ON a.AgentID = d.AgentID LEFT JOIN (select AgentID,COUNT(1) AS advicecount,SUM(IFNULL(TimeLen,0)) AS chattotaltime,FORMAT(AVG(IFNULL(TimeLen,0)),2) AS chatavgtime,FORMAT(AVG(IFNULL(FirstResponseTimeLen,0)),2) AS firstresponsetimelenavg,FORMAT(AVG(IFNULL(AvgResponseTimeLen,0)),2) AS avgresponsetimelen,FORMAT(SUM(IFNULL(CustomerMessageCount,0))/SUM(IFNULL(AgentMessageCount,0)),2) AS qaratio,FORMAT(AVG(IFNULL(EvaluateStar,0)),2) AS avgstarcount,SUM(case when IsValid = '1' then 1 else 0 end) AS receivecount,SUM(case when IsValid = '0' then 1 else 0 end) AS invalidcount,SUM(case when EvaluateStar != '0' then 1 else 0 end) AS participationcount,SUM(case when EvaluateStar = '1' then 1 else 0 end) AS onestarcount,SUM(case when EvaluateStar = '2' then 1 else 0 end) AS twostarcount,SUM(case when EvaluateStar = '3' then 1 else 0 end) AS threestarcount,SUM(case when EvaluateStar = '4' then 1 else 0 end) AS fourstarcount,SUM(case when EvaluateStar = '5' then 1 else 0 end) AS fivestarcount from  hqrt_agent_chat WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS e ON a.AgentID = e.AgentID ";
+            String sqlcondition = "";
+            List<Object> paramList = new ArrayList<Object>();
+            if (StringUtils.isNotBlank(hqrtAgentConfig.getQueuename())) {
+            	sqlcondition += " AND a.queuename in ('" + hqrtAgentConfig.getQueuename().replace(",", "','") + "')";
+            }
+            if (StringUtils.isNotBlank(hqrtAgentConfig.getAgentid())) {
+            	sqlcondition += " AND a.agentid in ('" + hqrtAgentConfig.getAgentid().replace(",", "','") + "')";
+            }
+            if (hqrtAgentConfig.getStarttime() != null && hqrtAgentConfig.getEndtime() != null) {
+            	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	paramList.add(ft.format(hqrtAgentConfig.getStarttime()));
+            	paramList.add(ft.format(hqrtAgentConfig.getEndtime()));
+            	paramList.add(ft.format(hqrtAgentConfig.getStarttime()));
+            	paramList.add(ft.format(hqrtAgentConfig.getEndtime()));
+            	paramList.add(ft.format(hqrtAgentConfig.getStarttime()));
+            	paramList.add(ft.format(hqrtAgentConfig.getEndtime()));
+            	paramList.add(ft.format(hqrtAgentConfig.getStarttime()));
+            	paramList.add(ft.format(hqrtAgentConfig.getEndtime()));
+            } else {
+            	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	Calendar cal = Calendar.getInstance();
+                cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+                Date beginOfDate = cal.getTime();
+            	Calendar calendar2 = Calendar.getInstance();
+            	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+            	        23, 59, 59);
+            	Date endOfDate = calendar2.getTime();
+            	paramList.add(ft.format(beginOfDate));
+            	paramList.add(ft.format(endOfDate));
+            	paramList.add(ft.format(beginOfDate));
+            	paramList.add(ft.format(endOfDate));
+            	paramList.add(ft.format(beginOfDate));
+            	paramList.add(ft.format(endOfDate));
+            	paramList.add(ft.format(beginOfDate));
+            	paramList.add(ft.format(endOfDate));
+            }
+            if (StringUtils.isNotBlank(sqlcondition)) {
+            	sqlcondition = sqlcondition.replaceFirst(" AND", "");
+            	sqlcondition  = " where" + sqlcondition;
+            }
+            sql += sqlcondition;
+            MultiDBUtils md = MultiDBUtils.get("company");
+            List<HqrtAgentConfig> detailsList = md.queryList(sql, HqrtAgentConfig.class, paramList.toArray());
+    		new ExportExcel("在线客服坐席统计", HqrtAgentConfig.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;
 		} catch (Exception e) {
 			j.setSuccess(false);
-			j.setMsg("导出坐席配置记录失败！失败信息："+e.getMessage());
+			j.setMsg("导出在线客服坐席统计记录失败！失败信息："+e.getMessage());
 		}
 			return j;
-    }*/
+    }
 
 	/**
 	 * 导入Excel数据

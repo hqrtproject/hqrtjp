@@ -156,17 +156,17 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 	}
 
 	@ExcelField(title="置忙时长", align=2, sort=6)
-	public Integer getTimelenwork() {
-		return timelenwork;
-	}
-
 	public Integer getTimelendnd() {
 		return timelendnd;
 	}
 
-	@ExcelField(title="接待时长", align=2, sort=7)
 	public void setTimelendnd(Integer timelendnd) {
 		this.timelendnd = timelendnd;
+	}
+	
+	@ExcelField(title="接待时长", align=2, sort=7)
+	public Integer getTimelenwork() {
+		return timelenwork;
 	}
 
 	public void setTimelenwork(Integer timelenwork) {
