@@ -62,7 +62,7 @@
 								<div class="form-group">
 									<div class="col-xs-12">
 										<label class="label-item single-overflow pull-left"
-											title="进线开始：" style="margin-top: 3px"><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+											title="进线开始：" style="margin-top: 3px"><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 										<div class="col-xs-12 col-sm-4">
 											<div class="layui-input-inline">
 												<input type="text" class="layui-input" id="starttime"
@@ -114,7 +114,7 @@
 							</div>
 							<div class="">
 								<div
-									style="margin-top: 40px; width: 150px; height: 34px; float: right">
+									style="margin-top: 26px; width: 150px; height: 34px; float: right">
 									<a id="search" class="btn btn-warning"><i
 										class="fa fa-search"></i> 查询</a>
 									<a id="export" class="btn btn-warning">

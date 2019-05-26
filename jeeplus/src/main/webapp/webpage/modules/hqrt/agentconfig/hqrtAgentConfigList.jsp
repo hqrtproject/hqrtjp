@@ -107,7 +107,7 @@
 				<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
 					<div class="form-group">
 						<div class="col-xs-12">
-							<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top: 3px"><font size="4">进线开始：</font>&nbsp;</label>
+							<label class="label-item single-overflow pull-left" title="进线开始：" style="margin-top: 3px"><font size="4">进线开始：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 							<div class="col-xs-12 col-sm-4">
 								<div class="layui-input-inline">
 									<input type="text" class="layui-input" id="starttime" name="starttime" style="height: 34px; border-radius: 6px; width: 150px">
@@ -122,15 +122,15 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-6 col-md-5" style="width: 500px">
+				<div class="col-xs-12 col-sm-6 col-md-5" style="height: 44px;width: 500px">
 					<label class="label-item single-overflow pull-left"
-						title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;</label>
-					<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height: 44px; width: 360px">
+						title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+					<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height: 34px; width: 340px">
 					<form:hidden path="queuename" />
 				</div>
-				<div class="col-xs-12 col-sm-6 col-md-6" style="width: 500px">
-					<label class="label-item single-overflow pull-left" title="坐席工号：" style="margin-top: 3px"><font size="4">坐席工号：</font>&nbsp;&nbsp;</label>
-					<input id="agentID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height: 44px; width: 360px">
+				<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
+					<label class="label-item single-overflow pull-left" title="坐席工号：" style="margin-top: 3px"><font size="4">坐席工号：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+					<input id="agentID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height: 34px; width: 340px">
 					<form:hidden path="agentid" />
 				</div>
 				 <div class="">

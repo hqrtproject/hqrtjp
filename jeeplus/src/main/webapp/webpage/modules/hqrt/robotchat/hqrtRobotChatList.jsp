@@ -122,8 +122,8 @@
 				<input id="province" class="easyui-combotree" data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'" style="height:34px;width:340px">
 				<form:hidden path="customerprovince"/>
 			</div>
-			<div class="" style="float:right">
-				<div style="margin-top:40px">
+			<div class="" style="margin-top: 26px;float:right">
+				<div style="">
 				  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
 				  <!-- <a  id="reset" class="btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a> -->
 				  <a id="export" class="btn btn-warning">

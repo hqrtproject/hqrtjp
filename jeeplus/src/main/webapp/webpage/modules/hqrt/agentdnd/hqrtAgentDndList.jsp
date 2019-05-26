@@ -86,14 +86,14 @@
 					</div>
 				</div>
 			</div>
-			 <div class="col-xs-12 col-sm-6 col-md-5"style="width: 500px">
+			 <div class="col-xs-12 col-sm-6 col-md-5"style="height:44px;width: 500px">
 				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:340px">
 				<form:hidden path="exqueuename"/>
 			</div>
 			<div class="">
 				<div
-					style="margin-top: 40px; width: 150px; height: 34px; float: right">
+					style="margin-top: 26px; width: 150px; height: 34px; float: right">
 					<a id="search" class="btn btn-warning"><i
 						class="fa fa-search"></i> 查询</a>
 					<a id="export" class="btn btn-warning">

@@ -44,7 +44,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		super(id);
 	}
 
-	@ExcelField(title="唯一记录标识（主键）", align=2, sort=1)
+	
 	public String getRowguid() {
 		return rowguid;
 	}
@@ -53,7 +53,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.rowguid = rowguid;
 	}
 	
-	@ExcelField(title="记录创建时间", align=2, sort=2)
+	
 	public String getRowdatetime() {
 		return rowdatetime;
 	}
@@ -62,7 +62,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.rowdatetime = rowdatetime;
 	}
 	
-	@ExcelField(title="会话ID", align=2, sort=3)
+	
 	public String getSessionid() {
 		return sessionid;
 	}
@@ -71,7 +71,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.sessionid = sessionid;
 	}
 	
-	@ExcelField(title="客户标识", align=2, sort=4)
+	
 	public String getCustomerid() {
 		return customerid;
 	}
@@ -80,7 +80,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.customerid = customerid;
 	}
 	
-	@ExcelField(title="客户姓名", align=2, sort=5)
+	
 	public String getCustomername() {
 		return customername;
 	}
@@ -89,7 +89,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.customername = customername;
 	}
 	
-	@ExcelField(title="客户手机号码", align=2, sort=6)
+	
 	public String getCustomermobile() {
 		return customermobile;
 	}
@@ -98,7 +98,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.customermobile = customermobile;
 	}
 	
-	@ExcelField(title="客户所在省", align=2, sort=7)
+	
 	public String getCustomerprovince() {
 		return customerprovince;
 	}
@@ -107,7 +107,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.customerprovince = customerprovince;
 	}
 	
-	@ExcelField(title="坐席ID编号", align=2, sort=8)
+	
 	public String getAgentid() {
 		return agentid;
 	}
@@ -116,7 +116,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.agentid = agentid;
 	}
 	
-	@ExcelField(title="坐席姓名", align=2, sort=9)
+	
 	public String getAgentname() {
 		return agentname;
 	}
@@ -125,7 +125,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.agentname = agentname;
 	}
 	
-	@ExcelField(title="坐席手机号码", align=2, sort=10)
+	
 	public String getAgentmobile() {
 		return agentmobile;
 	}
@@ -134,7 +134,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.agentmobile = agentmobile;
 	}
 	
-	@ExcelField(title="坐席所在省", align=2, sort=11)
+	
 	public String getAgentprovince() {
 		return agentprovince;
 	}
@@ -143,7 +143,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.agentprovince = agentprovince;
 	}
 	
-	@ExcelField(title="队列（技能组）编号", align=2, sort=12)
+	
 	public String getQueueid() {
 		return queueid;
 	}
@@ -152,7 +152,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.queueid = queueid;
 	}
 	
-	@ExcelField(title="队列编码", align=2, sort=13)
+	
 	public String getQueuecode() {
 		return queuecode;
 	}
@@ -161,7 +161,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.queuecode = queuecode;
 	}
 	
-	@ExcelField(title="队列（技能组）名称", align=2, sort=14)
+	
 	public String getQueuename() {
 		return queuename;
 	}
@@ -170,7 +170,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.queuename = queuename;
 	}
 	
-	@ExcelField(title="消息类型：1文本，3图片，4文件", align=2, sort=15)
+	
 	public String getMessagetype() {
 		return messagetype;
 	}
@@ -179,7 +179,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.messagetype = messagetype;
 	}
 	
-	@ExcelField(title="消息内容，非文本消息时存的是url地址", align=2, sort=16)
+	@ExcelField(title="聊天内容", align=2, sort=19)
 	public String getMessagecontext() {
 		return messagecontext;
 	}
@@ -188,7 +188,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.messagecontext = messagecontext;
 	}
 	
-	@ExcelField(title="发送消息方：1客户，2坐席，3系统", align=2, sort=17)
+	
 	public String getMessagesender() {
 		return messagesender;
 	}
@@ -197,7 +197,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.messagesender = messagesender;
 	}
 	
-	@ExcelField(title="消息时间", align=2, sort=18)
+
 	public String getMessagedatetime() {
 		return messagedatetime;
 	}
@@ -206,7 +206,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.messagedatetime = messagedatetime;
 	}
 	
-	@ExcelField(title="原始SessionID", align=2, sort=19)
+	
 	public String getOriginalsessionid() {
 		return originalsessionid;
 	}

@@ -64,7 +64,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		super(id);
 	}
 
-	@ExcelField(title="唯一记录标识（主键）", align=2, sort=1)
+	
 	public String getRowguid() {
 		return rowguid;
 	}
@@ -73,7 +73,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.rowguid = rowguid;
 	}
 	
-	@ExcelField(title="记录创建时间", align=2, sort=2)
+	
 	public String getRowdatetime() {
 		return rowdatetime;
 	}
@@ -82,7 +82,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.rowdatetime = rowdatetime;
 	}
 	
-	@ExcelField(title="会话ID", align=2, sort=3)
+	@ExcelField(title="会话ID", align=2, sort=2)
 	public String getSessionid() {
 		return sessionid;
 	}
@@ -91,7 +91,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.sessionid = sessionid;
 	}
 	
-	@ExcelField(title="人工会话交谈索引", align=2, sort=4)
+	
 	public String getTalkindex() {
 		return talkindex;
 	}
@@ -100,7 +100,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.talkindex = talkindex;
 	}
 	
-	@ExcelField(title="客户标识", align=2, sort=5)
+	@ExcelField(title="客户ID", align=2, sort=3)
 	public String getCustomerid() {
 		return customerid;
 	}
@@ -109,7 +109,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.customerid = customerid;
 	}
 	
-	@ExcelField(title="客户姓名", align=2, sort=6)
+	@ExcelField(title="客户姓名", align=2, sort=4)
 	public String getCustomername() {
 		return customername;
 	}
@@ -118,7 +118,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.customername = customername;
 	}
 	
-	@ExcelField(title="客户手机号码", align=2, sort=7)
+	
 	public String getCustomermobile() {
 		return customermobile;
 	}
@@ -127,7 +127,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.customermobile = customermobile;
 	}
 	
-	@ExcelField(title="客户所在省", align=2, sort=8)
+	@ExcelField(title="客户所在省", align=2, sort=5)
 	public String getCustomerprovince() {
 		return customerprovince;
 	}
@@ -144,7 +144,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.customerprovinceList = customerprovinceList;
 	}
 	
-	@ExcelField(title="坐席ID编号", align=2, sort=9)
+	@ExcelField(title="坐席ID", align=2, sort=7)
 	public String getAgentid() {
 		return agentid;
 	}
@@ -153,7 +153,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.agentid = agentid;
 	}
 	
-	@ExcelField(title="坐席姓名", align=2, sort=10)
+	@ExcelField(title="坐席名", align=2, sort=6)
 	public String getAgentname() {
 		return agentname;
 	}
@@ -170,7 +170,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.agentnameList = agentnameList;
 	}
 	
-	@ExcelField(title="坐席手机号码", align=2, sort=11)
+	
 	public String getAgentmobile() {
 		return agentmobile;
 	}
@@ -179,7 +179,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.agentmobile = agentmobile;
 	}
 	
-	@ExcelField(title="坐席所在省", align=2, sort=12)
+	
 	public String getAgentprovince() {
 		return agentprovince;
 	}
@@ -188,7 +188,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.agentprovince = agentprovince;
 	}
 	
-	@ExcelField(title="会话开始时间", align=2, sort=13)
+	@ExcelField(title="会话开始时间", align=2, sort=8)
 	public String getStartdatetime() {
 		return startdatetime;
 	}
@@ -197,7 +197,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.startdatetime = startdatetime;
 	}
 	
-	@ExcelField(title="会话结束时间", align=2, sort=14)
+	@ExcelField(title="会话结束时间", align=2, sort=9)
 	public String getEnddatetime() {
 		return enddatetime;
 	}
@@ -206,7 +206,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.enddatetime = enddatetime;
 	}
 	
-	@ExcelField(title="会话持续时长(单位：秒)", align=2, sort=15)
+	@ExcelField(title="会话时长", align=2, sort=10)
 	public String getTimelen() {
 		return timelen;
 	}
@@ -215,7 +215,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.timelen = timelen;
 	}
 	
-	@ExcelField(title="会话结束原因：1客户关闭、2坐席关闭、3系统关闭、4超时结束、5转接其他坐席", align=2, sort=16)
+
 	public String getEndreasonno() {
 		return endreasonno;
 	}
@@ -224,7 +224,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.endreasonno = endreasonno;
 	}
 	
-	@ExcelField(title="会话结束原因：1客户关闭、2坐席关闭、3系统关闭、4超时结束、5转接其他坐席", align=2, sort=17)
+	@ExcelField(title="结束原因", align=2, sort=18)
 	public String getEndreason() {
 		return endreason;
 	}
@@ -233,7 +233,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.endreason = endreason;
 	}
 	
-	@ExcelField(title="队列（技能组）编号", align=2, sort=18)
+	
 	public String getQueueid() {
 		return queueid;
 	}
@@ -242,7 +242,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.queueid = queueid;
 	}
 	
-	@ExcelField(title="队列编码", align=2, sort=19)
+	
 	public String getQueuecode() {
 		return queuecode;
 	}
@@ -251,7 +251,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.queuecode = queuecode;
 	}
 	
-	@ExcelField(title="队列（技能组）名称", align=2, sort=20)
+	@ExcelField(title="业务系统", align=2, sort=1)
 	public String getQueuename() {
 		return queuename;
 	}
@@ -268,7 +268,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.queuenameList = queuenameList;
 	}
 	
-	@ExcelField(title="是否有效会话（0无效、1有效）", align=2, sort=21)
+	@ExcelField(title="是否有效会话", align=2, sort=11)
 	public String getIsvalid() {
 		return isvalid;
 	}
@@ -277,7 +277,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.isvalid = isvalid;
 	}
 	
-	@ExcelField(title="首次响应时长", align=2, sort=22)
+	@ExcelField(title="首次响应时长", align=2, sort=12)
 	public String getFirstresponsetimelen() {
 		return firstresponsetimelen;
 	}
@@ -286,7 +286,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.firstresponsetimelen = firstresponsetimelen;
 	}
 	
-	@ExcelField(title="平均响应时长", align=2, sort=23)
+	@ExcelField(title="平均响应时长", align=2, sort=13)
 	public String getAvgresponsetimelen() {
 		return avgresponsetimelen;
 	}
@@ -295,7 +295,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.avgresponsetimelen = avgresponsetimelen;
 	}
 	
-	@ExcelField(title="客户发送消息数量", align=2, sort=24)
+	@ExcelField(title="客户消息数", align=2, sort=14)
 	public String getCustomermessagecount() {
 		return customermessagecount;
 	}
@@ -304,7 +304,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.customermessagecount = customermessagecount;
 	}
 	
-	@ExcelField(title="坐席发送消息数量", align=2, sort=25)
+	@ExcelField(title="客服回复数", align=2, sort=15)
 	public String getAgentmessagecount() {
 		return agentmessagecount;
 	}
@@ -313,7 +313,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.agentmessagecount = agentmessagecount;
 	}
 	
-	@ExcelField(title="评价星级(0未评价，1-5星)", align=2, sort=26)
+	@ExcelField(title="评价星级(对客服)", align=2, sort=16)
 	public String getEvaluatestar() {
 		return evaluatestar;
 	}
@@ -322,7 +322,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.evaluatestar = evaluatestar;
 	}
 	
-	@ExcelField(title="评价内容", align=2, sort=27)
+	@ExcelField(title="评价内容", align=2, sort=17)
 	public String getEvaluatetext() {
 		return evaluatetext;
 	}
@@ -331,7 +331,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.evaluatetext = evaluatetext;
 	}
 	
-	@ExcelField(title="原始SessionID", align=2, sort=28)
+
 	public String getOriginalsessionid() {
 		return originalsessionid;
 	}
