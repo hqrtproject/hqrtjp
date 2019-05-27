@@ -114,17 +114,40 @@
 		layui.use('laydate', function(){
 			var laydate = layui.laydate;
 			//执行一个laydate实例
+			var formatDate = function (date) {  
+			    var y = date.getFullYear();  
+			    var m = date.getMonth() + 1;  
+			    m = m < 10 ? ('0' + m) : m;  
+			    var d = date.getDate();  
+			    d = d < 10 ? ('0' + d) : d;  
+			    var h = date.getHours();  
+			    var minute = date.getMinutes();  
+			    minute = minute < 10 ? ('0' + minute) : minute; 
+			    var second= date.getSeconds();  
+			    second = minute < 10 ? ('0' + second) : second;  
+			    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+ second;  
+			};
+			var todaystart = new Date();
+			todaystart.setHours(0);
+			todaystart.setMinutes(0);
+			todaystart.setSeconds(0);
+			todaystart.setMilliseconds(0);
+			var todayend = new Date();
+			todayend.setHours(23);
+			todayend.setMinutes(59);
+			todayend.setSeconds(59);
+			todayend.setMilliseconds(59);
 			laydate.render({
 				elem: '#starttime',
-				format: 'yyyy-MM-dd HH:mm:ss',
 				type: 'datetime',
-				value: new Date(new Date(new Date().toLocaleDateString()).getTime())
+				value : formatDate(todaystart),
+				isInitValue: true
 			});
 			laydate.render({
 				elem: '#endtime',
-				format: 'yyyy-MM-dd HH:mm:ss',
 				type: 'datetime',
-				value: new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1)
+				value : formatDate(todayend),
+				isInitValue: true
 			});
 		});
 	</script>

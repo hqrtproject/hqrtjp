@@ -174,7 +174,7 @@ public class HqrtAgentChatController extends BaseController {
     public AjaxJson exportFile(HqrtAgentChat hqrtAgentChat, HttpServletRequest request, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		try {
-            String fileName = "客户与坐席会话"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+            String fileName = "在线客服会话明细"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
             Page<HqrtAgentChat> page = new Page<>(request, response);
             hqrtAgentChat.setPage(page);
     		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.talkindex AS 'talkindex',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',a.isvalid AS 'isvalid',a.firstresponsetimelen AS 'firstresponsetimelen',a.avgresponsetimelen AS 'avgresponsetimelen',a.customermessagecount AS 'customermessagecount',a.agentmessagecount AS 'agentmessagecount',a.evaluatestar AS 'evaluatestar',a.evaluatetext AS 'evaluatetext',a.originalsessionid AS 'originalsessionid' FROM hqrt_agent_chat a LEFT JOIN hqrt_agent_chatdetails b ON a.sessionid = b.sessionid";
@@ -222,13 +222,33 @@ public class HqrtAgentChatController extends BaseController {
             sql += sqlcondition + " GROUP BY a.sessionid";
             MultiDBUtils md = MultiDBUtils.get("company");
             List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
-    		new ExportExcel("客户与坐席会话", HqrtAgentChat.class).setDataList(detailsList).write(response, fileName).dispose();
+            for (HqrtAgentChat agentChat : detailsList) {
+				if ("0".equals(agentChat.getIsvalid())) {
+					agentChat.setIsvalid("无效");
+				} else {
+					agentChat.setIsvalid("有效");
+				}
+				if ("0".equals(agentChat.getEvaluatestar())) {
+					agentChat.setEvaluatestar("未评价");
+				} else if ("1".equals(agentChat.getEvaluatestar())) {
+					agentChat.setEvaluatestar("一星");
+				} else if ("2".equals(agentChat.getEvaluatestar())) {
+					agentChat.setEvaluatestar("二星");
+				} else if ("3".equals(agentChat.getEvaluatestar())) {
+					agentChat.setEvaluatestar("三星");
+				} else if ("4".equals(agentChat.getEvaluatestar())) {
+					agentChat.setEvaluatestar("四星");
+				} else if ("5".equals(agentChat.getEvaluatestar())) {
+					agentChat.setEvaluatestar("五星");
+				}
+			}
+    		new ExportExcel("在线客服会话明细", HqrtAgentChat.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;
 		} catch (Exception e) {
 			j.setSuccess(false);
-			j.setMsg("导出客户与坐席会话记录失败！失败信息："+e.getMessage());
+			j.setMsg("导出在线客服会话明细记录失败！失败信息："+e.getMessage());
 		}
 			return j;
     }

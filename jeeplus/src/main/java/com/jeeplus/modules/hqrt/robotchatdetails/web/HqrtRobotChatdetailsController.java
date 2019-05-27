@@ -134,7 +134,7 @@ public class HqrtRobotChatdetailsController extends BaseController {
     public AjaxJson exportFile(HqrtRobotChatdetails hqrtRobotChatdetails, HttpServletRequest request, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		try {
-            String fileName = "机器人对话内容"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+            String fileName = "机器人拦截明细日志"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
             String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.queueid AS 'queueid',a.queuename AS 'queuename', a.requestcontext AS 'requestcontext',a.responsecontext AS 'responsecontext', a.responseno AS 'responseno', a.responsenodesc AS 'responsenodesc',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel', a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.satisfyno AS 'satisfyno',a.satisfydesc AS 'satisfydesc',a.MessageDateTime  AS 'messagedatetime',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chatdetails a ";
             String sqlcondition = "";
             List<Object> paramList = new ArrayList<Object>();
@@ -179,13 +179,13 @@ public class HqrtRobotChatdetailsController extends BaseController {
             sql += sqlcondition;
             MultiDBUtils md = MultiDBUtils.get("company");
             List<HqrtRobotChatdetails> queryList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
-            new ExportExcel("机器人对话内容", HqrtRobotChatdetails.class).setDataList(queryList).write(response, fileName).dispose();
+            new ExportExcel("机器人拦截明细日志", HqrtRobotChatdetails.class).setDataList(queryList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;
 		} catch (Exception e) {
 			j.setSuccess(false);
-			j.setMsg("导出机器人对话内容记录失败！失败信息："+e.getMessage());
+			j.setMsg("导出机器人拦截明细日志记录失败！失败信息："+e.getMessage());
 		}
 			return j;
     }
