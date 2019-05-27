@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.core.web.BaseController;
+import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
 import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
 import com.jeeplus.modules.hqrt.robotchat.service.HqrtRobotChatService;
 import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
@@ -45,6 +46,9 @@ public class HqrtRobotChatController extends BaseController {
 
 	@Autowired
 	private HqrtRobotChatService hqrtRobotChatService;
+	
+	@Autowired
+	private HqrtCmccAreaService hqrtCmccAreaService;
 	
 	@ModelAttribute
 	public HqrtRobotChat get(@RequestParam(required=false) String id) {
@@ -110,15 +114,20 @@ public class HqrtRobotChatController extends BaseController {
 				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
 				sqlcondition += ")";
 			} else {
-				String allareas = Global.getConfig("all.areas");
+				List<String> hqrtCmccAreaList = hqrtCmccAreaService.findAllProvineList();
 				String[] provinceselect = hqrtRobotChat.getCustomerprovince().split(",");
 				for (String province : provinceselect) {
-					if (allareas.contains(province + "、")) {
-						allareas = allareas.replace(province + "、", "");
-					} else if (allareas.contains("、" + province)) {
-						allareas = allareas.replace("、" + province, "");
+					if (hqrtCmccAreaList.contains(province)) {
+						hqrtCmccAreaList.remove(province);
 					}
 				}
+				sqlcondition += " AND (";
+				for (String province : hqrtCmccAreaList) {
+					sqlcondition += "a.customerprovince not like ? AND ";
+					paramList.add("%" + province + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
+				sqlcondition += ")";
 			}
         }
         if (StringUtils.isNotBlank(sqlcondition)) {
@@ -225,6 +234,28 @@ public class HqrtRobotChatController extends BaseController {
 			robotChat.setFailurefindknowledge(failurefindknowledge);
 			DecimalFormat df = new DecimalFormat("#0.00");
 			robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
+		}
+		Iterator<HqrtRobotChat> it = hqrtRobotChatlist.iterator();
+		List<String> hqrtCmccAreaList = hqrtCmccAreaService.findAllProvineList();
+		HqrtRobotChat newHqrtRobotChat = new HqrtRobotChat();
+		while (it.hasNext()) {
+			HqrtRobotChat hrc = it.next();
+			for (String area : hqrtCmccAreaList) {
+				if (hrc.getCustomerprovince().contains(area)) {
+					/*newHqrtRobotChat.setConversionvolume(conversionvolume);
+					newHqrtRobotChat.setTotaluserquestions(totaluserquestions);
+					newHqrtRobotChat.setResolved(resolved);
+					newHqrtRobotChat.setUnresolved(unresolved);
+					newHqrtRobotChat.setNotevaluated(notevaluated);
+					newHqrtRobotChat.setFailurefindknowledge(failurefindknowledge);
+					DecimalFormat df = new DecimalFormat("#0.00");
+					robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
+					break;*/
+				}
+			}
+		}
+		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
+			
 		}
 		map.put("rows", hqrtRobotChatlist);
 		// map.put("total", page.getCount());

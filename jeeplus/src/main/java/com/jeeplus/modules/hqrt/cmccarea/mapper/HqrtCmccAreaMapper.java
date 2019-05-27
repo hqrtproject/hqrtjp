@@ -3,6 +3,8 @@
  */
 package com.jeeplus.modules.hqrt.cmccarea.mapper;
 
+import java.util.List;
+
 import com.jeeplus.core.persistence.TreeMapper;
 import com.jeeplus.core.persistence.annotation.MyBatisMapper;
 import com.jeeplus.modules.hqrt.cmccarea.entity.HqrtCmccArea;
@@ -14,5 +16,7 @@ import com.jeeplus.modules.hqrt.cmccarea.entity.HqrtCmccArea;
  */
 @MyBatisMapper
 public interface HqrtCmccAreaMapper extends TreeMapper<HqrtCmccArea> {
+
+	List<String> findAllProvineList();
 	
 }

@@ -42,5 +42,9 @@ public class HqrtCmccAreaService extends TreeService<HqrtCmccAreaMapper, HqrtCmc
 	public void delete(HqrtCmccArea hqrtCmccArea) {
 		super.delete(hqrtCmccArea);
 	}
+
+	public List<String> findAllProvineList() {
+		return mapper.findAllProvineList();
+	}
 	
 }
