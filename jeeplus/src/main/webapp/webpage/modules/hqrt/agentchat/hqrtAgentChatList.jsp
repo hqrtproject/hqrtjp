@@ -178,7 +178,7 @@
 								<label class="label-item single-overflow pull-left"
 									title="用户省份：" style="margin-top: 3px"><font size="4">用户省份：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 								<input id="province" class="easyui-combotree"
-									data-options="url:'${ctxStatic}/plugin/combotree/area.json',method:'get'"
+									data-options="url:'${ctx}/hqrt/cmccarea/hqrtCmccArea/combotreedata',method:'post'"
 									style="height: 34px; width: 340px">
 								<form:hidden path="customerprovince" />
 							</div>

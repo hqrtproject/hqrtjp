@@ -123,6 +123,9 @@ public class HqrtRobotChatdetailsController extends BaseController {
 		BaseService.dataRuleFilter(hqrtRobotChatdetails);
 		hqrtRobotChatdetails.setPage(page);
 		page.setList(detailsList);
+		/*for (int i = 0; i < detailsList.size(); i++) {
+			
+		}*/
 		return getBootstrapData(page);
 	}
 

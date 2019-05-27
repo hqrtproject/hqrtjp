@@ -131,6 +131,7 @@ $(document).ready(function() {
 		        field: 'customerid',
 		        title: '用户ID',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'customerid'
 		       
 		    }
@@ -159,6 +160,7 @@ $(document).ready(function() {
 		        field: 'satisfydesc',
 		        title: '是否解决（解决状态）',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'satisfydesc'
 		       
 		    }
@@ -173,6 +175,7 @@ $(document).ready(function() {
 		        field: 'faqcreaterid',
 		        title: '知识创建人',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'faqcreaterid'
 		       
 		    }

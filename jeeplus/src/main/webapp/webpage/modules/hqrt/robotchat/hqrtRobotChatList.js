@@ -96,13 +96,17 @@ $(document).ready(function() {
 		        field: 'totalincount',
 		        title: '总进线量',
 		        sortable: false,
+		        align:'center',
+		      
 		        sortName: 'totalincount'
 		       
 		    }
 			,{
 		        field: 'customerprovince',
 		        title: '省份',
+		
 		        sortable: false,
+		        width:'150px',
 		        sortName: 'customerprovince'
 		       
 		    }
@@ -110,6 +114,7 @@ $(document).ready(function() {
 		        field: 'conversionvolume',
 		        title: '转人工量',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'conversionvolume'
 		       
 		    }
@@ -117,6 +122,7 @@ $(document).ready(function() {
 		        field: 'conversionrate',
 		        title: '转人工率',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'conversionrate'
 		       
 		    }
@@ -124,6 +130,7 @@ $(document).ready(function() {
 		        field: 'totaluserquestions',
 		        title: '用户提问总量',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'totaluserquestions'
 		       
 		    }
@@ -131,6 +138,7 @@ $(document).ready(function() {
 		        field: 'resolved',
 		        title: '机器人已解决量',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'resolved'
 		       
 		    }
@@ -138,6 +146,7 @@ $(document).ready(function() {
 		        field: 'unresolved',
 		        title: '机器人未解决量',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'unresolved'
 		       
 		    }
@@ -145,6 +154,7 @@ $(document).ready(function() {
 		        field: 'notevaluated',
 		        title: '未评价',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'notevaluated'
 		       
 		    }
@@ -152,6 +162,7 @@ $(document).ready(function() {
 		        field: 'failurefindknowledge',
 		        title: '未找到知识',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'failurefindknowledge'
 		       
 		    }
