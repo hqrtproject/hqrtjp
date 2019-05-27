@@ -7,7 +7,6 @@ package com.jeeplus.modules.hqrt.robotchat.entity;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 import com.jeeplus.core.persistence.DataEntity;
 

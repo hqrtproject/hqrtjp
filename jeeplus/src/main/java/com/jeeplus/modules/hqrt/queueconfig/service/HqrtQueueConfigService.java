@@ -43,5 +43,9 @@ public class HqrtQueueConfigService extends CrudService<HqrtQueueConfigMapper, H
 	public void delete(HqrtQueueConfig hqrtQueueConfig) {
 		super.delete(hqrtQueueConfig);
 	}
+
+	public List<String> findAllQueuenameList() {
+		return mapper.findAllQueuenameList();
+	}
 	
 }

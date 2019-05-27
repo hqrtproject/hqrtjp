@@ -42,6 +42,10 @@
 		</choose>
 	</select>
 	
+	<select id="findAllQueuenameList" resultType="String" >
+		SELECT a.QueueName FROM hqrt_queue_config a
+	</select>
+	
 	<select id="findAllList" resultType="HqrtQueueConfig" >
 		SELECT 
 			<include refid="hqrtQueueConfigColumns"/>

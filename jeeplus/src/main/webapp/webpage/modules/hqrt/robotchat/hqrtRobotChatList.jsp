@@ -31,8 +31,8 @@
 					var logicNodeValue=[];
 					var childLength='';
 					$.each(checkedNodes,function(index){
-						if (typeof(checkedNodes[index].children)=='undefined') {
-							logicNodeValue.push(checkedNodes[index].text);
+						if (typeof(checkedNodes[index].children)=='undefined' || checkedNodes[index].text.indexOf('其他') != -1) {  
+							logicNodeValue.push(checkedNodes[index].text.replace("省", ""));
 						}
 					});
 					// console.log(logicNodeValue);
@@ -46,8 +46,8 @@
 					var logicNodeValue=[];
 					var childLength='';
 					$.each(checkedNodes,function(index){
-						if (typeof(checkedNodes[index].children)=='undefined') {  
-							logicNodeValue.push(checkedNodes[index].text);
+						if (typeof(checkedNodes[index].children)=='undefined' || checkedNodes[index].text.indexOf('其他') != -1) {  
+							logicNodeValue.push(checkedNodes[index].text.replace("省", ""));
 						}
 					});
 					// console.log(logicNodeValue);

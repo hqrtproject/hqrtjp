@@ -3,6 +3,8 @@
  */
 package com.jeeplus.modules.hqrt.queueconfig.mapper;
 
+import java.util.List;
+
 import com.jeeplus.core.persistence.BaseMapper;
 import com.jeeplus.core.persistence.annotation.MyBatisMapper;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
@@ -14,5 +16,7 @@ import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
  */
 @MyBatisMapper
 public interface HqrtQueueConfigMapper extends BaseMapper<HqrtQueueConfig> {
+
+	List<String> findAllQueuenameList();
 	
 }

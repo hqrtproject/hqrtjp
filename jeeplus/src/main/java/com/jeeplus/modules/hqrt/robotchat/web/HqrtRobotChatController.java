@@ -30,6 +30,7 @@ import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
+import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
 import com.jeeplus.modules.hqrt.robotchat.service.HqrtRobotChatService;
 import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
@@ -78,12 +79,37 @@ public class HqrtRobotChatController extends BaseController {
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtRobotChat hqrtRobotChat, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		MultiDBUtils md = MultiDBUtils.get("company");
+		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+		List<String> queueNameList = new ArrayList<String>();
+		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+			queueNameList.add(hqrtQueueConfig.getQueuename());
+		}
 		// 首先根据业务和省份分组查询
         String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a ";
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
         if (StringUtils.isNotBlank(hqrtRobotChat.getQueuename())) {
-        	sqlcondition += " AND a.queuename in ('" + hqrtRobotChat.getQueuename().replace(",", "','") + "')";
+        	if (!hqrtRobotChat.getQueuename().contains("其他")) {
+        		sqlcondition += " AND a.queuename in ('" + hqrtRobotChat.getQueuename().replace(",", "','") + "')";
+			} else {
+				for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+					queueNameList.add(hqrtQueueConfig.getQueuename());
+				}
+				String[] queueselect = hqrtRobotChat.getQueuename().split(",");
+				for (String queuename : queueselect) {
+					if (queueNameList.contains(queuename)) {
+						queueNameList.remove(queuename);
+					}
+				}
+				sqlcondition += " AND (";
+				for (String queue : queueNameList) {
+					sqlcondition += "a.queuename not like ? AND ";
+					paramList.add("%" + queue + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+				sqlcondition += ")";
+			}
         }
         if (hqrtRobotChat.getStarttime() != null && hqrtRobotChat.getEndttime() != null) {
         	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
@@ -126,7 +152,7 @@ public class HqrtRobotChatController extends BaseController {
 					sqlcondition += "a.customerprovince not like ? AND ";
 					paramList.add("%" + province + "%");
 				}
-				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
 				sqlcondition += ")";
 			}
         }
@@ -135,7 +161,6 @@ public class HqrtRobotChatController extends BaseController {
         	sqlcondition  = " where" + sqlcondition;
         }
         sql += sqlcondition + " GROUP BY a.QueueName,a.CustomerProvince";
-        MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtRobotChat> hqrtRobotChatlist = md.queryList(sql, HqrtRobotChat.class, paramList.toArray());
 		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
 			String _sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a";
@@ -237,25 +262,49 @@ public class HqrtRobotChatController extends BaseController {
 		}
 		Iterator<HqrtRobotChat> it = hqrtRobotChatlist.iterator();
 		List<String> hqrtCmccAreaList = hqrtCmccAreaService.findAllProvineList();
-		HqrtRobotChat newHqrtRobotChat = new HqrtRobotChat();
+		// map的key是queuename和province联合组成，用来唯一确定一条记录
+		Map<String, HqrtRobotChat> mapnew = new HashMap<String, HqrtRobotChat>();
 		while (it.hasNext()) {
 			HqrtRobotChat hrc = it.next();
+			Boolean isOtherProvince = true;
 			for (String area : hqrtCmccAreaList) {
 				if (hrc.getCustomerprovince().contains(area)) {
-					/*newHqrtRobotChat.setConversionvolume(conversionvolume);
-					newHqrtRobotChat.setTotaluserquestions(totaluserquestions);
-					newHqrtRobotChat.setResolved(resolved);
-					newHqrtRobotChat.setUnresolved(unresolved);
-					newHqrtRobotChat.setNotevaluated(notevaluated);
-					newHqrtRobotChat.setFailurefindknowledge(failurefindknowledge);
-					DecimalFormat df = new DecimalFormat("#0.00");
-					robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
-					break;*/
+					isOtherProvince = false;
+					break;
 				}
 			}
+			if (isOtherProvince || !queueNameList.contains(hrc.getQueuename())) {
+				// 业务系统和省份有一个属于“其他”的，则需要重新统计
+				if (isOtherProvince) {
+					hrc.setCustomerprovince("其他");
+				}
+				if (!queueNameList.contains(hrc.getQueuename())) {
+					hrc.setQueuename("其他");
+				}
+				String key = hrc.getQueuename() + hrc.getCustomerprovince();
+				HqrtRobotChat robotChat = mapnew.get(key);
+				if (robotChat == null) {
+					// 直接存储到map中
+					mapnew.put(key, hrc);
+				} else {
+					robotChat.setTotalincount(robotChat.getTotalincount() + hrc.getTotalincount());
+					robotChat.setConversionvolume(robotChat.getConversionvolume() + hrc.getConversionvolume());
+					robotChat.setTotaluserquestions(robotChat.getTotaluserquestions() + hrc.getTotaluserquestions());
+					robotChat.setResolved(robotChat.getResolved() + hrc.getResolved());
+					robotChat.setUnresolved(robotChat.getUnresolved() + hrc.getUnresolved());
+					robotChat.setNotevaluated(robotChat.getNotevaluated() + hrc.getNotevaluated());
+					robotChat.setFailurefindknowledge(robotChat.getFailurefindknowledge() + hrc.getFailurefindknowledge());
+					mapnew.put(key, robotChat);
+				}
+				// 删除掉存在其他的数据，统计后重新加入
+				it.remove();
+			}
 		}
-		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
-			
+		for (String key : mapnew.keySet()) {
+			HqrtRobotChat chat = mapnew.get(key);
+			DecimalFormat df = new DecimalFormat("#0.00");
+			chat.setConversionrate(df.format(chat.getConversionvolume()*0.1/chat.getTotalincount()*1000) + "%");
+			hqrtRobotChatlist.add(chat);
 		}
 		map.put("rows", hqrtRobotChatlist);
 		// map.put("total", page.getCount());
