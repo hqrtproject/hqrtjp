@@ -122,10 +122,10 @@ public class HqrtRobotChatdetailsController extends BaseController {
         page.setCount(allDetailslList.size());
 		BaseService.dataRuleFilter(hqrtRobotChatdetails);
 		hqrtRobotChatdetails.setPage(page);
+		for (int i = 0; i < detailsList.size(); i++) {
+			detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
+		}
 		page.setList(detailsList);
-		/*for (int i = 0; i < detailsList.size(); i++) {
-			
-		}*/
 		return getBootstrapData(page);
 	}
 
@@ -182,6 +182,9 @@ public class HqrtRobotChatdetailsController extends BaseController {
             sql += sqlcondition;
             MultiDBUtils md = MultiDBUtils.get("company");
             List<HqrtRobotChatdetails> queryList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
+            for (int i = 0; i < queryList.size(); i++) {
+            	queryList.get(i).setOrdernumber(i+1);
+    		}
             new ExportExcel("机器人拦截明细日志", HqrtRobotChatdetails.class).setDataList(queryList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");

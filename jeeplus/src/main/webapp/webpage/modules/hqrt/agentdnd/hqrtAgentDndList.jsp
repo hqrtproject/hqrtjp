@@ -132,11 +132,11 @@
 			todaystart.setMinutes(0);
 			todaystart.setSeconds(0);
 			todaystart.setMilliseconds(0);
-			var todayend = new Date();
-			todayend.setHours(23);
-			todayend.setMinutes(59);
-			todayend.setSeconds(59);
-			todayend.setMilliseconds(59);
+			var todayend = new Date(todaystart.getTime()+24*60*60*1000);
+			todayend.setHours(0);
+			todayend.setMinutes(0);
+			todayend.setSeconds(0);
+			todayend.setMilliseconds(0);
 			laydate.render({
 				elem: '#starttime',
 				type: 'datetime',

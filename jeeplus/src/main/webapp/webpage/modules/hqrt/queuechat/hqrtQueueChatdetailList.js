@@ -81,7 +81,10 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: false
+		        field: 'queuename',
+		        title: '业务系统',
+		        sortable: false,
+		        sortName: 'queuename'
 		       
 		    }
 			,{
@@ -95,6 +98,7 @@ $(document).ready(function() {
 		        field: 'sessionid',
 		        title: '会话ID',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'sessionid'
 		       
 		    }
@@ -102,6 +106,7 @@ $(document).ready(function() {
 		        field: 'customername',
 		        title: '用户名',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'customername'
 		       
 		    }
@@ -109,6 +114,7 @@ $(document).ready(function() {
 		        field: 'customerid',
 		        title: '用户ID',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'customerid'
 		       
 		    }
@@ -116,6 +122,7 @@ $(document).ready(function() {
 		        field: 'startdatetime',
 		        title: '进线开始时间',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'startdatetime'
 		       
 		    }
@@ -123,6 +130,7 @@ $(document).ready(function() {
 		        field: 'enddatetime',
 		        title: '进线结束时间',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'enddatetime'
 		       
 		    }
@@ -130,6 +138,7 @@ $(document).ready(function() {
 		        field: 'endreason',
 		        title: ' 结束原因',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'endreason'
 		       
 		    }
