@@ -18,5 +18,7 @@ import com.jeeplus.modules.hqrt.cmccarea.entity.HqrtCmccArea;
 public interface HqrtCmccAreaMapper extends TreeMapper<HqrtCmccArea> {
 
 	List<String> findAllProvineList();
+
+	List<HqrtCmccArea> findListForCombotree(HqrtCmccArea hqrtCmccArea);
 	
 }

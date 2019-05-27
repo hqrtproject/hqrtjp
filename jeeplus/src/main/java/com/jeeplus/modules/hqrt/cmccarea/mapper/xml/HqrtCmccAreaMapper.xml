@@ -72,6 +72,12 @@
 		ORDER BY a.sort ASC
 	</select>
 	
+	<select id="findListForCombotree" resultType="HqrtCmccArea">
+		SELECT 
+			<include refid="hqrtCmccAreaColumns"/>
+		FROM hqrt_cmcc_area a
+	</select>
+	
 	<select id="findAllProvineList" resultType="String">
 		SELECT a.name FROM hqrt_cmcc_area a where a.parent_id != '0'
 	</select>

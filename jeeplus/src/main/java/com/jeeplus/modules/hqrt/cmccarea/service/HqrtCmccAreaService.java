@@ -46,5 +46,10 @@ public class HqrtCmccAreaService extends TreeService<HqrtCmccAreaMapper, HqrtCmc
 	public List<String> findAllProvineList() {
 		return mapper.findAllProvineList();
 	}
+
+	public List<HqrtCmccArea> findListForCombotree(HqrtCmccArea hqrtCmccArea) {
+		// TODO Auto-generated method stub
+		return mapper.findListForCombotree(hqrtCmccArea);
+	}
 	
 }

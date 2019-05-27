@@ -103,7 +103,7 @@ public class HqrtCmccAreaController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "combotreedata")
 	public List<Map<String, Object>> combotreedata(HqrtCmccArea hqrtCmccArea, HttpServletRequest request, HttpServletResponse response, Model model) {
-		List<HqrtCmccArea> queryList = hqrtCmccAreaService.findList(hqrtCmccArea);
+		List<HqrtCmccArea> queryList = hqrtCmccAreaService.findListForCombotree(hqrtCmccArea);
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		while(queryList.size() > 0) {
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -112,7 +112,7 @@ public class HqrtCmccAreaController extends BaseController {
 			while(it.hasNext()){
 				HqrtCmccArea area = it.next();
 				Map<String, Object> mapChild = new HashMap<String, Object>();
-				if (map.get("text") != null && !map.get("id").equals(area.getParentId())) {
+				if (map.get("text") != null && map.get("id").equals(area.getParentId())) {
 					mapChild.put("id", area.getId());
 					mapChild.put("text", area.getName());
 					mapListChild.add(mapChild);
@@ -120,7 +120,6 @@ public class HqrtCmccAreaController extends BaseController {
 				} else if (map.get("text") == null && "0".equals(area.getParentId())) {
 					map.put("id", area.getId());
 					map.put("text", area.getName());
-					mapListChild.add(mapChild);
 					it.remove();
 				}
 			}
