@@ -21,10 +21,12 @@ public class HqrtCmccArea extends TreeEntity<HqrtCmccArea> {
 	
 	public HqrtCmccArea() {
 		super();
+		this.setIdType(IDTYPE_AUTO);
 	}
 
 	public HqrtCmccArea(String id){
 		super(id);
+		this.setIdType(IDTYPE_AUTO);
 	}
 
 	public String getCode() {

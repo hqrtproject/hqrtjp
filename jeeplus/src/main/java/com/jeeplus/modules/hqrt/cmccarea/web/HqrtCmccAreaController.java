@@ -9,21 +9,23 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jeeplus.common.json.AjaxJson;
-import com.jeeplus.common.utils.StringUtils;
+import com.jeeplus.common.config.Global;
 import com.jeeplus.core.web.BaseController;
+import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.modules.hqrt.cmccarea.entity.HqrtCmccArea;
 import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
 
@@ -54,6 +56,7 @@ public class HqrtCmccAreaController extends BaseController {
 	/**
 	 * 区域管理列表页面
 	 */
+	@RequiresPermissions("hqrt:cmccarea:hqrtCmccArea:list")
 	@RequestMapping(value = {"list", ""})
 	public String list(HqrtCmccArea hqrtCmccArea, @ModelAttribute("parentIds") String parentIds, HttpServletRequest request, HttpServletResponse response, Model model) {
 		
@@ -69,6 +72,7 @@ public class HqrtCmccAreaController extends BaseController {
 	 * params:
 	 * 	mode: add, edit, view,addChild 代表四种种模式的页面
 	 */
+	@RequiresPermissions(value={"hqrt:cmccarea:hqrtCmccArea:view","hqrt:cmccarea:hqrtCmccArea:add","hqrt:cmccarea:hqrtCmccArea:edit"},logical=Logical.OR)
 	@RequestMapping(value = "form/{mode}")
 	public String form(@PathVariable String mode, HqrtCmccArea hqrtCmccArea, Model model) {
 		if (hqrtCmccArea.getParent()!=null && StringUtils.isNotBlank(hqrtCmccArea.getParent().getId())){
@@ -98,6 +102,7 @@ public class HqrtCmccAreaController extends BaseController {
 	 * 保存区域管理
 	 */
 	@ResponseBody
+	@RequiresPermissions(value={"hqrt:cmccarea:hqrtCmccArea:add","hqrt:cmccarea:hqrtCmccArea:edit"},logical=Logical.OR)
 	@RequestMapping(value = "save")
 	public AjaxJson save(HqrtCmccArea hqrtCmccArea, Model model) throws Exception{
 		AjaxJson j = new AjaxJson();
@@ -132,6 +137,7 @@ public class HqrtCmccAreaController extends BaseController {
 	 * 删除区域管理
 	 */
 	@ResponseBody
+	@RequiresPermissions("hqrt:cmccarea:hqrtCmccArea:del")
 	@RequestMapping(value = "delete")
 	public AjaxJson delete(HqrtCmccArea hqrtCmccArea) {
 		AjaxJson j = new AjaxJson();

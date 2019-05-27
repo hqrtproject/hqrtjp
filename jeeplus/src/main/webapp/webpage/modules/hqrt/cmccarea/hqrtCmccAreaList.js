@@ -95,10 +95,18 @@
 						<span class="fa fa-chevron-down"></span>
 					</button>
 				  <ul class="dropdown-menu" role="menu">
+					<shiro:hasPermission name="hqrt:cmccarea:hqrtCmccArea:view">
 						<li><a href="${ctx}/hqrt/cmccarea/hqrtCmccArea/form/view?id={{d.row.id}}"><i class="fa fa-search-plus"></i> 查看</a></li>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="hqrt:cmccarea:hqrtCmccArea:edit">
 		   				<li><a href="${ctx}/hqrt/cmccarea/hqrtCmccArea/form/edit?id={{d.row.id}}"><i class="fa fa-edit"></i> 修改</a></li>
+		   			</shiro:hasPermission>
+		   			<shiro:hasPermission name="hqrt:cmccarea:hqrtCmccArea:del">
 		   				<li><a  onclick="return del(this, '{{d.row.id}}')"><i class="fa fa-trash"></i> 删除</a></li>
+					</shiro:hasPermission>
+		   			<shiro:hasPermission name="hqrt:cmccarea:hqrtCmccArea:add">
 						<li><a href="${ctx}/hqrt/cmccarea/hqrtCmccArea/form/add?parent.id={{d.row.id}}"><i class="fa fa-plus"></i> 添加下级区域管理</a></li>
+					</shiro:hasPermission>
 				  </ul>
 				</div>
 			</td>
