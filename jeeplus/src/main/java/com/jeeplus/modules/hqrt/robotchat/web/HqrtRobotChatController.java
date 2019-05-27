@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
@@ -99,14 +100,26 @@ public class HqrtRobotChatController extends BaseController {
         	paramList.add(ft.format(endOfDate));
         }
 		if (StringUtils.isNotBlank(hqrtRobotChat.getCustomerprovince())) {
-			String[] provincesplit = hqrtRobotChat.getCustomerprovince().split(",");
-			sqlcondition += " AND (";
-			for (String province : provincesplit) {
-				sqlcondition += "a.customerprovince like ? OR ";
-				paramList.add("%" + province + "%");
+			if (!hqrtRobotChat.getCustomerprovince().contains("其他")) {
+				String[] provinceselect = hqrtRobotChat.getCustomerprovince().split(",");
+				sqlcondition += " AND (";
+				for (String province : provinceselect) {
+					sqlcondition += "a.customerprovince like ? OR ";
+					paramList.add("%" + province + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
+				sqlcondition += ")";
+			} else {
+				String allareas = Global.getConfig("all.areas");
+				String[] provinceselect = hqrtRobotChat.getCustomerprovince().split(",");
+				for (String province : provinceselect) {
+					if (allareas.contains(province + "、")) {
+						allareas = allareas.replace(province + "、", "");
+					} else if (allareas.contains("、" + province)) {
+						allareas = allareas.replace("、" + province, "");
+					}
+				}
 			}
-			sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
-			sqlcondition += ")";
         }
         if (StringUtils.isNotBlank(sqlcondition)) {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
