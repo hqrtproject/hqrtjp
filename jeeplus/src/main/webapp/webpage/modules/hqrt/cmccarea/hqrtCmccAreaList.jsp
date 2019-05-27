@@ -20,11 +20,8 @@
 			<div class="row">
 			<div class="col-sm-12">
 				<div class="pull-left treetable-bar">
-					<shiro:hasPermission name="hqrt:cmccarea:hqrtCmccArea:add">
-						<a id="add" href="javascript: return false" class="btn btn-primary" onclick="add()"><i class="glyphicon glyphicon-plus"></i> 新建</a><!-- 增加按钮 -->
-					</shiro:hasPermission>
+					<a id="add" href="javascript: return false" class="btn btn-primary" onclick="add()"><i class="glyphicon glyphicon-plus"></i> 新建</a><!-- 增加按钮 -->
 			       <button class="btn btn-default" data-toggle="tooltip" data-placement="left" onclick="refresh()" title="刷新"><i class="glyphicon glyphicon-repeat"></i> 刷新</button>
-				
 				</div>
 			</div>
 			</div>
