@@ -2,7 +2,7 @@
 <%@ include file="/webpage/include/taglib.jsp"%>
 <html>
 <head>
-	<title>机器人对话管理</title>
+	<title>机器人拦截统计</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<meta name="decorator" content="ani"/>
 	<%@ include file="/webpage/include/bootstraptable.jsp"%>
@@ -86,7 +86,7 @@
 	<div class="wrapper wrapper-content">
 	<div class="panel panel-primary">
 	<div class="panel-heading">
-		<h3 class="panel-title">机器人对话列表</h3>
+		<h3 class="panel-title">机器人拦截统计列表</h3>
 	</div>
 	<div class="panel-body">
 	
@@ -124,11 +124,8 @@
 			</div>
 			<div class="" style="margin-top: 26px;float:right">
 				<div style="">
-				  <a  id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
-				  <!-- <a  id="reset" class="btn btn-warning" ><i class="fa fa-refresh"></i> 重置</a> -->
-				  <a id="export" class="btn btn-warning">
-					<i class="fa fa-file-excel-o"></i> 导出
-				  </a>
+				  <a id="search" class="btn btn-warning"><i class="fa fa-search"></i> 查询</a>
+				  <a id="export" class="btn btn-warning"><i class="fa fa-file-excel-o"></i> 导出</a>
 				</div>
 		    </div>
 	</form:form>

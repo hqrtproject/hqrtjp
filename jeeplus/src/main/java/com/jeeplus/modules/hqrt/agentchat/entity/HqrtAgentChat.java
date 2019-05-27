@@ -188,7 +188,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.agentprovince = agentprovince;
 	}
 	
-	@ExcelField(title="会话开始时间", align=2, sort=8)
+	@ExcelField(title="开始时间", align=2, sort=8)
 	public String getStartdatetime() {
 		return startdatetime;
 	}
@@ -197,7 +197,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 		this.startdatetime = startdatetime;
 	}
 	
-	@ExcelField(title="会话结束时间", align=2, sort=9)
+	@ExcelField(title="结束时间", align=2, sort=9)
 	public String getEnddatetime() {
 		return enddatetime;
 	}

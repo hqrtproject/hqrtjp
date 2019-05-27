@@ -591,8 +591,9 @@
             })
         },
         downloadFile: function(url, name) {
-            var $a = $("<a></a>").attr("href", url).attr("download", name);
-            $a[0].click();
+            /*var $a = $("<a></a>").attr("href", url).attr("download", name);
+            $a[0].click();*/
+        	window.location.href = url;
         },
         /**
          * 返回当前活跃的tab页面关联的iframe的Windows对象，方便layer弹窗调用父页面的方法。
