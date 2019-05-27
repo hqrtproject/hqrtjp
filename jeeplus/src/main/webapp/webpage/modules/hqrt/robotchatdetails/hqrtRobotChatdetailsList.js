@@ -80,12 +80,16 @@ $(document).ready(function() {
                	onShowSearch: function () {
 			$("#search-collapse").slideToggle();
 		},
-               columns: [{
-		        checkbox: false
+               columns: [
+            {	
+		        field: 'ordernumber',
+		        title: '序号',
+		        sortable: false,
+		        align:'center',
+		        sortName: 'ordernumber'
 		       
 		    }
-			,
-		     {
+			,{	
 		        field: 'queuename',
 		        title: '业务系统',
 		        sortable: false,

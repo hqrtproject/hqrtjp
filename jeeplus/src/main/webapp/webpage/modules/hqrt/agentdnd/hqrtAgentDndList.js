@@ -87,21 +87,23 @@ $(document).ready(function() {
             ,{
    		        field: 'exqueuename',
    		        title: '业务系统',
-   		        sortable: true,
+   		        sortable: false,
    		        sortName: 'exqueuename'
    		       
    		    }
 			,{
 		        field: 'agentid',
 		        title: '坐席ID',
-		        sortable: true,
+		        sortable: false,
+		        align:'center',
 		        sortName: 'agentid'
 		       
 		    }
 			,{
 		        field: 'agentname',
 		        title: '坐席姓名',
-		        sortable: true,
+		        sortable: false,
+		        align:'center',
 		        sortName: 'agentname'
 		       
 		    }
@@ -115,21 +117,24 @@ $(document).ready(function() {
 			,{
 		        field: 'startdatetime',
 		        title: '开始时间',
-		        sortable: true,
+		        sortable: false,
+		        align:'center',
 		        sortName: 'startdatetime'
 		       
 		    }
 			,{
 		        field: 'enddatetime',
 		        title: '结束时间',
-		        sortable: true,
+		        sortable: false,
+		        align:'center',
 		        sortName: 'enddatetime'
 		       
 		    }
 			,{
 		        field: 'timelen',
 		        title: '持续时长',
-		        sortable: true,
+		        sortable: false,
+		        align:'center',
 		        sortName: 'timelen'
 		       
 		    }

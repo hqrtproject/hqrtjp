@@ -95,6 +95,7 @@ $(document).ready(function() {
 		        field: 'sessionid',
 		        title: '会话ID',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'sessionid'
 		       
 		    }
@@ -102,6 +103,7 @@ $(document).ready(function() {
 		        field: 'customerid',
 		        title: '客户ID',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'customerid'
 		       
 		    }
@@ -109,6 +111,7 @@ $(document).ready(function() {
 		        field: 'customername',
 		        title: '客户姓名',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'customername'
 		       
 		    }
@@ -116,6 +119,7 @@ $(document).ready(function() {
 		        field: 'customerprovince',
 		        title: '客户所在省',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'customerprovince'
 		       
 		    }
@@ -123,6 +127,7 @@ $(document).ready(function() {
 		        field: 'agentname',
 		        title: '坐席名',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'agentname'
 		       
 		    }
@@ -130,6 +135,7 @@ $(document).ready(function() {
 		        field: 'agentid',
 		        title: '坐席ID',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'agentid'
 		       
 		    }
@@ -137,6 +143,7 @@ $(document).ready(function() {
 		        field: 'startdatetime',
 		        title: '进线开始时间',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'startdatetime'
 		       
 		    }
@@ -144,6 +151,7 @@ $(document).ready(function() {
 		        field: 'enddatetime',
 		        title: '进线结束时间',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'enddatetime'
 		       
 		    }
@@ -151,6 +159,7 @@ $(document).ready(function() {
 		        field: 'timelen',
 		        title: '会话时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'timelen'
 		       
 		    }
@@ -159,6 +168,7 @@ $(document).ready(function() {
 		        title: '是否有效会话',
 		        sortable: false,
 		        sortName: 'isvalid',
+		        align:'center',
 		        formatter:function(value, row , index){
 		        	return jp.getDictLabel(${fns:toJson(fns:getDictList('isvalid'))}, value, "-");
 		        }
@@ -168,6 +178,7 @@ $(document).ready(function() {
 		        field: 'firstresponsetimelen',
 		        title: '首次响应时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'firstresponsetimelen'
 		       
 		    }
@@ -175,6 +186,7 @@ $(document).ready(function() {
 		        field: 'avgresponsetimelen',
 		        title: '响应平均时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'avgresponsetimelen'
 		       
 		    }
@@ -182,6 +194,7 @@ $(document).ready(function() {
 		        field: 'customermessagecount',
 		        title: '客户消息数',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'customermessagecount'
 		       
 		    }
@@ -189,6 +202,7 @@ $(document).ready(function() {
 		        field: 'agentmessagecount',
 		        title: '客服回复数',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'agentmessagecount'
 		       
 		    }
@@ -196,6 +210,7 @@ $(document).ready(function() {
 		        field: 'evaluatestar',
 		        title: '评价星级(对客服)',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'evaluatestar',
 		        formatter:function(value, row , index){
 		        	return jp.getDictLabel(${fns:toJson(fns:getDictList('evaluatestar'))}, value, "-");
@@ -206,6 +221,7 @@ $(document).ready(function() {
 		        field: 'evaluatetext',
 		        title: '评价内容',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'evaluatetext'
 		       
 		    }
@@ -213,6 +229,7 @@ $(document).ready(function() {
 		        field: 'endreason',
 		        title: '结束原因',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'endreason'
 		       
 		    }

@@ -81,8 +81,11 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: true
-		       
+		        field: 'queuename',
+		        title: '序号',
+		        sortable: false,
+		        align:'center',
+		        sortName: 'queuename'
 		    }
 			,{
 		        field: 'queuename',
@@ -94,138 +97,161 @@ $(document).ready(function() {
 		        field: 'agentid',
 		        title: '坐席工号',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'agentid'
 		    }
 			,{
 		        field: 'agentname',
 		        title: '坐席姓名',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'agentname'
 		    }
 			,{
 		        field: 'timelenlogin',
 		        title: '登陆时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'timelenlogin'
 		    }
 			,{
 		        field: 'timelenonline',
 		        title: '在线时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'timelenonline'
 		    }
 			,{
 		        field: 'timelendnd',
 		        title: '置忙时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'timelendnd'
 		    }
 			,{
 		        field: 'timelenwork',
 		        title: '接待时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'timelenwork'
 		    }
 			,{
 		        field: 'timelenfree',
 		        title: '空闲时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'timelenfree'
 		    }
 			,{
 		        field: 'advicecount',
 		        title: '咨询量',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'advicecount'
 		    }
 			,{
 		        field: 'receivecount',
 		        title: '接待量',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'receivecount'
 		    }
 			,{
 		        field: 'invalidcount',
 		        title: '无效量',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'invalidcount'
 		    }
 			,{
 		        field: 'chattotaltime',
 		        title: '会话总时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'chattotaltime'
 		    }
 			,{
 		        field: 'chatavgtime',
 		        title: '会话平均时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'chatavgtime'
 		    }
 			,{
 		        field: 'firstresponsetimelenavg',
 		        title: '首次响应平均时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'firstresponsetimelenavg'
 		    }
 			,{
 		        field: 'avgresponsetimelen',
 		        title: '响应平均时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'avgresponsetimelen'
 		    }
 			,{
 				field: 'qaratio',
 				title: '问答比',
 				sortable: false,
+				 align:'center',
 				sortName: 'qaratio'
 			}
 			,{
 				field: 'participationcount',
 				title: '参评量',
 				sortable: false,
+				 align:'center',
 				sortName: 'participationcount'
 			}
 			,{
 				field: 'participationrate',
 				title: '参评率',
 				sortable: false,
+				align:'center',
 				sortName: 'participationrate'
 			}
 			,{
 				field: 'onestarcount',
 				title: '一星评价量',
 				sortable: false,
+				align:'center',
 				sortName: 'onestarcount'
 			}
 			,{
 				field: 'twostarcount',
 				title: '二星评价量',
 				sortable: false,
+				align:'center',
 				sortName: 'twostarcount'
 			}
 			,{
 				field: 'threestarcount',
 				title: '三星评价量',
 				sortable: false,
+				align:'center',
 				sortName: 'threestarcount'
 			}
 			,{
 				field: 'fourstarcount',
 				title: '四星评价量',
 				sortable: false,
+				align:'center',
 				sortName: 'fourstarcount'
 			}
 			,{
 				field: 'fivestarcount',
 				title: '五星评价量',
 				sortable: false,
+				align:'center',
 				sortName: 'fivestarcount'
 			}
 			,{
 				field: 'avgstarcount',
 				title: '平均评价',
 				sortable: false,
+				align:'center',
 				sortName: 'avgstarcount'
 			}
 		     ]
