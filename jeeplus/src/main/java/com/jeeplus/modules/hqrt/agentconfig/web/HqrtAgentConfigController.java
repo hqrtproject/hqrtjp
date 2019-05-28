@@ -3,6 +3,7 @@
  */
 package com.jeeplus.modules.hqrt.agentconfig.web;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +32,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentconfig.entity.HqrtAgentConfig;
 import com.jeeplus.modules.hqrt.agentconfig.service.HqrtAgentConfigService;
+import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -72,11 +74,33 @@ public class HqrtAgentConfigController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtAgentConfig hqrtAgentConfig, HttpServletRequest request, HttpServletResponse response, Model model) {
+    	MultiDBUtils md = MultiDBUtils.get("company");
+		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+		List<String> queueNameList = new ArrayList<String>();
+		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+			queueNameList.add(hqrtQueueConfig.getQueuename());
+		}
 		String sql = "SELECT a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',IFNULL(b.TimeLen,0) AS timelenlogin,IFNULL((b.TimeLen-c.TimeLen),0) AS timelenonline,IFNULL(c.TimeLen,0) AS timelendnd,IFNULL(d.TimeLen,0) AS timelenwork,IFNULL((b.TimeLen-c.TimeLen-d.TimeLen),0) AS timelenfree,IFNULL(e.advicecount,0) AS advicecount,IFNULL(e.receivecount,0) AS receivecount,IFNULL(e.invalidcount,0) AS invalidcount,IFNULL(e.chattotaltime,0) AS chattotaltime,IFNULL(e.chatavgtime,0) AS chatavgtime,IFNULL(e.firstresponsetimelenavg,0) AS firstresponsetimelenavg,IFNULL(e.avgresponsetimelen,0) AS avgresponsetimelen,CONCAT(FORMAT(IFNULL(e.qaratio,0)*100,2),'%') AS qaratio,IFNULL(e.participationcount,0) AS participationcount,CONCAT(case when e.advicecount is null then 0.00 else FORMAT((IFNULL(e.participationcount,0)/e.advicecount)*100,2) end ,'%') AS participationrate,IFNULL(e.avgstarcount,0) AS avgstarcount,IFNULL(e.onestarcount,0) AS onestarcount,IFNULL(e.twostarcount,0) AS twostarcount,IFNULL(e.threestarcount,0) AS threestarcount,IFNULL(e.fourstarcount,0) AS fourstarcount,IFNULL(e.fivestarcount,0) AS fivestarcount FROM hqrt_agent_config a LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_login WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS b ON a.AgentID = b.AgentID LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_dnd WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS c ON a.AgentID = c.AgentID LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_work WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS d ON a.AgentID = d.AgentID LEFT JOIN (select AgentID,COUNT(1) AS advicecount,SUM(IFNULL(TimeLen,0)) AS chattotaltime,FORMAT(AVG(IFNULL(TimeLen,0)),2) AS chatavgtime,FORMAT(AVG(IFNULL(FirstResponseTimeLen,0)),2) AS firstresponsetimelenavg,FORMAT(AVG(IFNULL(AvgResponseTimeLen,0)),2) AS avgresponsetimelen,FORMAT(SUM(IFNULL(CustomerMessageCount,0))/SUM(IFNULL(AgentMessageCount,0)),2) AS qaratio,FORMAT(AVG(IFNULL(EvaluateStar,0)),2) AS avgstarcount,SUM(case when IsValid = '1' then 1 else 0 end) AS receivecount,SUM(case when IsValid = '0' then 1 else 0 end) AS invalidcount,SUM(case when EvaluateStar != '0' then 1 else 0 end) AS participationcount,SUM(case when EvaluateStar = '1' then 1 else 0 end) AS onestarcount,SUM(case when EvaluateStar = '2' then 1 else 0 end) AS twostarcount,SUM(case when EvaluateStar = '3' then 1 else 0 end) AS threestarcount,SUM(case when EvaluateStar = '4' then 1 else 0 end) AS fourstarcount,SUM(case when EvaluateStar = '5' then 1 else 0 end) AS fivestarcount from  hqrt_agent_chat WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS e ON a.AgentID = e.AgentID ";
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
         if (StringUtils.isNotBlank(hqrtAgentConfig.getQueuename())) {
-        	sqlcondition += " AND a.queuename in ('" + hqrtAgentConfig.getQueuename().replace(",", "','") + "')";
+        	if (!hqrtAgentConfig.getQueuename().contains("其他")) {
+        		sqlcondition += " AND a.queuename in ('" + hqrtAgentConfig.getQueuename().replace(",", "','") + "')";
+			} else {
+				String[] queueselect = hqrtAgentConfig.getQueuename().split(",");
+				for (String queuename : queueselect) {
+					if (queueNameList.contains(queuename)) {
+						queueNameList.remove(queuename);
+					}
+				}
+				sqlcondition += " AND (";
+				for (String queue : queueNameList) {
+					sqlcondition += "a.queuename not like ? AND ";
+					paramList.add("%" + queue + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+				sqlcondition += ")";
+			}
         }
         if (StringUtils.isNotBlank(hqrtAgentConfig.getAgentid())) {
         	sqlcondition += " AND a.agentid in ('" + hqrtAgentConfig.getAgentid().replace(",", "','") + "')";
@@ -116,9 +140,41 @@ public class HqrtAgentConfigController extends BaseController {
         Page<HqrtAgentConfig> page = new Page<>(request, response);
         String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
-        MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtAgentConfig> detailsList = md.queryList(sql, HqrtAgentConfig.class, paramList.toArray());
         List<HqrtAgentConfig> allDetailslList = md.queryList(selectcountsql, HqrtAgentConfig.class, paramList.toArray());
+        
+        Iterator<HqrtAgentConfig> it = allDetailslList.iterator();
+		// map的key是queuename和province联合组成，用来唯一确定一条记录
+		Map<String, HqrtAgentConfig> mapnew = new HashMap<String, HqrtAgentConfig>();
+		Integer delcount = 0;
+		while (it.hasNext()) {
+			HqrtAgentConfig hac = it.next();
+			if (!queueNameList.contains(hac.getQueuename())) {
+				// 业务系统有属于“其他”的，则需要重新统计
+				if (!queueNameList.contains(hac.getQueuename())) {
+					hac.setQueuename("其他");
+				}
+				String key = hac.getQueuename();
+				HqrtAgentConfig agentChat = mapnew.get(key);
+				if (agentChat == null) {
+					// 直接存储到map中
+					mapnew.put(key, hac);
+				} else {
+					
+					mapnew.put(key, agentChat);
+				}
+				// 删除掉存在其他的数据，统计后重新加入
+				it.remove();
+				delcount++;
+			}
+		}
+		for (String key : mapnew.keySet()) {
+			HqrtAgentConfig chat = mapnew.get(key);
+			DecimalFormat df = new DecimalFormat("#0.00");
+			// chat.setConversionrate(df.format(chat.getConversionvolume()*0.1/chat.getTotalincount()*1000) + "%");
+			allDetailslList.add(chat);
+		}
+        
         for(int i = 0 ; i < detailsList.size(); i++){
         	detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
     	}

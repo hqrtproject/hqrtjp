@@ -188,9 +188,6 @@ public class HqrtAgentChatController extends BaseController {
         MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
         List<HqrtAgentChat> allDetailslList = md.queryList(selectcountsql, HqrtAgentChat.class, paramList.toArray());
-        for(int i = 0 ; i < detailsList.size(); i++){
-        	detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
-    	}
 		page.setList(detailsList);
 		page.setCount(allDetailslList.size());
 		return getBootstrapData(page);
@@ -290,9 +287,6 @@ public class HqrtAgentChatController extends BaseController {
 					agentChat.setEvaluatestar("五星");
 				}
 			}
-            for(int i = 0 ; i < detailsList.size(); i++){
-            	detailsList.get(i).setOrdernumber(i+1);
-        	}
     		new ExportExcel("在线客服会话明细", HqrtAgentChat.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
