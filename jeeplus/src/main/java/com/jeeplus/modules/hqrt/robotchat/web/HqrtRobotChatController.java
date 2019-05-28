@@ -303,6 +303,9 @@ public class HqrtRobotChatController extends BaseController {
 			chat.setConversionrate(df.format(chat.getConversionvolume()*0.1/chat.getTotalincount()*1000) + "%");
 			hqrtRobotChatlist.add(chat);
 		}
+		for(int i = 0 ; i < hqrtRobotChatlist.size(); i++){
+			hqrtRobotChatlist.get(i).setOrdernumber(i+1);
+    	}
 		map.put("rows", hqrtRobotChatlist);
 		// map.put("total", page.getCount());
 		return map;
@@ -542,6 +545,9 @@ public class HqrtRobotChatController extends BaseController {
     			chat.setConversionrate(df.format(chat.getConversionvolume()*0.1/chat.getTotalincount()*1000) + "%");
     			hqrtRobotChatlist.add(chat);
     		}
+    		for(int i = 0 ; i < hqrtRobotChatlist.size(); i++){
+    			hqrtRobotChatlist.get(i).setOrdernumber(i+1);
+        	}
     		new ExportExcel("机器人拦截统计", HqrtRobotChat.class).setDataList(hqrtRobotChatlist).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");

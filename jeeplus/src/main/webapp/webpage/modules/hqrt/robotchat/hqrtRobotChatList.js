@@ -82,13 +82,19 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: false
+		        field: 'ordernumber',
+		        title: '序号',
+		        sortable: false,
+		        align:'center',
+		        width:'60px',
+		        sortName: 'ordernumber'
 		       
 		    }
 			,{
 		        field: 'queuename',
 		        title: '业务系统',
 		        sortable: false,
+		        width:'250px',
 		        sortName: 'queuename'
 		       
 		    }
@@ -97,16 +103,14 @@ $(document).ready(function() {
 		        title: '总进线量',
 		        sortable: false,
 		        align:'center',
-		      
 		        sortName: 'totalincount'
 		       
 		    }
 			,{
 		        field: 'customerprovince',
 		        title: '省份',
-		
 		        sortable: false,
-		        width:'150px',
+		        width:'250px',
 		        sortName: 'customerprovince'
 		       
 		    }

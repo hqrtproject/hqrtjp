@@ -179,7 +179,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 		this.messagetype = messagetype;
 	}
 	
-	@ExcelField(title="聊天内容", align=2, sort=19)
+	@ExcelField(title="聊天内容", align=2, sort=20)
 	public String getMessagecontext() {
 		return messagecontext;
 	}

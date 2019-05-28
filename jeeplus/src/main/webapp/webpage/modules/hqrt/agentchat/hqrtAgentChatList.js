@@ -81,13 +81,19 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: false
+		        field: 'ordernumber',
+		        title: '序号',
+		        sortable: false,
+		        align:'center',
+		        width:'60px',
+		        sortName: 'ordernumber'
 		       
 		    }
 			,{
 		        field: 'queuename',
 		        title: '业务系统',
 		        sortable: false,
+		        width:'250px',
 		        sortName: 'queuename'
 		       
 		    }
@@ -95,7 +101,6 @@ $(document).ready(function() {
 		        field: 'sessionid',
 		        title: '会话ID',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'sessionid'
 		       
 		    }
@@ -103,7 +108,6 @@ $(document).ready(function() {
 		        field: 'customerid',
 		        title: '客户ID',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'customerid'
 		       
 		    }
@@ -111,7 +115,6 @@ $(document).ready(function() {
 		        field: 'customername',
 		        title: '客户姓名',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'customername'
 		       
 		    }
@@ -119,7 +122,6 @@ $(document).ready(function() {
 		        field: 'customerprovince',
 		        title: '客户所在省',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'customerprovince'
 		       
 		    }
@@ -127,7 +129,6 @@ $(document).ready(function() {
 		        field: 'agentname',
 		        title: '坐席名',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'agentname'
 		       
 		    }
@@ -135,7 +136,7 @@ $(document).ready(function() {
 		        field: 'agentid',
 		        title: '坐席ID',
 		        sortable: false,
-		        align:'center',
+		 
 		        sortName: 'agentid'
 		       
 		    }
@@ -221,7 +222,6 @@ $(document).ready(function() {
 		        field: 'evaluatetext',
 		        title: '评价内容',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'evaluatetext'
 		       
 		    }
@@ -236,6 +236,7 @@ $(document).ready(function() {
 			,{
 		        field: 'operate',
 		        title: '聊天内容',
+		        width:'200px',
 		        events: {
     		        'click .view': function (e, value, row, index) {
     		        	jp.openViewDialog('查看聊天内容', '${ctx}/hqrt/agentchat/hqrtAgentChat/form/view?sessionid=' + row.sessionid,'800px', '500px');

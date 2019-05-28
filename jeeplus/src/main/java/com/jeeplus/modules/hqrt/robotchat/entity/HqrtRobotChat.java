@@ -47,7 +47,9 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 	private Integer unresolved;		// 机器人未解决量
 	private Integer notevaluated;		// 未评价
 	private Integer failurefindknowledge;		// 未找到知识
+	private Integer ordernumber; //序号
 	
+
 	public HqrtRobotChat() {
 		super();
 		this.setIdType(IDTYPE_AUTO);
@@ -105,7 +107,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.customermobile = customermobile;
 	}
 	
-	@ExcelField(title="省份", align=2, sort=3)
+	@ExcelField(title="省份", align=2, sort=4)
 	public String getCustomerprovince() {
 		return customerprovince;
 	}
@@ -170,7 +172,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.queueid = queueid;
 	}
 	
-	@ExcelField(title="业务系统", align=2, sort=1)
+	@ExcelField(title="业务系统", align=2, sort=2)
 	public String getQueuename() {
 		return queuename;
 	}
@@ -210,7 +212,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.endttime = endttime;
 	}
 
-	@ExcelField(title="总进线量", align=2, sort=2)
+	@ExcelField(title="总进线量", align=2, sort=3)
 	public Integer getTotalincount() {
 		return totalincount;
 	}
@@ -219,7 +221,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.totalincount = totalincount;
 	}
 
-	@ExcelField(title="转人工量", align=2, sort=4)
+	@ExcelField(title="转人工量", align=2, sort=5)
 	public Integer getConversionvolume() {
 		return conversionvolume;
 	}
@@ -228,7 +230,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.conversionvolume = conversionvolume;
 	}
 
-	@ExcelField(title="转人工率", align=2, sort=5)
+	@ExcelField(title="转人工率", align=2, sort=6)
 	public String getConversionrate() {
 		return conversionrate;
 	}
@@ -237,7 +239,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.conversionrate = conversionrate;
 	}
 
-	@ExcelField(title="用户提问总量", align=2, sort=6)
+	@ExcelField(title="用户提问总量", align=2, sort=7)
 	public Integer getTotaluserquestions() {
 		return totaluserquestions;
 	}
@@ -246,7 +248,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.totaluserquestions = totaluserquestions;
 	}
 	
-	@ExcelField(title="机器人已解决量", align=2, sort=7)
+	@ExcelField(title="机器人已解决量", align=2, sort=8)
 	public Integer getResolved() {
 		return resolved;
 	}
@@ -255,7 +257,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.resolved = resolved;
 	}
 
-	@ExcelField(title="机器人未解决量", align=2, sort=8)
+	@ExcelField(title="机器人未解决量", align=2, sort=9)
 	public Integer getUnresolved() {
 		return unresolved;
 	}
@@ -264,7 +266,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.unresolved = unresolved;
 	}
 	
-	@ExcelField(title="未评价", align=2, sort=9)
+	@ExcelField(title="未评价", align=2, sort=10)
 	public Integer getNotevaluated() {
 		return notevaluated;
 	}
@@ -273,7 +275,7 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.notevaluated = notevaluated;
 	}
 
-	@ExcelField(title="未找到知识", align=2, sort=10)
+	@ExcelField(title="未找到知识", align=2, sort=11)
 	public Integer getFailurefindknowledge() {
 		return failurefindknowledge;
 	}
@@ -282,4 +284,12 @@ public class HqrtRobotChat extends DataEntity<HqrtRobotChat> {
 		this.failurefindknowledge = failurefindknowledge;
 	}
 	
+	@ExcelField(title="序号", align=2, sort=1)
+	public Integer getOrdernumber() {
+		return ordernumber;
+	}
+
+	public void setOrdernumber(Integer ordernumber) {
+		this.ordernumber = ordernumber;
+	}
 }

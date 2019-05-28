@@ -85,6 +85,7 @@ $(document).ready(function() {
 		        title: '序号',
 		        sortable: false,
 		        align:'center',
+		        width:'60px',
 		        sortName: 'ordernumber'
 		    }
 			,{
@@ -97,14 +98,12 @@ $(document).ready(function() {
 		        field: 'agentid',
 		        title: '坐席工号',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'agentid'
 		    }
 			,{
 		        field: 'agentname',
 		        title: '坐席姓名',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'agentname'
 		    }
 			,{

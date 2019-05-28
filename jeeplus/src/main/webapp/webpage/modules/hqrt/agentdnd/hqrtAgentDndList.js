@@ -85,7 +85,7 @@ $(document).ready(function() {
    		        title: '序号',
    		        sortable: false,
    		        align:'center',
-   		        width:'80px',
+   		        width:'60px',
    		        sortName: 'ordernumber'
    		       
    		    }
@@ -100,7 +100,6 @@ $(document).ready(function() {
 		        field: 'agentid',
 		        title: '坐席ID',
 		        sortable: false,
-		        align:'center',
 		        width:'130px',
 		        sortName: 'agentid'
 		       
@@ -109,7 +108,6 @@ $(document).ready(function() {
 		        field: 'agentname',
 		        title: '坐席姓名',
 		        sortable: false,
-		        align:'center',
 		        width:'130px',
 		        sortName: 'agentname'
 		       
