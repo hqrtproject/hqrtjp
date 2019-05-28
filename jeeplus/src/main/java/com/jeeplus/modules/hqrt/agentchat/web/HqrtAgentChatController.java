@@ -211,7 +211,7 @@ public class HqrtAgentChatController extends BaseController {
         List<HqrtAgentChatdetails> detailsList = md.queryList(sql, HqrtAgentChatdetails.class, paramList.toArray());
 		for (HqrtAgentChatdetails hqrtAgentChatdetails : detailsList) {
 			if("2".equals(hqrtAgentChatdetails.getMessagetype())){
-				hqrtAgentChatdetails.setMessagecontext("<img src='" + hqrtAgentChatdetails.getMessagecontext() + "' style='max-width:200px; width:expression(document.body.clientWidth>400?\"400px\":\"auto\");min-height:100px;height:auto !important;height:100px; overflow:hidden;'/>");
+				hqrtAgentChatdetails.setMessagecontext("<img src='" + hqrtAgentChatdetails.getMessagecontext() + "' style='max-width:200px; width:expression(document.body.clientWidth>200?\"200px\":\"auto\");max-height:50px;height:expression(document.body.clientHeight>50?\"50px\":\"auto\"); '/>");
 			}else if("4".equals(hqrtAgentChatdetails.getMessagetype())){
 				hqrtAgentChatdetails.setMessagecontext("<a href='" + hqrtAgentChatdetails.getMessagecontext() + "' target='_blank'>" + hqrtAgentChatdetails.getMessagecontext().substring(hqrtAgentChatdetails.getMessagecontext().lastIndexOf("/") + 1) + "</a>");
 			}
