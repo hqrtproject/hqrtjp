@@ -201,7 +201,7 @@ public class HqrtAgentChatController extends BaseController {
 	 */
 	@RequestMapping(value = "form/{mode}")
 	public String form(@PathVariable String mode, HqrtAgentChat hqrtAgentChat, Model model) {
-		String sql = "select a.messagecontext AS 'messagecontext',a.messagesender AS 'messagesender',a.messagedateTime AS 'messagedateTime' FROM hqrt_agent_chatdetails a where a.sessionid = ?";
+		String sql = "select a.messagecontext AS 'messagecontext', a.messagetype AS 'messagetype', a.messagesender AS 'messagesender',a.messagedateTime AS 'messagedateTime' FROM hqrt_agent_chatdetails a where a.sessionid = ?";
         List<Object> paramList = new ArrayList<Object>();
         if (StringUtils.isNotBlank(hqrtAgentChat.getSessionid())) {
         	paramList.add(hqrtAgentChat.getSessionid());
@@ -209,7 +209,14 @@ public class HqrtAgentChatController extends BaseController {
         sql = sql + " ORDER BY a.messagedatetime";
         MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtAgentChatdetails> detailsList = md.queryList(sql, HqrtAgentChatdetails.class, paramList.toArray());
-		model.addAttribute("detailsList", detailsList);
+		for (HqrtAgentChatdetails hqrtAgentChatdetails : detailsList) {
+			if("2".equals(hqrtAgentChatdetails.getMessagetype())){
+				hqrtAgentChatdetails.setMessagecontext("<img src='" + hqrtAgentChatdetails.getMessagecontext() + "' style='max-width:200px; width:expression(document.body.clientWidth>400?\"400px\":\"auto\");min-height:100px;height:auto !important;height:100px; overflow:hidden;'/>");
+			}else if("4".equals(hqrtAgentChatdetails.getMessagetype())){
+				hqrtAgentChatdetails.setMessagecontext("<a href='" + hqrtAgentChatdetails.getMessagecontext() + "' target='_blank'>" + hqrtAgentChatdetails.getMessagecontext().substring(hqrtAgentChatdetails.getMessagecontext().lastIndexOf("/") + 1) + "</a>");
+			}
+		}
+        model.addAttribute("detailsList", detailsList);
 		model.addAttribute("mode", mode);
 		return "modules/hqrt/agentchat/hqrtAgentChatForm";
 	}
