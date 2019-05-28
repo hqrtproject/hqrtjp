@@ -85,7 +85,7 @@ $(document).ready(function() {
 		        title: '序号',
 		        sortable: false,
 		        align:'center',
-		        width:'120px',
+		        width:'60px',
 		        sortName: 'ordernumber'
 		       
 		    }

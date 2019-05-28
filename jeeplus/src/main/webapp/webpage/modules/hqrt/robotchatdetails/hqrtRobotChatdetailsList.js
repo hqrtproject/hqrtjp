@@ -121,6 +121,7 @@ $(document).ready(function() {
 		        field: 'faqtitle',
 		        title: '知识标题',
 		        sortable: false,
+		        width: '160px',
 		        sortName: 'faqtitle'
 		       
 		    }
@@ -128,7 +129,6 @@ $(document).ready(function() {
 		        field: 'customername',
 		        title: '用户名',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'customername'
 		       
 		    }
@@ -136,7 +136,6 @@ $(document).ready(function() {
 		        field: 'customerid',
 		        title: '用户ID',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'customerid'
 		       
 		    }
@@ -157,21 +156,22 @@ $(document).ready(function() {
 			,{
 		        field: 'requestcontext',
 		        title: '用户提问内容',
+		        width: '160px',
 		        sortable: false,
 		        sortName: 'requestcontext'
 		       
 		    }
 			,{
 		        field: 'satisfydesc',
-		        title: '是否解决（解决状态）',
+		        title: '是否解决',
 		        sortable: false,
-		        align:'center',
 		        sortName: 'satisfydesc'
 		       
 		    }
 			,{
 		        field: 'sessionid',
 		        title: '会话ID',
+		        width: '160px',
 		        sortable: false,
 		        sortName: 'sessionid'
 		       

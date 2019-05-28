@@ -85,7 +85,7 @@ $(document).ready(function() {
 		        title: '序号',
 		        sortable: false,
 		        align:'center',
-		        width:'80px',
+		        width:'60px',
 		        sortName: 'ordernumber'
 		       
 		    }
@@ -101,7 +101,7 @@ $(document).ready(function() {
 		        field: 'sessionid',
 		        title: '会话ID',
 		        sortable: false,
-		        align:'center',
+		        width:'320px',
 		        sortName: 'sessionid'
 		       
 		    }
@@ -109,8 +109,7 @@ $(document).ready(function() {
 		        field: 'customername',
 		        title: '用户名',
 		        sortable: false,
-		        align:'center',
-		        width:'130px',
+		        width:'180px',
 		        sortName: 'customername'
 		       
 		    }
@@ -118,8 +117,7 @@ $(document).ready(function() {
 		        field: 'customerid',
 		        title: '用户ID',
 		        sortable: false,
-		        align:'center',
-		        width:'130px',
+		        width:'180px',
 		        sortName: 'customerid'
 		       
 		    }
@@ -127,6 +125,7 @@ $(document).ready(function() {
 		        field: 'startdatetime',
 		        title: '进线开始时间',
 		        sortable: false,
+		        width:'160px',
 		        align:'center',
 		        
 		        sortName: 'startdatetime'
@@ -136,6 +135,7 @@ $(document).ready(function() {
 		        field: 'enddatetime',
 		        title: '进线结束时间',
 		        sortable: false,
+		        width:'160px',
 		        align:'center',
 		       
 		        sortName: 'enddatetime'
@@ -146,6 +146,7 @@ $(document).ready(function() {
 		        title: ' 结束原因',
 		        sortable: false,
 		        align:'center',
+		        width:'80px',
 		        sortName: 'endreason'
 		       
 		    }

@@ -28,6 +28,7 @@ import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.service.BaseService;
 import com.jeeplus.core.web.BaseController;
+import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
 import com.jeeplus.modules.hqrt.robotchatdetails.service.HqrtRobotChatdetailsService;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
@@ -75,7 +76,29 @@ public class HqrtRobotChatdetailsController extends BaseController {
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
         if (StringUtils.isNotBlank(hqrtRobotChatdetails.getQueuename())) {
-        	sqlcondition += " AND a.queuename in ('" + hqrtRobotChatdetails.getQueuename().replace(",", "','") + "')";
+        	MultiDBUtils md = MultiDBUtils.get("company");
+    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+    		List<String> queueNameList = new ArrayList<String>();
+    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+    			queueNameList.add(hqrtQueueConfig.getQueuename());
+    		}
+        	if (!hqrtRobotChatdetails.getQueuename().contains("其他")) {
+        		sqlcondition += " AND a.queuename in ('" + hqrtRobotChatdetails.getQueuename().replace(",", "','") + "')";
+			} else {
+				String[] queueselect = hqrtRobotChatdetails.getQueuename().split(",");
+				for (String queuename : queueselect) {
+					if (queueNameList.contains(queuename)) {
+						queueNameList.remove(queuename);
+					}
+				}
+				sqlcondition += " AND (";
+				for (String queue : queueNameList) {
+					sqlcondition += "a.queuename not like ? AND ";
+					paramList.add("%" + queue + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+				sqlcondition += ")";
+			}
         }
         if (StringUtils.isNotBlank(hqrtRobotChatdetails.getSatisfydesc())) {
         	sqlcondition += " AND a.satisfydesc = ?";

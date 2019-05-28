@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,7 @@ import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChat;
 import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChatdetail;
 import com.jeeplus.modules.hqrt.queuechat.service.HqrtQueueChatService;
+import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -82,8 +84,30 @@ public class HqrtQueueChatController extends BaseController {
 		String sqlcondition = "";
 		List<Object> paramList = new ArrayList<Object>();
 		if (StringUtils.isNotBlank(hqrtQueueChat.getQueuename())) {
-			sqlcondition += " AND a.queuename in ('" + hqrtQueueChat.getQueuename().replace(",", "','") + "')";
-		}
+        	MultiDBUtils md = MultiDBUtils.get("company");
+    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+    		List<String> queueNameList = new ArrayList<String>();
+    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+    			queueNameList.add(hqrtQueueConfig.getQueuename());
+    		}
+        	if (!hqrtQueueChat.getQueuename().contains("其他")) {
+        		sqlcondition += " AND a.queuename in ('" + hqrtQueueChat.getQueuename().replace(",", "','") + "')";
+			} else {
+				String[] queueselect = hqrtQueueChat.getQueuename().split(",");
+				for (String queuename : queueselect) {
+					if (queueNameList.contains(queuename)) {
+						queueNameList.remove(queuename);
+					}
+				}
+				sqlcondition += " AND (";
+				for (String queue : queueNameList) {
+					sqlcondition += "a.queuename not like ? AND ";
+					paramList.add("%" + queue + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+				sqlcondition += ")";
+			}
+        }
 		if (hqrtQueueChat.getStarttime() != null && hqrtQueueChat.getEndttime() != null) {
         	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -168,17 +192,52 @@ public class HqrtQueueChatController extends BaseController {
 				queueChat.setLinupcancelvolume(linupcancelvolume);
 				queueChat.setLinuptimeoutvolume(linuptimeoutvolume);
 				DecimalFormat df = new DecimalFormat("#0.00");
-				queueChat.setConnectrate(
-						df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-				queueChat.setCancelrate(
-						df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-				queueChat.setTimeoutrate(
-						df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-				
-				for (int i = 0; i < queryListGroupby.size(); i++) {
-					queryListGroupby.get(i).setOrdernumber(i+1);
-				}
+				queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+				queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+				queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
 			}
+		}
+		Iterator<HqrtQueueChat> it = queryListGroupby.iterator();
+		// map的key是queuename和province联合组成，用来唯一确定一条记录
+		Map<String, HqrtQueueChat> mapnew = new HashMap<String, HqrtQueueChat>();
+		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+		List<String> queueNameList = new ArrayList<String>();
+		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+			queueNameList.add(hqrtQueueConfig.getQueuename());
+		}
+		while (it.hasNext()) {
+			HqrtQueueChat hqc = it.next();
+			if (!queueNameList.contains(hqc.getQueuename())) {
+				// 业务系统有属于“其他”的，则需要重新统计
+				if (!queueNameList.contains(hqc.getQueuename())) {
+					hqc.setQueuename("其他");
+				}
+				String key = hqc.getQueuename();
+				HqrtQueueChat queueChat = mapnew.get(key);
+				if (queueChat == null) {
+					// 直接存储到map中
+					mapnew.put(key, hqc);
+				} else {
+					queueChat.setTotalincount(queueChat.getTotalincount() + hqc.getTotalincount());
+					queueChat.setConversionvolume(queueChat.getConversionvolume() + hqc.getConversionvolume());
+					queueChat.setLinupcancelvolume(queueChat.getLinupcancelvolume() + hqc.getLinupcancelvolume());
+					queueChat.setLinuptimeoutvolume(queueChat.getLinuptimeoutvolume() + hqc.getLinuptimeoutvolume());
+					DecimalFormat df = new DecimalFormat("#0.00"); 
+					queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+					queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+					queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+					mapnew.put(key, queueChat);
+				}
+				// 删除掉存在其他的数据，统计后重新加入
+				it.remove();
+			}
+		}
+		for (String key : mapnew.keySet()) {
+			HqrtQueueChat chat = mapnew.get(key);
+			queryListGroupby.add(chat);
+		}
+		for (int i = 0; i < queryListGroupby.size(); i++) {
+			queryListGroupby.get(i).setOrdernumber(i+1);
 		}
 		map.put("rows", queryListGroupby);
 		return map;
@@ -198,11 +257,30 @@ public class HqrtQueueChatController extends BaseController {
 			String sqlcondition = "";
 			List<Object> paramList = new ArrayList<Object>();
 			if (StringUtils.isNotBlank(hqrtQueueChat.getQueuename())) {
-				// List<String> queuenameList =
-				// Arrays.asList(hqrtAgentChat.getQueuename().split(","));
-				sqlcondition += " AND a.queuename in ('" + hqrtQueueChat.getQueuename().replace(",", "','") + "')";
-				// paramList.add(queuenameList);
-			}
+	        	MultiDBUtils md = MultiDBUtils.get("company");
+	    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+	    		List<String> queueNameList = new ArrayList<String>();
+	    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+	    			queueNameList.add(hqrtQueueConfig.getQueuename());
+	    		}
+	        	if (!hqrtQueueChat.getQueuename().contains("其他")) {
+	        		sqlcondition += " AND a.queuename in ('" + hqrtQueueChat.getQueuename().replace(",", "','") + "')";
+				} else {
+					String[] queueselect = hqrtQueueChat.getQueuename().split(",");
+					for (String queuename : queueselect) {
+						if (queueNameList.contains(queuename)) {
+							queueNameList.remove(queuename);
+						}
+					}
+					sqlcondition += " AND (";
+					for (String queue : queueNameList) {
+						sqlcondition += "a.queuename not like ? AND ";
+						paramList.add("%" + queue + "%");
+					}
+					sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+					sqlcondition += ")";
+				}
+	        }
 			if (hqrtQueueChat.getStarttime() != null && hqrtQueueChat.getEndttime() != null) {
 	        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
 	        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -290,11 +368,50 @@ public class HqrtQueueChatController extends BaseController {
 							df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
 					queueChat.setTimeoutrate(
 							df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-					for (int i = 0; i < queryListGroupby.size(); i++) {
-						queryListGroupby.get(i).setOrdernumber(i+1);
-					}
 					
 				}
+			}
+			Iterator<HqrtQueueChat> it = queryListGroupby.iterator();
+			// map的key是queuename和province联合组成，用来唯一确定一条记录
+			Map<String, HqrtQueueChat> mapnew = new HashMap<String, HqrtQueueChat>();
+			List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+			List<String> queueNameList = new ArrayList<String>();
+			for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+				queueNameList.add(hqrtQueueConfig.getQueuename());
+			}
+			while (it.hasNext()) {
+				HqrtQueueChat hqc = it.next();
+				if (!queueNameList.contains(hqc.getQueuename())) {
+					// 业务系统有属于“其他”的，则需要重新统计
+					if (!queueNameList.contains(hqc.getQueuename())) {
+						hqc.setQueuename("其他");
+					}
+					String key = hqc.getQueuename();
+					HqrtQueueChat queueChat = mapnew.get(key);
+					if (queueChat == null) {
+						// 直接存储到map中
+						mapnew.put(key, hqc);
+					} else {
+						queueChat.setTotalincount(queueChat.getTotalincount() + hqc.getTotalincount());
+						queueChat.setConversionvolume(queueChat.getConversionvolume() + hqc.getConversionvolume());
+						queueChat.setLinupcancelvolume(queueChat.getLinupcancelvolume() + hqc.getLinupcancelvolume());
+						queueChat.setLinuptimeoutvolume(queueChat.getLinuptimeoutvolume() + hqc.getLinuptimeoutvolume());
+						DecimalFormat df = new DecimalFormat("#0.00"); 
+						queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+						queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+						queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+						mapnew.put(key, queueChat);
+					}
+					// 删除掉存在其他的数据，统计后重新加入
+					it.remove();
+				}
+			}
+			for (String key : mapnew.keySet()) {
+				HqrtQueueChat chat = mapnew.get(key);
+				queryListGroupby.add(chat);
+			}
+			for (int i = 0; i < queryListGroupby.size(); i++) {
+				queryListGroupby.get(i).setOrdernumber(i+1);
 			}
 			new ExportExcel("排队统计", HqrtQueueChat.class).setDataList(queryListGroupby).write(response, fileName)
 					.dispose();
@@ -330,11 +447,30 @@ public class HqrtQueueChatController extends BaseController {
 		String sqlcondition = "";
 		List<Object> paramList = new ArrayList<Object>();
 		if (StringUtils.isNotBlank(hqrtQueueChatdetail.getQueuename())) {
-			// List<String> queuenameList =
-			// Arrays.asList(hqrtAgentChat.getQueuename().split(","));
-			sqlcondition += " AND a.queuename in ('" + hqrtQueueChatdetail.getQueuename().replace(",", "','") + "')";
-			// paramList.add(queuenameList);
-		}
+        	MultiDBUtils md = MultiDBUtils.get("company");
+    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+    		List<String> queueNameList = new ArrayList<String>();
+    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+    			queueNameList.add(hqrtQueueConfig.getQueuename());
+    		}
+        	if (!hqrtQueueChatdetail.getQueuename().contains("其他")) {
+        		sqlcondition += " AND a.queuename in ('" + hqrtQueueChatdetail.getQueuename().replace(",", "','") + "')";
+			} else {
+				String[] queueselect = hqrtQueueChatdetail.getQueuename().split(",");
+				for (String queuename : queueselect) {
+					if (queueNameList.contains(queuename)) {
+						queueNameList.remove(queuename);
+					}
+				}
+				sqlcondition += " AND (";
+				for (String queue : queueNameList) {
+					sqlcondition += "a.queuename not like ? AND ";
+					paramList.add("%" + queue + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+				sqlcondition += ")";
+			}
+        }
 		if (hqrtQueueChatdetail.getStarttime() != null && hqrtQueueChatdetail.getEndttime() != null) {
         	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -368,22 +504,13 @@ public class HqrtQueueChatController extends BaseController {
         MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtQueueChatdetail> detailsList = md.queryList(sql, HqrtQueueChatdetail.class, paramList.toArray());
         List<HqrtQueueChatdetail> allDetailslList = md.queryList(selectcountsql, HqrtQueueChatdetail.class, paramList.toArray());
-        	for(int i = 0 ; i < detailsList.size(); i++){
-        		detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
-        	}
+    	for(int i = 0 ; i < detailsList.size(); i++){
+    		detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
+    	}
         page.setCount(allDetailslList.size());
 		hqrtQueueChatdetail.setPage(page);
 		page.setList(detailsList);
-		
 		return getBootstrapData(page);
-		/*
-		 * if (StringUtils.isNotBlank(hqrtQueueChatdetail.getQueuename())) {
-		 * hqrtQueueChatdetail.setQueuenameList(Arrays.asList(
-		 * hqrtQueueChatdetail.getQueuename().split(","))); }
-		 * Page<HqrtQueueChatdetail> page = hqrtQueueChatService
-		 * .findDetailPage(new Page<HqrtQueueChatdetail>(request, response),
-		 * hqrtQueueChatdetail); return getBootstrapData(page);
-		 */
 	}
 
 	/**
@@ -403,9 +530,30 @@ public class HqrtQueueChatController extends BaseController {
 			String sqlcondition = "";
 			List<Object> paramList = new ArrayList<Object>();
 			if (StringUtils.isNotBlank(hqrtQueueChatdetail.getQueuename())) {
-				sqlcondition += " AND a.queuename in ('" + hqrtQueueChatdetail.getQueuename().replace(",", "','")
-						+ "')";
-			}
+	        	MultiDBUtils md = MultiDBUtils.get("company");
+	    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+	    		List<String> queueNameList = new ArrayList<String>();
+	    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+	    			queueNameList.add(hqrtQueueConfig.getQueuename());
+	    		}
+	        	if (!hqrtQueueChatdetail.getQueuename().contains("其他")) {
+	        		sqlcondition += " AND a.queuename in ('" + hqrtQueueChatdetail.getQueuename().replace(",", "','") + "')";
+				} else {
+					String[] queueselect = hqrtQueueChatdetail.getQueuename().split(",");
+					for (String queuename : queueselect) {
+						if (queueNameList.contains(queuename)) {
+							queueNameList.remove(queuename);
+						}
+					}
+					sqlcondition += " AND (";
+					for (String queue : queueNameList) {
+						sqlcondition += "a.queuename not like ? AND ";
+						paramList.add("%" + queue + "%");
+					}
+					sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+					sqlcondition += ")";
+				}
+	        }
 			if (hqrtQueueChatdetail.getStarttime() != null && hqrtQueueChatdetail.getEndttime() != null) {
 	        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
 	        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -419,8 +567,7 @@ public class HqrtQueueChatController extends BaseController {
 	            Date beginOfDate = cal.getTime();
 	        	paramList.add(ft.format(beginOfDate));
 	        	Calendar calendar2 = Calendar.getInstance();
-	        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
-	        	        23, 59, 59);
+	        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
 	        	Date endOfDate = calendar2.getTime();
 	        	paramList.add(ft.format(endOfDate));
 	        	
