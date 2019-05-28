@@ -81,13 +81,19 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: false
+		        field: 'ordernumber',
+		        title: '序号',
+		        sortable: false,
+		        align:'center',
+		        width:'120px',
+		        sortName: 'ordernumber'
 		       
 		    }
 			,{
 		        field: 'queuename',
 		        title: '业务系统',
 		        sortable: false,
+		        width:'200px',
 		        sortName: 'queuename'
 		       
 		    }
@@ -96,6 +102,7 @@ $(document).ready(function() {
 		        title: '人工进线量',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'totalincount'
 		       
 		    }
@@ -104,6 +111,7 @@ $(document).ready(function() {
 		        title: '转通坐席量',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'conversionvolume'
 		       
 		    }
@@ -112,6 +120,7 @@ $(document).ready(function() {
 		        title: '接通率',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'connectrate'
 		       
 		    }
@@ -120,6 +129,7 @@ $(document).ready(function() {
 		        title: '排队取消量',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'linupcancelvolume'
 		       
 		    }
@@ -128,6 +138,7 @@ $(document).ready(function() {
 		        title: '取消率',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'cancelrate'
 		       
 		    }
@@ -136,6 +147,7 @@ $(document).ready(function() {
 		        title: '排队超时量',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'linuptimeoutvolume'
 		       
 		    }
@@ -144,6 +156,7 @@ $(document).ready(function() {
 		        title: ' 超时率',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'timeoutrate'
 		       
 		    }

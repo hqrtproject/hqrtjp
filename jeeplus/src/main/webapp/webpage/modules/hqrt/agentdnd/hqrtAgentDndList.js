@@ -81,10 +81,15 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: false
-		       
-		    }
-            ,{
+   		        field: 'ordernumber',
+   		        title: '序号',
+   		        sortable: false,
+   		        align:'center',
+   		        width:'80px',
+   		        sortName: 'ordernumber'
+   		       
+   		    }
+			,{
    		        field: 'exqueuename',
    		        title: '业务系统',
    		        sortable: false,
@@ -96,6 +101,7 @@ $(document).ready(function() {
 		        title: '坐席ID',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'agentid'
 		       
 		    }
@@ -104,6 +110,7 @@ $(document).ready(function() {
 		        title: '坐席姓名',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'agentname'
 		       
 		    }
@@ -135,6 +142,7 @@ $(document).ready(function() {
 		        title: '持续时长',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'timelen'
 		       
 		    }

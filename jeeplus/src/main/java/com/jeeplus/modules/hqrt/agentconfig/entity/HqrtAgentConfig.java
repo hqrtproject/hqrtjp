@@ -53,6 +53,8 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 	private Date starttime;
 	private Date endtime;
 	
+	private Integer ordernumber; // 序号
+
 	public HqrtAgentConfig() {
 		super();
 		this.setIdType(IDTYPE_AUTO);
@@ -78,7 +80,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.rowdatetime = rowdatetime;
 	}
 	
-	@ExcelField(title="坐席工号", align=2, sort=2)
+	@ExcelField(title="坐席工号", align=2, sort=3)
 	public String getAgentid() {
 		return agentid;
 	}
@@ -87,7 +89,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.agentid = agentid;
 	}
 	
-	@ExcelField(title="坐席姓名", align=2, sort=3)
+	@ExcelField(title="坐席姓名", align=2, sort=4)
 	public String getAgentname() {
 		return agentname;
 	}
@@ -128,7 +130,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.queuecode = queuecode;
 	}
 	
-	@ExcelField(title="业务系统", align=2, sort=1)
+	@ExcelField(title="业务系统", align=2, sort=2)
 	public String getQueuename() {
 		return queuename;
 	}
@@ -137,7 +139,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.queuename = queuename;
 	}
 
-	@ExcelField(title="登录时长", align=2, sort=4)
+	@ExcelField(title="登录时长", align=2, sort=5)
 	public Integer getTimelenlogin() {
 		return timelenlogin;
 	}
@@ -146,7 +148,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.timelenlogin = timelenlogin;
 	}
 
-	@ExcelField(title="在线时长", align=2, sort=5)
+	@ExcelField(title="在线时长", align=2, sort=6)
 	public Integer getTimelenonline() {
 		return timelenonline;
 	}
@@ -155,7 +157,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.timelenonline = timelenonline;
 	}
 
-	@ExcelField(title="置忙时长", align=2, sort=6)
+	@ExcelField(title="置忙时长", align=2, sort=7)
 	public Integer getTimelendnd() {
 		return timelendnd;
 	}
@@ -164,7 +166,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.timelendnd = timelendnd;
 	}
 	
-	@ExcelField(title="接待时长", align=2, sort=7)
+	@ExcelField(title="接待时长", align=2, sort=8)
 	public Integer getTimelenwork() {
 		return timelenwork;
 	}
@@ -173,7 +175,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.timelenwork = timelenwork;
 	}
 
-	@ExcelField(title="空闲时长", align=2, sort=8)
+	@ExcelField(title="空闲时长", align=2, sort=9)
 	public Integer getTimelenfree() {
 		return timelenfree;
 	}
@@ -182,7 +184,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.timelenfree = timelenfree;
 	}
 
-	@ExcelField(title="咨询量", align=2, sort=9)
+	@ExcelField(title="咨询量", align=2, sort=10)
 	public Integer getAdvicecount() {
 		return advicecount;
 	}
@@ -191,7 +193,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.advicecount = advicecount;
 	}
 
-	@ExcelField(title="接待量", align=2, sort=10)
+	@ExcelField(title="接待量", align=2, sort=11)
 	public Integer getReceivecount() {
 		return receivecount;
 	}
@@ -200,7 +202,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.receivecount = receivecount;
 	}
 
-	@ExcelField(title="无效量", align=2, sort=11)
+	@ExcelField(title="无效量", align=2, sort=12)
 	public Integer getInvalidcount() {
 		return invalidcount;
 	}
@@ -209,7 +211,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.invalidcount = invalidcount;
 	}
 
-	@ExcelField(title="会话总时长", align=2, sort=12)
+	@ExcelField(title="会话总时长", align=2, sort=13)
 	public Integer getChattotaltime() {
 		return chattotaltime;
 	}
@@ -218,7 +220,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.chattotaltime = chattotaltime;
 	}
 
-	@ExcelField(title="会话平均时长", align=2, sort=13)
+	@ExcelField(title="会话平均时长", align=2, sort=14)
 	public Double getChatavgtime() {
 		return chatavgtime;
 	}
@@ -227,7 +229,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.chatavgtime = chatavgtime;
 	}
 
-	@ExcelField(title="首次响应平均时长", align=2, sort=14)
+	@ExcelField(title="首次响应平均时长", align=2, sort=15)
 	public Double getFirstresponsetimelenavg() {
 		return firstresponsetimelenavg;
 	}
@@ -236,7 +238,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.firstresponsetimelenavg = firstresponsetimelenavg;
 	}
 
-	@ExcelField(title="响应平均时长", align=2, sort=15)
+	@ExcelField(title="响应平均时长", align=2, sort=16)
 	public Double getAvgresponsetimelen() {
 		return avgresponsetimelen;
 	}
@@ -245,7 +247,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.avgresponsetimelen = avgresponsetimelen;
 	}
 
-	@ExcelField(title="问答比", align=2, sort=16)
+	@ExcelField(title="问答比", align=2, sort=17)
 	public String getQaratio() {
 		return qaratio;
 	}
@@ -254,7 +256,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.qaratio = qaratio;
 	}
 
-	@ExcelField(title="参评量", align=2, sort=17)
+	@ExcelField(title="参评量", align=2, sort=18)
 	public Integer getParticipationcount() {
 		return participationcount;
 	}
@@ -263,7 +265,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.participationcount = participationcount;
 	}
 
-	@ExcelField(title="参评率", align=2, sort=18)
+	@ExcelField(title="参评率", align=2, sort=19)
 	public String getParticipationrate() {
 		return participationrate;
 	}
@@ -272,7 +274,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.participationrate = participationrate;
 	}
 
-	@ExcelField(title="一星评价量", align=2, sort=19)
+	@ExcelField(title="一星评价量", align=2, sort=20)
 	public Integer getOnestarcount() {
 		return onestarcount;
 	}
@@ -281,7 +283,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.onestarcount = onestarcount;
 	}
 
-	@ExcelField(title="二星评价量", align=2, sort=20)
+	@ExcelField(title="二星评价量", align=2, sort=21)
 	public Integer getTwostarcount() {
 		return twostarcount;
 	}
@@ -290,7 +292,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.twostarcount = twostarcount;
 	}
 
-	@ExcelField(title="三星评价量", align=2, sort=21)
+	@ExcelField(title="三星评价量", align=2, sort=22)
 	public Integer getThreestarcount() {
 		return threestarcount;
 	}
@@ -299,7 +301,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.threestarcount = threestarcount;
 	}
 
-	@ExcelField(title="四星评价量", align=2, sort=22)
+	@ExcelField(title="四星评价量", align=2, sort=23)
 	public Integer getFourstarcount() {
 		return fourstarcount;
 	}
@@ -308,7 +310,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.fourstarcount = fourstarcount;
 	}
 
-	@ExcelField(title="五星评价量", align=2, sort=23)
+	@ExcelField(title="五星评价量", align=2, sort=24)
 	public Integer getFivestarcount() {
 		return fivestarcount;
 	}
@@ -317,7 +319,7 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.fivestarcount = fivestarcount;
 	}
 
-	@ExcelField(title="平均评价", align=2, sort=24)
+	@ExcelField(title="平均评价", align=2, sort=25)
 	public Double getAvgstarcount() {
 		return avgstarcount;
 	}
@@ -342,4 +344,12 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 		this.endtime = endtime;
 	}
 	
+	@ExcelField(title="序号", align=2, sort=1)
+	public Integer getOrdernumber() {
+		return ordernumber;
+	}
+
+	public void setOrdernumber(Integer ordernumber) {
+		this.ordernumber = ordernumber;
+	}
 }

@@ -128,6 +128,7 @@ $(document).ready(function() {
 		        field: 'customername',
 		        title: '用户名',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'customername'
 		       
 		    }

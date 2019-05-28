@@ -48,6 +48,7 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	private String cancelrate; //  取消率
 	private Integer linuptimeoutvolume; // 排队超时量
 	private String timeoutrate; // 超时率
+	private Integer ordernumber; // 序号
 
 	public HqrtQueueChat() {
 		super();
@@ -175,7 +176,7 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 		this.queueid = queueid;
 	}
 	
-	@ExcelField(title="业务系统", align=2, sort=1)
+	@ExcelField(title="业务系统", align=2, sort=2)
 	public String getQueuename() {
 		return queuename;
 	}
@@ -215,7 +216,7 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	public void setEndttime(Date endttime) {
 		this.endttime = endttime;
 	}
-	@ExcelField(title="人工进线量", align=2, sort=2)
+	@ExcelField(title="人工进线量", align=2, sort=3)
 	public Integer getTotalincount() {
 		return totalincount;
 	}
@@ -223,7 +224,7 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	public void setTotalincount(Integer totalincount) {
 		this.totalincount = totalincount;
 	}
-	@ExcelField(title="转通坐席量", align=2, sort=3)
+	@ExcelField(title="转通坐席量", align=2, sort=4)
 	public Integer getConversionvolume() {
 		return conversionvolume;
 	}
@@ -231,7 +232,7 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	public void setConversionvolume(Integer conversionvolume) {
 		this.conversionvolume = conversionvolume;
 	}
-	@ExcelField(title="接通率", align=2, sort=4)
+	@ExcelField(title="接通率", align=2, sort=5)
 	public String getConnectrate() {
 		return connectrate;
 	}
@@ -239,7 +240,7 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	public void setConnectrate(String connectrate) {
 		this.connectrate = connectrate;
 	}
-	@ExcelField(title="排队取消量", align=2, sort=5)
+	@ExcelField(title="排队取消量", align=2, sort=6)
 	public Integer getLinupcancelvolume() {
 		return linupcancelvolume;
 	}
@@ -247,7 +248,7 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	public void setLinupcancelvolume(Integer linupcancelvolume) {
 		this.linupcancelvolume = linupcancelvolume;
 	}
-	@ExcelField(title="取消率", align=2, sort=6)
+	@ExcelField(title="取消率", align=2, sort=7)
 	public String getCancelrate() {
 		return cancelrate;
 	}
@@ -255,7 +256,7 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	public void setCancelrate(String cancelrate) {
 		this.cancelrate = cancelrate;
 	}
-	@ExcelField(title="排队超时量", align=2, sort=7)
+	@ExcelField(title="排队超时量", align=2, sort=8)
 	public Integer getLinuptimeoutvolume() {
 		return linuptimeoutvolume;
 	}
@@ -263,7 +264,7 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	public void setLinuptimeoutvolume(Integer linuptimeoutvolume) {
 		this.linuptimeoutvolume = linuptimeoutvolume;
 	}
-	@ExcelField(title="超时率", align=2, sort=8)
+	@ExcelField(title="超时率", align=2, sort=9)
 	public String getTimeoutrate() {
 		return timeoutrate;
 	}
@@ -271,5 +272,13 @@ public class HqrtQueueChat extends DataEntity<HqrtQueueChat> {
 	public void setTimeoutrate(String timeoutrate) {
 		this.timeoutrate = timeoutrate;
 	}
+	
+	@ExcelField(title="序号", align=2, sort=1)
+	public Integer getOrdernumber() {
+		return ordernumber;
+	}
 
+	public void setOrdernumber(Integer ordernumber) {
+		this.ordernumber = ordernumber;
+	}
 }

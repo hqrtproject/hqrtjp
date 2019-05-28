@@ -81,11 +81,11 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        field: 'queuename',
+		        field: 'ordernumber',
 		        title: '序号',
 		        sortable: false,
 		        align:'center',
-		        sortName: 'queuename'
+		        sortName: 'ordernumber'
 		    }
 			,{
 		        field: 'queuename',

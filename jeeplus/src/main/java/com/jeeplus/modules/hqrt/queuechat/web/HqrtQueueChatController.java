@@ -174,7 +174,10 @@ public class HqrtQueueChatController extends BaseController {
 						df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
 				queueChat.setTimeoutrate(
 						df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-
+				
+				for (int i = 0; i < queryListGroupby.size(); i++) {
+					queryListGroupby.get(i).setOrdernumber(i+1);
+				}
 			}
 		}
 		map.put("rows", queryListGroupby);
@@ -287,7 +290,10 @@ public class HqrtQueueChatController extends BaseController {
 							df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
 					queueChat.setTimeoutrate(
 							df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-
+					for (int i = 0; i < queryListGroupby.size(); i++) {
+						queryListGroupby.get(i).setOrdernumber(i+1);
+					}
+					
 				}
 			}
 			new ExportExcel("排队统计", HqrtQueueChat.class).setDataList(queryListGroupby).write(response, fileName)
@@ -362,6 +368,9 @@ public class HqrtQueueChatController extends BaseController {
         MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtQueueChatdetail> detailsList = md.queryList(sql, HqrtQueueChatdetail.class, paramList.toArray());
         List<HqrtQueueChatdetail> allDetailslList = md.queryList(selectcountsql, HqrtQueueChatdetail.class, paramList.toArray());
+        	for(int i = 0 ; i < detailsList.size(); i++){
+        		detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
+        	}
         page.setCount(allDetailslList.size());
 		hqrtQueueChatdetail.setPage(page);
 		page.setList(detailsList);
@@ -427,6 +436,9 @@ public class HqrtQueueChatController extends BaseController {
 			sql += sqlcondition;
 			MultiDBUtils md = MultiDBUtils.get("company");
 			List<HqrtQueueChatdetail> queryList = md.queryList(sql, HqrtQueueChatdetail.class, paramList.toArray());
+			for(int i = 0 ; i < queryList.size(); i++){
+				queryList.get(i).setOrdernumber(i+1);
+        	}
 			new ExportExcel("排队明细日志", HqrtQueueChatdetail.class).setDataList(queryList).write(response, fileName)
 					.dispose();
 			j.setSuccess(true);

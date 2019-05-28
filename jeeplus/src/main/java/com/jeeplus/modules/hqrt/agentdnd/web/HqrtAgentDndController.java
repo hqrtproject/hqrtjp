@@ -107,6 +107,9 @@ public class HqrtAgentDndController extends BaseController {
         MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtAgentDnd> detailsList = md.queryList(sql, HqrtAgentDnd.class, paramList.toArray());
         List<HqrtAgentDnd> allDetailslList = md.queryList(selectcountsql, HqrtAgentDnd.class, paramList.toArray());
+        for(int i = 0 ; i < detailsList.size(); i++){
+        	detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
+    	}
 		page.setList(detailsList);
 		page.setCount(allDetailslList.size());
 		return getBootstrapData(page);
@@ -152,6 +155,9 @@ public class HqrtAgentDndController extends BaseController {
             sql += sqlcondition;
             MultiDBUtils md = MultiDBUtils.get("company");
             List<HqrtAgentDnd> detailsList = md.queryList(sql, HqrtAgentDnd.class, paramList.toArray());
+            for(int i = 0 ; i < detailsList.size(); i++){
+            	detailsList.get(i).setOrdernumber(i+1);
+        	}
             
     		new ExportExcel("坐席置忙日志", HqrtAgentDnd.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);

@@ -39,6 +39,8 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 	// 过滤的开始结束时间
 	private Date starttime;
 	private Date endttime;
+	
+	private Integer ordernumber; // 序号
 
 	public HqrtQueueChatdetail() {
 		super();
@@ -67,7 +69,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.rowdatetime = rowdatetime;
 	}
 	
-	@ExcelField(title="会话ID", align=2, sort=2)
+	@ExcelField(title="会话ID", align=2, sort=3)
 	public String getSessionid() {
 		return sessionid;
 	}
@@ -76,7 +78,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.sessionid = sessionid;
 	}
 	
-	@ExcelField(title="用户ID", align=2, sort=4)
+	@ExcelField(title="用户ID", align=2, sort=5)
 	public String getCustomerid() {
 		return customerid;
 	}
@@ -85,7 +87,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.customerid = customerid;
 	}
 	
-	@ExcelField(title="用户名", align=2, sort=3)
+	@ExcelField(title="用户名", align=2, sort=4)
 	public String getCustomername() {
 		return customername;
 	}
@@ -112,7 +114,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.customerprovince = customerprovince;
 	}
 	
-	@ExcelField(title="进线开始时间", align=2, sort=5)
+	@ExcelField(title="进线开始时间", align=2, sort=6)
 	public String getStartdatetime() {
 		return startdatetime;
 	}
@@ -121,7 +123,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.startdatetime = startdatetime;
 	}
 	
-	@ExcelField(title="进线结束时间", align=2, sort=6)
+	@ExcelField(title="进线结束时间", align=2, sort=7)
 	public String getEnddatetime() {
 		return enddatetime;
 	}
@@ -147,7 +149,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.endreasonno = endreasonno;
 	}
 	
-	@ExcelField(title="结束原因", align=2, sort=7)
+	@ExcelField(title="结束原因", align=2, sort=8)
 	public String getEndreason() {
 		return endreason;
 	}
@@ -165,7 +167,7 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 		this.queueid = queueid;
 	}
 	
-	@ExcelField(title="业务系统", align=2, sort=1)
+	@ExcelField(title="业务系统", align=2, sort=2)
 	public String getQueuename() {
 		return queuename;
 	}
@@ -205,5 +207,14 @@ public class HqrtQueueChatdetail extends DataEntity<HqrtQueueChatdetail> {
 	
 	public void setEndttime(Date endttime) {
 		this.endttime = endttime;
+	}
+	
+	@ExcelField(title="序号", align=2, sort=1)
+	public Integer getOrdernumber() {
+		return ordernumber;
+	}
+	
+	public void setOrdernumber(Integer ordernumber) {
+		this.ordernumber = ordernumber;
 	}
 }

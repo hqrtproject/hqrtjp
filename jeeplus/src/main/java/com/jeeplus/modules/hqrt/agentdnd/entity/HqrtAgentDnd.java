@@ -31,6 +31,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 	private String exqueuename;    // 冗余配置文件内容，查找坐席所在技能组
 	private Date starttime;
 	private Date endtime;
+	private Integer ordernumber; // 序号
 	
 	public HqrtAgentDnd() {
 		super();
@@ -57,7 +58,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.rowdatetime = rowdatetime;
 	}
 	
-	@ExcelField(title="坐席ID", align=2, sort=2)
+	@ExcelField(title="坐席ID", align=2, sort=3)
 	public String getAgentid() {
 		return agentid;
 	}
@@ -66,7 +67,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.agentid = agentid;
 	}
 	
-	@ExcelField(title="坐席姓名", align=2, sort=3)
+	@ExcelField(title="坐席姓名", align=2, sort=4)
 	public String getAgentname() {
 		return agentname;
 	}
@@ -91,7 +92,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.agentprovince = agentprovince;
 	}
 	
-	@ExcelField(title="开始时间", align=2, sort=4)
+	@ExcelField(title="开始时间", align=2, sort=5)
 	public String getStartdatetime() {
 		return startdatetime;
 	}
@@ -100,7 +101,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.startdatetime = startdatetime;
 	}
 	
-	@ExcelField(title="结束时间", align=2, sort=5)
+	@ExcelField(title="结束时间", align=2, sort=6)
 	public String getEnddatetime() {
 		return enddatetime;
 	}
@@ -109,7 +110,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.enddatetime = enddatetime;
 	}
 	
-	@ExcelField(title="持续时长", align=2, sort=6)
+	@ExcelField(title="持续时长", align=2, sort=7)
 	public String getTimelen() {
 		return timelen;
 	}
@@ -134,7 +135,7 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.dndvaluedesc = dndvaluedesc;
 	}
 
-	@ExcelField(title="业务系统", align=2, sort=1)
+	@ExcelField(title="业务系统", align=2, sort=2)
 	public String getExqueuename() {
 		return exqueuename;
 	}
@@ -159,4 +160,13 @@ public class HqrtAgentDnd extends DataEntity<HqrtAgentDnd> {
 		this.endtime = endtime;
 	}
 	
+	@ExcelField(title="序号", align=2, sort=1)
+	public Integer getOrdernumber() {
+		return ordernumber;
+	}
+
+	public void setOrdernumber(Integer ordernumber) {
+		this.ordernumber = ordernumber;
+	}
+
 }

@@ -81,16 +81,19 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        field: 'queuename',
-		        title: '业务系统',
+		        field: 'ordernumber',
+		        title: '序号',
 		        sortable: false,
-		        sortName: 'queuename'
+		        align:'center',
+		        width:'80px',
+		        sortName: 'ordernumber'
 		       
 		    }
 			,{
 		        field: 'queuename',
 		        title: '业务系统',
 		        sortable: false,
+		        width:'200px',
 		        sortName: 'queuename'
 		       
 		    }
@@ -107,6 +110,7 @@ $(document).ready(function() {
 		        title: '用户名',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'customername'
 		       
 		    }
@@ -115,6 +119,7 @@ $(document).ready(function() {
 		        title: '用户ID',
 		        sortable: false,
 		        align:'center',
+		        width:'130px',
 		        sortName: 'customerid'
 		       
 		    }
@@ -123,6 +128,7 @@ $(document).ready(function() {
 		        title: '进线开始时间',
 		        sortable: false,
 		        align:'center',
+		        
 		        sortName: 'startdatetime'
 		       
 		    }
@@ -131,6 +137,7 @@ $(document).ready(function() {
 		        title: '进线结束时间',
 		        sortable: false,
 		        align:'center',
+		       
 		        sortName: 'enddatetime'
 		       
 		    }
