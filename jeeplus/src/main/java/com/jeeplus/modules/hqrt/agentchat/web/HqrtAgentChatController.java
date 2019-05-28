@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,8 @@ import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentchat.entity.HqrtAgentChat;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetailsForExport;
+import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
+import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -38,6 +41,9 @@ import com.jeeplus.modules.tools.utils.MultiDBUtils;
 @Controller
 @RequestMapping(value = "${adminPath}/hqrt/agentchat/hqrtAgentChat")
 public class HqrtAgentChatController extends BaseController {
+	
+	@Autowired
+	private HqrtCmccAreaService hqrtCmccAreaService;
 	
 	/*@ModelAttribute
 	public HqrtAgentChat get(@RequestParam(required=false) String id) {
@@ -81,17 +87,56 @@ public class HqrtAgentChatController extends BaseController {
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
 		if (StringUtils.isNotBlank(hqrtAgentChat.getCustomerprovince())) {
-			String[] provincesplit = hqrtAgentChat.getCustomerprovince().split(",");
-			sqlcondition += " AND (";
-			for (String province : provincesplit) {
-				sqlcondition += "a.customerprovince like ? OR ";
-				paramList.add("%" + province + "%");
+			if (!hqrtAgentChat.getCustomerprovince().contains("其他")) {
+				String[] provincesplit = hqrtAgentChat.getCustomerprovince().split(",");
+				sqlcondition += " AND (";
+				for (String province : provincesplit) {
+					sqlcondition += "a.customerprovince like ? OR ";
+					paramList.add("%" + province + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
+				sqlcondition += ")";
+			} else {
+				List<String> hqrtCmccAreaList = hqrtCmccAreaService.findAllProvineList();
+				String[] provinceselect = hqrtAgentChat.getCustomerprovince().split(",");
+				for (String province : provinceselect) {
+					if (hqrtCmccAreaList.contains(province)) {
+						hqrtCmccAreaList.remove(province);
+					}
+				}
+				sqlcondition += " AND (";
+				for (String province : hqrtCmccAreaList) {
+					sqlcondition += "a.customerprovince not like ? AND ";
+					paramList.add("%" + province + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+				sqlcondition += ")";
 			}
-			sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
-			sqlcondition += ")";
         }
         if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
-        	sqlcondition += " AND a.queuename in ('" + hqrtAgentChat.getQueuename().replace(",", "','") + "')";
+        	MultiDBUtils md = MultiDBUtils.get("company");
+    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+    		List<String> queueNameList = new ArrayList<String>();
+    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+    			queueNameList.add(hqrtQueueConfig.getQueuename());
+    		}
+        	if (!hqrtAgentChat.getQueuename().contains("其他")) {
+        		sqlcondition += " AND a.queuename in ('" + hqrtAgentChat.getQueuename().replace(",", "','") + "')";
+			} else {
+				String[] queueselect = hqrtAgentChat.getQueuename().split(",");
+				for (String queuename : queueselect) {
+					if (queueNameList.contains(queuename)) {
+						queueNameList.remove(queuename);
+					}
+				}
+				sqlcondition += " AND (";
+				for (String queue : queueNameList) {
+					sqlcondition += "a.queuename not like ? AND ";
+					paramList.add("%" + queue + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+				sqlcondition += ")";
+			}
         }
         if (StringUtils.isNotBlank(hqrtAgentChat.getAgentid())) {
         	sqlcondition += " AND a.agentid in ('" + hqrtAgentChat.getAgentid().replace(",", "','") + "')";
