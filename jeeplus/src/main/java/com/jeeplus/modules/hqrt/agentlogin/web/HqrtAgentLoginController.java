@@ -3,6 +3,11 @@
  */
 package com.jeeplus.modules.hqrt.agentlogin.web;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +30,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentlogin.entity.HqrtAgentLogin;
 import com.jeeplus.modules.hqrt.agentlogin.service.HqrtAgentLoginService;
+import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
  * 坐席登录日志Controller
@@ -65,8 +71,53 @@ public class HqrtAgentLoginController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtAgentLogin hqrtAgentLogin, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<HqrtAgentLogin> page = hqrtAgentLoginService.findPage(new Page<HqrtAgentLogin>(request, response), hqrtAgentLogin); 
+		
+		Page<HqrtAgentLogin> page = new Page<>(request, response);
+		hqrtAgentLogin.setPage(page);
+		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen' FROM hqrt_agent_login a LEFT JOIN hqrt_agent_config b ON a.agentid = b.agentid";
+		String sqlcondition = "";
+		List<Object> paramList = new ArrayList<Object>();
+        if (StringUtils.isNotBlank(hqrtAgentLogin.getExqueuename())) {
+        	sqlcondition += " AND b.queuename in ('" + hqrtAgentLogin.getExqueuename().replace(",", "','") + "')";
+        }
+        if (StringUtils.isNotBlank(hqrtAgentLogin.getAgentid())) {
+        	sqlcondition += " AND a.agentid in ('" + hqrtAgentLogin.getAgentid().replace(",", "','") + "')";
+        }
+        if (hqrtAgentLogin.getStarttime() != null && hqrtAgentLogin.getEndtime() != null) {
+        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	paramList.add(ft.format(hqrtAgentLogin.getStarttime()));
+        	paramList.add(ft.format(hqrtAgentLogin.getEndtime()));
+        } else {
+        	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	Calendar cal = Calendar.getInstance();
+            cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+            Date beginOfDate = cal.getTime();
+        	paramList.add(ft.format(beginOfDate));
+        	Calendar calendar2 = Calendar.getInstance();
+        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+        	        23, 59, 59);
+        	Date endOfDate = calendar2.getTime();
+        	paramList.add(ft.format(endOfDate));
+        }
+        if (StringUtils.isNotBlank(sqlcondition)) {
+        	sqlcondition = sqlcondition.replaceFirst(" AND", "");
+        	sqlcondition  = " where" + sqlcondition;
+        }
+        String selectcountsql = sql + sqlcondition;
+        sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+        MultiDBUtils md = MultiDBUtils.get("company");
+        List<HqrtAgentLogin> detailsList = md.queryList(sql, HqrtAgentLogin.class, paramList.toArray());
+        List<HqrtAgentLogin> allDetailslList = md.queryList(selectcountsql, HqrtAgentLogin.class, paramList.toArray());
+        for(int i = 0 ; i < detailsList.size(); i++){
+        	detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
+    	}
+		page.setList(detailsList);
+		page.setCount(allDetailslList.size());
 		return getBootstrapData(page);
+		/*Page<HqrtAgentLogin> page = hqrtAgentLoginService.findPage(new Page<HqrtAgentLogin>(request, response), hqrtAgentLogin); 
+		return getBootstrapData(page);*/
 	}
 
 	/**
@@ -88,8 +139,43 @@ public class HqrtAgentLoginController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "坐席登录日志"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-            Page<HqrtAgentLogin> page = hqrtAgentLoginService.findPage(new Page<HqrtAgentLogin>(request, response, -1), hqrtAgentLogin);
-    		new ExportExcel("坐席登录日志", HqrtAgentLogin.class).setDataList(page.getList()).write(response, fileName).dispose();
+        	String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen' FROM hqrt_agent_login a LEFT JOIN hqrt_agent_config b ON a.agentid = b.agentid";
+    		String sqlcondition = "";
+    		List<Object> paramList = new ArrayList<Object>();
+            if (StringUtils.isNotBlank(hqrtAgentLogin.getExqueuename())) {
+            	// List<String> queuenameList = Arrays.asList(hqrtAgentChat.getQueuename().split(","));
+            	sqlcondition += " AND b.queuename in ('" + hqrtAgentLogin.getExqueuename().replace(",", "','") + "')";
+            	// paramList.add(queuenameList);
+            }
+            if (hqrtAgentLogin.getStarttime() != null && hqrtAgentLogin.getEndtime() != null) {
+            	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+            	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	paramList.add(ft.format(hqrtAgentLogin.getStarttime()));
+            	paramList.add(ft.format(hqrtAgentLogin.getEndtime()));
+            } else {
+            	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
+            	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	Calendar cal = Calendar.getInstance();
+                cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+                Date beginOfDate = cal.getTime();
+            	paramList.add(ft.format(beginOfDate));
+            	Calendar calendar2 = Calendar.getInstance();
+            	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+            	        23, 59, 59);
+            	Date endOfDate = calendar2.getTime();
+            	paramList.add(ft.format(endOfDate));
+            }
+            if (StringUtils.isNotBlank(sqlcondition)) {
+            	sqlcondition = sqlcondition.replaceFirst(" AND", "");
+            	sqlcondition  = " where" + sqlcondition;
+            }
+            sql += sqlcondition ;
+            MultiDBUtils md = MultiDBUtils.get("company");
+            List<HqrtAgentLogin> detailsList = md.queryList(sql, HqrtAgentLogin.class, paramList.toArray());
+            for(int i = 0 ; i < detailsList.size(); i++){
+            	detailsList.get(i).setOrdernumber(i+1);
+        	}
+    		new ExportExcel("坐席登录日志", HqrtAgentLogin.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;

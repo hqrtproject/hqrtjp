@@ -5,6 +5,9 @@ package com.jeeplus.modules.hqrt.agentlogin.entity;
 
 
 import com.jeeplus.core.persistence.DataEntity;
+
+import java.util.Date;
+
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 
 /**
@@ -24,6 +27,10 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 	private String startdatetime;		// 登录时间
 	private String enddatetime;		// 退出时间
 	private String timelen;		// 登录时长(单位：秒)
+	private String exqueuename;    // 冗余配置文件内容，查找坐席所在技能组
+	private Date starttime;
+	private Date endtime;
+	private Integer ordernumber; // 序号
 	
 	public HqrtAgentLogin() {
 		super();
@@ -34,7 +41,7 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		super(id);
 	}
 
-	@ExcelField(title="唯一记录标识（主键）", align=2, sort=1)
+
 	public String getRowguid() {
 		return rowguid;
 	}
@@ -43,7 +50,7 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		this.rowguid = rowguid;
 	}
 	
-	@ExcelField(title="记录创建时间", align=2, sort=2)
+
 	public String getRowdatetime() {
 		return rowdatetime;
 	}
@@ -52,7 +59,7 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		this.rowdatetime = rowdatetime;
 	}
 	
-	@ExcelField(title="坐席ID编号", align=2, sort=3)
+	@ExcelField(title="坐席ID编号", align=2, sort=2)
 	public String getAgentid() {
 		return agentid;
 	}
@@ -61,7 +68,7 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		this.agentid = agentid;
 	}
 	
-	@ExcelField(title="坐席姓名", align=2, sort=4)
+	@ExcelField(title="坐席姓名", align=2, sort=3)
 	public String getAgentname() {
 		return agentname;
 	}
@@ -70,7 +77,7 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		this.agentname = agentname;
 	}
 	
-	@ExcelField(title="坐席手机号码", align=2, sort=5)
+	@ExcelField(title="坐席手机号码", align=2, sort=4)
 	public String getAgentmobile() {
 		return agentmobile;
 	}
@@ -79,7 +86,7 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		this.agentmobile = agentmobile;
 	}
 	
-	@ExcelField(title="坐席所在省", align=2, sort=6)
+	@ExcelField(title="坐席所在省", align=2, sort=5)
 	public String getAgentprovince() {
 		return agentprovince;
 	}
@@ -88,7 +95,7 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		this.agentprovince = agentprovince;
 	}
 	
-	@ExcelField(title="登录时间", align=2, sort=7)
+	@ExcelField(title="登录时间", align=2, sort=6)
 	public String getStartdatetime() {
 		return startdatetime;
 	}
@@ -97,7 +104,7 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		this.startdatetime = startdatetime;
 	}
 	
-	@ExcelField(title="退出时间", align=2, sort=8)
+	@ExcelField(title="退出时间", align=2, sort=7)
 	public String getEnddatetime() {
 		return enddatetime;
 	}
@@ -106,7 +113,7 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		this.enddatetime = enddatetime;
 	}
 	
-	@ExcelField(title="登录时长(单位：秒)", align=2, sort=9)
+	@ExcelField(title="登录时长", align=2, sort=8)
 	public String getTimelen() {
 		return timelen;
 	}
@@ -115,4 +122,37 @@ public class HqrtAgentLogin extends DataEntity<HqrtAgentLogin> {
 		this.timelen = timelen;
 	}
 	
+	public String getExqueuename() {
+		return exqueuename;
+	}
+
+	public void setExqueuename(String exqueuename) {
+		this.exqueuename = exqueuename;
+	}
+
+	public Date getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+
+	public Date getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
+	
+	@ExcelField(title="序号", align=2, sort=1)
+	public Integer getOrdernumber() {
+		return ordernumber;
+	}
+
+	public void setOrdernumber(Integer ordernumber) {
+		this.ordernumber = ordernumber;
+	}
+
 }

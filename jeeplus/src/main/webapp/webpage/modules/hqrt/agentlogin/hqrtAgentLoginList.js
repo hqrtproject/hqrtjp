@@ -9,17 +9,17 @@ $(document).ready(function() {
                dataType: "json",
                contentType: "application/x-www-form-urlencoded",
                //显示检索按钮
-	           showSearch: true,
+	           //showSearch: true,
                //显示刷新按钮
-               showRefresh: true,
+               //showRefresh: true,
                //显示切换手机试图按钮
-               showToggle: true,
+               //showToggle: true,
                //显示 内容列下拉框
-    	       showColumns: true,
+    	       //showColumns: true,
     	       //显示到处按钮
-    	       showExport: true,
+    	       //showExport: true,
     	       //显示切换分页按钮
-    	       showPaginationSwitch: true,
+    	      // showPaginationSwitch: true,
     	       //最低显示2行
     	       minimumCountColumns: 2,
                //是否显示行间隔色
@@ -81,76 +81,59 @@ $(document).ready(function() {
 			$("#search-collapse").slideToggle();
 		},
                columns: [{
-		        checkbox: true
-		       
-		    }
-			,{
-		        field: 'rowdatetime',
-		        title: '记录创建时间',
-		        sortable: true,
-		        sortName: 'rowdatetime'
-		        ,formatter:function(value, row , index){
-		        	value = jp.unescapeHTML(value);
-				   <c:choose>
-					   <c:when test="${fns:hasPermission('hqrt:agentlogin:hqrtAgentLogin:edit')}">
-					      return "<a href='javascript:edit(\""+row.id+"\")'>"+value+"</a>";
-				      </c:when>
-					  <c:when test="${fns:hasPermission('hqrt:agentlogin:hqrtAgentLogin:view')}">
-					      return "<a href='javascript:view(\""+row.id+"\")'>"+value+"</a>";
-				      </c:when>
-					  <c:otherwise>
-					      return value;
-				      </c:otherwise>
-				   </c:choose>
-		         }
-		       
-		    }
-			,{
+		        field: 'ordernumber',
+		        title: '序号',
+		        sortable: false,
+		        align:'center',
+		        width:'60px',
+		        sortName: 'ordernumber'
+            }
+		    ,{
 		        field: 'agentid',
 		        title: '坐席ID编号',
-		        sortable: true,
+		        sortable: false,
 		        sortName: 'agentid'
 		       
 		    }
 			,{
 		        field: 'agentname',
 		        title: '坐席姓名',
-		        sortable: true,
+		        sortable: false,
 		        sortName: 'agentname'
 		       
 		    }
 			,{
 		        field: 'agentmobile',
 		        title: '坐席手机号码',
-		        sortable: true,
+		        sortable: false,
 		        sortName: 'agentmobile'
 		       
 		    }
 			,{
 		        field: 'agentprovince',
 		        title: '坐席所在省',
-		        sortable: true,
+		        sortable: false,
 		        sortName: 'agentprovince'
 		       
 		    }
 			,{
 		        field: 'startdatetime',
 		        title: '登录时间',
-		        sortable: true,
+		        sortable: false,
 		        sortName: 'startdatetime'
 		       
 		    }
 			,{
 		        field: 'enddatetime',
 		        title: '退出时间',
-		        sortable: true,
+		        sortable: false,
 		        sortName: 'enddatetime'
 		       
 		    }
 			,{
 		        field: 'timelen',
-		        title: '登录时长(单位：秒)',
-		        sortable: true,
+		        title: '登录时长',
+		        sortable: false,
 		        sortName: 'timelen'
 		       
 		    }
