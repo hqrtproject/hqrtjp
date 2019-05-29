@@ -53,6 +53,9 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 	private Date starttime;
 	private Date endtime;
 	
+	private Integer customermessagecount;		// 
+	private Integer agentmessagecount;		// 
+	
 	private Integer ordernumber; // 序号
 
 	public HqrtAgentConfig() {
@@ -351,5 +354,21 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 
 	public void setOrdernumber(Integer ordernumber) {
 		this.ordernumber = ordernumber;
+	}
+
+	public Integer getCustomermessagecount() {
+		return customermessagecount;
+	}
+
+	public void setCustomermessagecount(Integer customermessagecount) {
+		this.customermessagecount = customermessagecount;
+	}
+
+	public Integer getAgentmessagecount() {
+		return agentmessagecount;
+	}
+
+	public void setAgentmessagecount(Integer agentmessagecount) {
+		this.agentmessagecount = agentmessagecount;
 	}
 }

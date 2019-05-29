@@ -91,13 +91,7 @@ public class HqrtRobotChatdetailsController extends BaseController {
 						queueNameList.remove(queuename);
 					}
 				}
-				sqlcondition += " AND (";
-				for (String queue : queueNameList) {
-					sqlcondition += "a.queuename not like ? AND ";
-					paramList.add("%" + queue + "%");
-				}
-				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
-				sqlcondition += ")";
+				sqlcondition += " AND a.queuename not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
 			}
         }
         if (StringUtils.isNotBlank(hqrtRobotChatdetails.getSatisfydesc())) {
@@ -165,7 +159,23 @@ public class HqrtRobotChatdetailsController extends BaseController {
             String sqlcondition = "";
             List<Object> paramList = new ArrayList<Object>();
             if (StringUtils.isNotBlank(hqrtRobotChatdetails.getQueuename())) {
-            	sqlcondition += " AND a.queuename in ('" + hqrtRobotChatdetails.getQueuename().replace(",", "','") + "')";
+            	MultiDBUtils md = MultiDBUtils.get("company");
+        		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+        		List<String> queueNameList = new ArrayList<String>();
+        		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+        			queueNameList.add(hqrtQueueConfig.getQueuename());
+        		}
+            	if (!hqrtRobotChatdetails.getQueuename().contains("其他")) {
+            		sqlcondition += " AND a.queuename in ('" + hqrtRobotChatdetails.getQueuename().replace(",", "','") + "')";
+    			} else {
+    				String[] queueselect = hqrtRobotChatdetails.getQueuename().split(",");
+    				for (String queuename : queueselect) {
+    					if (queueNameList.contains(queuename)) {
+    						queueNameList.remove(queuename);
+    					}
+    				}
+    				sqlcondition += " AND a.queuename not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
+    			}
             }
             if (StringUtils.isNotBlank(hqrtRobotChatdetails.getSatisfydesc())) {
             	sqlcondition += " AND a.satisfydesc = ?";
@@ -202,13 +212,14 @@ public class HqrtRobotChatdetailsController extends BaseController {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
             	sqlcondition  = " where" + sqlcondition;
             }
+            // 该语句仅仅为了查询当前条件下有多少符合条件的数据
             sql += sqlcondition;
             MultiDBUtils md = MultiDBUtils.get("company");
-            List<HqrtRobotChatdetails> queryList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
-            for (int i = 0; i < queryList.size(); i++) {
-            	queryList.get(i).setOrdernumber(i+1);
+            List<HqrtRobotChatdetails> detailsList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
+    		for (int i = 0; i < detailsList.size(); i++) {
+    			detailsList.get(i).setOrdernumber(i+1);
     		}
-            new ExportExcel("机器人拦截明细日志", HqrtRobotChatdetails.class).setDataList(queryList).write(response, fileName).dispose();
+            new ExportExcel("机器人拦截明细日志", HqrtRobotChatdetails.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
     		return j;

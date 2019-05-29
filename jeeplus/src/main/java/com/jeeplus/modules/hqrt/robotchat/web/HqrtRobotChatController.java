@@ -99,13 +99,7 @@ public class HqrtRobotChatController extends BaseController {
 						queueNameList.remove(queuename);
 					}
 				}
-				sqlcondition += " AND (";
-				for (String queue : queueNameList) {
-					sqlcondition += "a.queuename not like ? AND ";
-					paramList.add("%" + queue + "%");
-				}
-				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
-				sqlcondition += ")";
+				sqlcondition += " AND a.queuename not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
 			}
         }
         if (hqrtRobotChat.getStarttime() != null && hqrtRobotChat.getEndttime() != null) {
@@ -264,18 +258,22 @@ public class HqrtRobotChatController extends BaseController {
 		while (it.hasNext()) {
 			HqrtRobotChat hrc = it.next();
 			Boolean isOtherProvince = true;
+			Boolean isOtherQueue = true;
 			for (String area : hqrtCmccAreaList) {
 				if (hrc.getCustomerprovince().contains(area)) {
 					isOtherProvince = false;
 					break;
 				}
 			}
-			if (isOtherProvince || !queueNameList.contains(hrc.getQueuename())) {
+			if (queueNameList.contains(hrc.getQueuename()) || StringUtils.isNotBlank(hrc.getQueuename()) && hqrtRobotChat.getQueuename().contains(hrc.getQueuename())) {
+				isOtherQueue = false;
+			}
+			if (isOtherProvince || isOtherQueue) {
 				// 业务系统和省份有一个属于“其他”的，则需要重新统计
 				if (isOtherProvince) {
 					hrc.setCustomerprovince("其他");
 				}
-				if (!queueNameList.contains(hrc.getQueuename())) {
+				if (isOtherQueue) {
 					hrc.setQueuename("其他");
 				}
 				String key = hrc.getQueuename() + hrc.getCustomerprovince();
@@ -341,13 +339,7 @@ public class HqrtRobotChatController extends BaseController {
     						queueNameList.remove(queuename);
     					}
     				}
-    				sqlcondition += " AND (";
-    				for (String queue : queueNameList) {
-    					sqlcondition += "a.queuename not like ? AND ";
-    					paramList.add("%" + queue + "%");
-    				}
-    				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
-    				sqlcondition += ")";
+    				sqlcondition += " AND a.queuename not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
     			}
             }
             if (hqrtRobotChat.getStarttime() != null && hqrtRobotChat.getEndttime() != null) {
@@ -506,18 +498,22 @@ public class HqrtRobotChatController extends BaseController {
     		while (it.hasNext()) {
     			HqrtRobotChat hrc = it.next();
     			Boolean isOtherProvince = true;
+    			Boolean isOtherQueue = true;
     			for (String area : hqrtCmccAreaList) {
     				if (hrc.getCustomerprovince().contains(area)) {
     					isOtherProvince = false;
     					break;
     				}
     			}
-    			if (isOtherProvince || !queueNameList.contains(hrc.getQueuename())) {
+    			if (queueNameList.contains(hrc.getQueuename()) || StringUtils.isNotBlank(hrc.getQueuename()) && hqrtRobotChat.getQueuename().contains(hrc.getQueuename())) {
+    				isOtherQueue = false;
+    			}
+    			if (isOtherProvince || isOtherQueue) {
     				// 业务系统和省份有一个属于“其他”的，则需要重新统计
     				if (isOtherProvince) {
     					hrc.setCustomerprovince("其他");
     				}
-    				if (!queueNameList.contains(hrc.getQueuename())) {
+    				if (isOtherQueue) {
     					hrc.setQueuename("其他");
     				}
     				String key = hrc.getQueuename() + hrc.getCustomerprovince();
