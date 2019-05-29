@@ -65,14 +65,17 @@
 					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
 					var logicNodeValue = [];
+					var agentids = [];
 					var childLength = '';
 					$.each(checkedNodes, function(index) {
 						if (typeof (checkedNodes[index].children) == 'undefined') {
-							logicNodeValue.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
+							logicNodeValue.push(checkedNodes[index].text);
+							agentids.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
 						}
 					});
 					// console.log(logicNodeValue);
 					$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#agentid').val(agentids);// 给查询字段赋值
 				},
 				onCheck : function(node, checked) {
 					//选择故障模式，文本框只显示子节点，不显示父节点
@@ -80,15 +83,17 @@
 					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
 					var logicNodeValue = [];
+					var agentids = [];
 					var childLength = '';
 					$.each(checkedNodes, function(index) {
 						if (typeof (checkedNodes[index].children) == 'undefined') {
-							console.log(checkedNodes[index].text.split("(")[1].split(")")[0]);
-							logicNodeValue.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
+							// console.log(checkedNodes[index].text.split("(")[1].split(")")[0]);
+							logicNodeValue.push(checkedNodes[index].text);
+							agentids.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
 						}
 					});
 					$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
-					$('#agentid').val(logicNodeValue);// 给查询字段赋值
+					$('#agentid').val(agentids);// 给查询字段赋值
 				}
 			});
 		});
@@ -124,16 +129,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px; width: 500px">
-								<label class="label-item single-overflow pull-left" title="坐席工号：" style="margin-top: 3px"><font size="4">坐席工号：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-								<input id="agentID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height: 34px; width: 340px">
-								<form:hidden path="agentid" />
-							</div> 
 			 <div class="col-xs-12 col-sm-6 col-md-5"style="height:44px;width: 500px">
 				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:340px">
 				<form:hidden path="exqueuename"/>
 			</div> 
+			<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px; width: 500px">
+				<label class="label-item single-overflow pull-left" title="坐席工号：" style="margin-top: 3px"><font size="4">坐席工号：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<input id="agentID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height: 34px; width: 340px">
+				<form:hidden path="agentid" />
+			</div> 
+
 			<div class="">
 				<div
 					style="margin-top: 26px; width: 150px; height: 34px; float: right">

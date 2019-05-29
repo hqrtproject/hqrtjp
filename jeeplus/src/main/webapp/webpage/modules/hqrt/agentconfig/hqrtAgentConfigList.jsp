@@ -52,7 +52,6 @@
 					$('#queuename').val(logicNodeValue);// 给查询字段赋值
 				}
 			});
-	
 			$('#agentID').combotree({
 				multiple : true,
 				// cascadeCheck: false,
@@ -64,14 +63,17 @@
 					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
 					var logicNodeValue = [];
+					var agentids = [];
 					var childLength = '';
 					$.each(checkedNodes, function(index) {
 						if (typeof (checkedNodes[index].children) == 'undefined') {
-							logicNodeValue.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
+							logicNodeValue.push(checkedNodes[index].text);
+							agentids.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
 						}
 					});
 					// console.log(logicNodeValue);
 					$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#agentid').val(agentids);// 给查询字段赋值
 				},
 				onCheck : function(node, checked) {
 					//选择故障模式，文本框只显示子节点，不显示父节点
@@ -79,14 +81,17 @@
 					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
 					var logicNodeValue = [];
+					var agentids = [];
 					var childLength = '';
 					$.each(checkedNodes, function(index) {
 						if (typeof (checkedNodes[index].children) == 'undefined') {
-							logicNodeValue.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
+							// console.log(checkedNodes[index].text.split("(")[1].split(")")[0]);
+							logicNodeValue.push(checkedNodes[index].text);
+							agentids.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
 						}
 					});
 					$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
-					$('#agentid').val(logicNodeValue);// 给查询字段赋值
+					$('#agentid').val(agentids);// 给查询字段赋值
 				}
 			});
 		});

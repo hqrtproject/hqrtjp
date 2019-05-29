@@ -30,6 +30,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentlogin.entity.HqrtAgentLogin;
 import com.jeeplus.modules.hqrt.agentlogin.service.HqrtAgentLoginService;
+import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -77,9 +78,25 @@ public class HqrtAgentLoginController extends BaseController {
 		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen' FROM hqrt_agent_login a LEFT JOIN hqrt_agent_config b ON a.agentid = b.agentid";
 		String sqlcondition = "";
 		List<Object> paramList = new ArrayList<Object>();
-        if (StringUtils.isNotBlank(hqrtAgentLogin.getExqueuename())) {
-        	sqlcondition += " AND b.queuename in ('" + hqrtAgentLogin.getExqueuename().replace(",", "','") + "')";
-        }
+	     if (StringUtils.isNotBlank(hqrtAgentLogin.getExqueuename())) {
+	        	MultiDBUtils md = MultiDBUtils.get("company");
+	    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+	    		List<String> queueNameList = new ArrayList<String>();
+	    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+	    			queueNameList.add(hqrtQueueConfig.getQueuename());
+	    		}
+	        	if (!hqrtAgentLogin.getExqueuename().contains("其他")) {
+	        		sqlcondition += " AND b.queuename in ('" + hqrtAgentLogin.getExqueuename().replace(",", "','") + "')";
+				} else {
+					String[] queueselect = hqrtAgentLogin.getExqueuename().split(",");
+					for (String queuename : queueselect) {
+						if (queueNameList.contains(queuename)) {
+							queueNameList.remove(queuename);
+						}
+					}
+					sqlcondition += " AND b.queuename not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
+				}
+	        }
         if (StringUtils.isNotBlank(hqrtAgentLogin.getAgentid())) {
         	sqlcondition += " AND a.agentid in ('" + hqrtAgentLogin.getAgentid().replace(",", "','") + "')";
         }

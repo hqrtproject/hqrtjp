@@ -95,6 +95,9 @@ public class HqrtAgentDndController extends BaseController {
 				sqlcondition += " AND b.queuename not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
 			}
         }
+        if (StringUtils.isNotBlank(hqrtAgentDnd.getAgentid())) {
+        	sqlcondition += " AND a.agentid in ('" + hqrtAgentDnd.getAgentid().replace(",", "','") + "')";
+        }
         if (hqrtAgentDnd.getStarttime() != null && hqrtAgentDnd.getEndtime() != null) {
         	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
