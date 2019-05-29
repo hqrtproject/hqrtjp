@@ -29,6 +29,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.agentdnd.entity.HqrtAgentDnd;
 import com.jeeplus.modules.hqrt.agentdnd.service.HqrtAgentDndService;
+import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -76,9 +77,23 @@ public class HqrtAgentDndController extends BaseController {
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
         if (StringUtils.isNotBlank(hqrtAgentDnd.getExqueuename())) {
-        	// List<String> queuenameList = Arrays.asList(hqrtAgentChat.getQueuename().split(","));
-        	sqlcondition += " AND b.queuename in ('" + hqrtAgentDnd.getExqueuename().replace(",", "','") + "')";
-        	// paramList.add(queuenameList);
+        	MultiDBUtils md = MultiDBUtils.get("company");
+    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+    		List<String> queueNameList = new ArrayList<String>();
+    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+    			queueNameList.add(hqrtQueueConfig.getQueuename());
+    		}
+        	if (!hqrtAgentDnd.getExqueuename().contains("其他")) {
+        		sqlcondition += " AND b.queuename in ('" + hqrtAgentDnd.getExqueuename().replace(",", "','") + "')";
+			} else {
+				String[] queueselect = hqrtAgentDnd.getExqueuename().split(",");
+				for (String queuename : queueselect) {
+					if (queueNameList.contains(queuename)) {
+						queueNameList.remove(queuename);
+					}
+				}
+				sqlcondition += " AND b.queuename not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
+			}
         }
         if (hqrtAgentDnd.getStarttime() != null && hqrtAgentDnd.getEndtime() != null) {
         	sqlcondition += " AND a.startdatetime BETWEEN ? AND ?";
