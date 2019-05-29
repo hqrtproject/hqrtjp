@@ -120,6 +120,7 @@ $(document).ready(function() {
 		        field: 'startdatetime',
 		        title: '登录时间',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'startdatetime'
 		       
 		    }
@@ -127,6 +128,7 @@ $(document).ready(function() {
 		        field: 'enddatetime',
 		        title: '退出时间',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'enddatetime'
 		       
 		    }
@@ -134,6 +136,7 @@ $(document).ready(function() {
 		        field: 'timelen',
 		        title: '登录时长',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'timelen'
 		       
 		    }
