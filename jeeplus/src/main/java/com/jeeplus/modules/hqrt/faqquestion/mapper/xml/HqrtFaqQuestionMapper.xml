@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.faqquestion.mapper.HqrtFaqQuestionMapper">
+    
+	<sql id="hqrtFaqQuestionColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.customerid AS "customerid",
+		a.customername AS "customername",
+		a.customermobile AS "customermobile",
+		a.customerprovince AS "customerprovince",
+		a.faqid AS "faqid",
+		a.faqroot AS "faqroot",
+		a.faqmodel AS "faqmodel",
+		a.faqserialno AS "faqserialno",
+		a.faqtitle AS "faqtitle",
+		a.faqcreaterid AS "faqcreaterid",
+		a.faqcreatername AS "faqcreatername",
+		a.faqcreatedatetime AS "faqcreatedatetime",
+		a.questiontitle AS "questiontitle",
+		a.questioncontext AS "questioncontext",
+		a.questiondatetime AS "questiondatetime",
+		a.answeragentid AS "answeragentid",
+		a.answeragentname AS "answeragentname",
+		a.answercontext AS "answercontext",
+		a.answerdatetime AS "answerdatetime",
+		a.isanswered AS "isanswered",
+		a.answertimelen AS "answertimelen",
+		a.sessionid AS "sessionid",
+		a.originalsessionid AS "originalsessionid"
+	</sql>
+	
+	<sql id="hqrtFaqQuestionJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtFaqQuestion" >
+		SELECT 
+			<include refid="hqrtFaqQuestionColumns"/>
+		FROM hqrt_faq_question a
+		<include refid="hqrtFaqQuestionJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtFaqQuestion" >
+		SELECT 
+			<include refid="hqrtFaqQuestionColumns"/>
+		FROM hqrt_faq_question a
+		<include refid="hqrtFaqQuestionJoins"/>
+		<where>
+			
+			${dataScope}
+			<if test="rowdatetime != null and rowdatetime != ''">
+				AND a.rowdatetime = #{rowdatetime}
+			</if>
+			<if test="customerid != null and customerid != ''">
+				AND a.customerid = #{customerid}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtFaqQuestion" >
+		SELECT 
+			<include refid="hqrtFaqQuestionColumns"/>
+		FROM hqrt_faq_question a
+		<include refid="hqrtFaqQuestionJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_faq_question(
+			rowguid,
+			rowdatetime,
+			customerid,
+			customername,
+			customermobile,
+			customerprovince,
+			faqid,
+			faqroot,
+			faqmodel,
+			faqserialno,
+			faqtitle,
+			faqcreaterid,
+			faqcreatername,
+			faqcreatedatetime,
+			questiontitle,
+			questioncontext,
+			questiondatetime,
+			answeragentid,
+			answeragentname,
+			answercontext,
+			answerdatetime,
+			isanswered,
+			answertimelen,
+			sessionid,
+			originalsessionid
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{customerid},
+			#{customername},
+			#{customermobile},
+			#{customerprovince},
+			#{faqid},
+			#{faqroot},
+			#{faqmodel},
+			#{faqserialno},
+			#{faqtitle},
+			#{faqcreaterid},
+			#{faqcreatername},
+			#{faqcreatedatetime},
+			#{questiontitle},
+			#{questioncontext},
+			#{questiondatetime},
+			#{answeragentid},
+			#{answeragentname},
+			#{answercontext},
+			#{answerdatetime},
+			#{isanswered},
+			#{answertimelen},
+			#{sessionid},
+			#{originalsessionid}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_faq_question SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			customerid = #{customerid},
+			customername = #{customername},
+			customermobile = #{customermobile},
+			customerprovince = #{customerprovince},
+			faqid = #{faqid},
+			faqroot = #{faqroot},
+			faqmodel = #{faqmodel},
+			faqserialno = #{faqserialno},
+			faqtitle = #{faqtitle},
+			faqcreaterid = #{faqcreaterid},
+			faqcreatername = #{faqcreatername},
+			faqcreatedatetime = #{faqcreatedatetime},
+			questiontitle = #{questiontitle},
+			questioncontext = #{questioncontext},
+			questiondatetime = #{questiondatetime},
+			answeragentid = #{answeragentid},
+			answeragentname = #{answeragentname},
+			answercontext = #{answercontext},
+			answerdatetime = #{answerdatetime},
+			isanswered = #{isanswered},
+			answertimelen = #{answertimelen},
+			sessionid = #{sessionid},
+			originalsessionid = #{originalsessionid}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_faq_question
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_faq_question SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtFaqQuestion" statementType="STATEMENT">
+		select * FROM hqrt_faq_question  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>

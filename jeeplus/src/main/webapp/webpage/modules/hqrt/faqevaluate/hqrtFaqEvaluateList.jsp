@@ -2,12 +2,12 @@
 <%@ include file="/webpage/include/taglib.jsp"%>
 <html>
 <head>
-	<title>坐席置忙日志管理</title>
+	<title>知识评价信息报表管理</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<meta name="decorator" content="ani"/>
 	<%@ include file="/webpage/include/bootstraptable.jsp"%>
 	<%@include file="/webpage/include/treeview.jsp" %>
-	<%@include file="hqrtAgentDndList.js" %>
+	<%@include file="hqrtFaqEvaluateList.js" %>
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/icon.css">
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/combotree/css/demo.css">
@@ -16,14 +16,14 @@
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/layui_v2/css/layui.css">
 	<script>
 		$(document).ready(function() {
-			$('#queuenameID').combotree({
+			$('#faqrootID').combotree({
 				multiple: true,
 				// cascadeCheck: false,
 				// onlyLeafCheck: true
 		        prompt: '请选择...',
 				onClick:function(node, checked){
 					//选择故障模式，文本框只显示子节点，不显示父节点
-					var tt = $("#queuenameID").combotree("tree");// 获取树对象
+					var tt = $("#faqrootID").combotree("tree");// 获取树对象
 					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
 					var logicNodeValue=[];
@@ -34,11 +34,11 @@
 						}
 					});
 					// console.log(logicNodeValue);
-					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#faqrootID').combotree('setText', logicNodeValue);// 给文本框赋值
 				},
 				onCheck:function(node, checked){
 					//选择故障模式，文本框只显示子节点，不显示父节点
-					var tt = $("#queuenameID").combotree("tree");// 获取树对象
+					var tt = $("#faqrootID").combotree("tree");// 获取树对象
 					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
 					var logicNodeValue=[];
@@ -49,50 +49,43 @@
 						}
 					});
 					// console.log(logicNodeValue);
-					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
-					$('#exqueuename').val(logicNodeValue);// 给查询字段赋值
+					$('#faqrootID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#faqroot').val(logicNodeValue);// 给查询字段赋值
 				}
 			});
-			$('#agentID').combotree({
-				multiple : true,
-				// cascadeCheck: false,
-				// onlyLeafCheck: true
-				prompt : '请选择...',
-				onClick : function(node, checked) {
+			$('#faqmodelID').combotree({
+				multiple: true,
+		        prompt: '请选择...',
+				onClick:function(node, checked){
 					//选择故障模式，文本框只显示子节点，不显示父节点
-					var tt = $("#agentID").combotree("tree");// 获取树对象
-					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
+					var tt = $("#faqmodelID").combotree("tree");// 获取树对象
+					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
-					var logicNodeValue = [];
-					var agentids = [];
-					var childLength = '';
-					$.each(checkedNodes, function(index) {
-						if (typeof (checkedNodes[index].children) == 'undefined') {
+					var logicNodeValue=[];
+					var childLength='';
+					$.each(checkedNodes,function(index){
+						if (typeof(checkedNodes[index].children)=='undefined') {
 							logicNodeValue.push(checkedNodes[index].text);
-							agentids.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
 						}
 					});
 					// console.log(logicNodeValue);
-					$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
-					$('#agentid').val(agentids);// 给查询字段赋值
+					$('#faqmodelID').combotree('setText', logicNodeValue);// 给文本框赋值
 				},
-				onCheck : function(node, checked) {
+				onCheck:function(node, checked){
 					//选择故障模式，文本框只显示子节点，不显示父节点
-					var tt = $("#agentID").combotree("tree");// 获取树对象
-					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
+					var tt = $("#faqmodelID").combotree("tree");// 获取树对象
+					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
-					var logicNodeValue = [];
-					var agentids = [];
-					var childLength = '';
-					$.each(checkedNodes, function(index) {
-						if (typeof (checkedNodes[index].children) == 'undefined') {
-							// console.log(checkedNodes[index].text.split("(")[1].split(")")[0]);
+					var logicNodeValue=[];
+					var childLength='';
+					$.each(checkedNodes,function(index){
+						if (typeof(checkedNodes[index].children)=='undefined') {  
 							logicNodeValue.push(checkedNodes[index].text);
-							agentids.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
 						}
 					});
-					$('#agentID').combotree('setText', logicNodeValue);// 给文本框赋值
-					$('#agentid').val(agentids);// 给查询字段赋值
+					// console.log(logicNodeValue);
+					$('#faqmodelID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#faqmodel').val(logicNodeValue);// 给查询字段赋值
 				}
 			});
 		});
@@ -102,15 +95,15 @@
 	<div class="wrapper wrapper-content">
 	<div class="panel panel-primary">
 	<div class="panel-heading">
-		<h3 class="panel-title">坐席置忙日志列表</h3>
+		<h3 class="panel-title">知识评价信息列表</h3>
 	</div>
 	<div class="panel-body">
 	
 	<!-- 搜索 -->
 	<div id="search-collapse" class="collapse" style="display:block;">
 		<div class="accordion-inner">
-			<form:form id="searchForm" modelAttribute="hqrtAgentDnd" class="form form-horizontal well clearfix">
-			 <div class="col-xs-12 col-sm-6 col-md-4" style="height:44px;width: 500px">
+			<form:form id="searchForm" modelAttribute="hqrtFaqEvaluate" class="form form-horizontal well clearfix">
+			  <div class="col-xs-12 col-sm-6 col-md-4" style="height:44px;width: 500px">
 				 <div class="form-group">
 					<div class="col-xs-12">
 						<label class="label-item single-overflow pull-left" title="进线时间：" style="margin-top: 3px"><font size="4">进线时间：</font>&nbsp;&nbsp;</label>
@@ -128,17 +121,39 @@
 					</div>
 				</div>
 			</div>
+		<%-- 	<div class="col-xs-12 col-sm-6 col-md-3"style="height: 44px; width: 500px;">
+					<label class="label-item single-overflow pull-left"title="平均最小值：" style="margin-top: 3px"><font size="4">平均最小值：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<form:select path="evaluatestar" class="form-control"style="width:340px;border-radius: 6px;">
+							<option value="">请选择...</option>
+								<form:options items="${fns:getDictList('evaluatestar')}"
+										itemLabel="label" itemValue="value" htmlEscape="false" />
+								</form:select>
+			</div> --%>
 			 <div class="col-xs-12 col-sm-6 col-md-5"style="height:44px;width: 500px">
 				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:340px">
-				<form:hidden path="exqueuename"/>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px; width: 500px">
-				<label class="label-item single-overflow pull-left" title="坐席工号：" style="margin-top: 3px"><font size="4">坐席工号：</font>&nbsp;&nbsp;&nbsp;</label>
-				<input id="agentID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height: 34px; width: 340px">
-				<form:hidden path="agentid" />
+				<input id="faqrootID" class="easyui-combotree" data-options="" style="height:34px;width:340px">
+				<form:hidden path="faqroot"/>
 			</div> 
-			<div class="">
+			<%-- <div class="col-xs-12 col-sm-6 col-md-3"style="height: 44px; width: 500px;">
+					<label class="label-item single-overflow pull-left"title="平均最大值：" style="margin-top: 3px"><font size="4">平均最小值：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<form:select path="evaluatestar" class="form-control"style="width:340px;border-radius: 6px;">
+							<option value="">请选择...</option>
+								<form:options items="${fns:getDictList('evaluatestar')}"
+										itemLabel="label" itemValue="value" htmlEscape="false" />
+								</form:select>
+			</div> --%>
+			<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
+					<label class="label-item single-overflow pull-left" title="知识模块：" style="margin-top: 3px"><font size="4">知识模块：</font>&nbsp;&nbsp;&nbsp;</label>
+					<input id="faqmodelID" class="easyui-combotree" data-options="" style="height: 34px; width: 340px">
+					<form:hidden path="faqmodel" />
+				</div>
+			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
+				<label class="label-item single-overflow pull-left" title="知识编号" style="margin-top: 4px"><font size="4">知识编号：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<form:input path="faqserialno" htmlEscape="false"
+					maxlength="50" class=" form-control"
+					style="width:340px;border-radius: 6px;" />
+			</div>
+				<div class="">
 				<div
 					style="margin-top: 26px; width: 150px; height: 34px; float: right">
 					<a id="search" class="btn btn-warning"><i
@@ -152,7 +167,21 @@
 	</div>
 	</div>
 	<!-- 表格 -->
-	<table id="hqrtAgentDndTable"   data-toolbar="#toolbar"></table>
+	<table id="hqrtFaqEvaluateTable"   data-toolbar="#toolbar"></table>
+
+    <!-- context menu -->
+    <ul id="context-menu" class="dropdown-menu">
+    	<shiro:hasPermission name="hqrt:faqevaluate:hqrtFaqEvaluate:view">
+        <li data-item="view"><a>查看</a></li>
+        </shiro:hasPermission>
+    	<shiro:hasPermission name="hqrt:faqevaluate:hqrtFaqEvaluate:edit">
+        <li data-item="edit"><a>编辑</a></li>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="hqrt:faqevaluate:hqrtFaqEvaluate:del">
+        <li data-item="delete"><a>删除</a></li>
+        </shiro:hasPermission>
+        <li data-item="action1"><a>取消</a></li>
+    </ul>  
 	</div>
 	</div>
 	</div>

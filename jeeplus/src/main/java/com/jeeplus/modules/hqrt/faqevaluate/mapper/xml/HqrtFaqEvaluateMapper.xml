@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.faqevaluate.mapper.HqrtFaqEvaluateMapper">
+    
+	<sql id="hqrtFaqEvaluateColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.customerid AS "customerid",
+		a.customername AS "customername",
+		a.customermobile AS "customermobile",
+		a.customerprovince AS "customerprovince",
+		a.faqid AS "faqid",
+		a.faqroot AS "faqroot",
+		a.faqmodel AS "faqmodel",
+		a.faqserialno AS "faqserialno",
+		a.faqtitle AS "faqtitle",
+		a.faqcreaterid AS "faqcreaterid",
+		a.faqcreatername AS "faqcreatername",
+		a.faqcreatedatetime AS "faqcreatedatetime",
+		a.evaluatestar AS "evaluatestar",
+		a.evaluatedatetime AS "evaluatedatetime",
+		a.sessionid AS "sessionid",
+		a.originalsessionid AS "originalsessionid"
+	</sql>
+	
+	<sql id="hqrtFaqEvaluateJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtFaqEvaluate" >
+		SELECT 
+			<include refid="hqrtFaqEvaluateColumns"/>
+		FROM hqrt_faq_evaluate a
+		<include refid="hqrtFaqEvaluateJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtFaqEvaluate" >
+		SELECT 
+			<include refid="hqrtFaqEvaluateColumns"/>
+		FROM hqrt_faq_evaluate a
+		<include refid="hqrtFaqEvaluateJoins"/>
+		<where>
+			
+			${dataScope}
+			<if test="rowdatetime != null and rowdatetime != ''">
+				AND a.rowdatetime = #{rowdatetime}
+			</if>
+			<if test="customerid != null and customerid != ''">
+				AND a.customerid = #{customerid}
+			</if>
+			<if test="sessionid != null and sessionid != ''">
+				AND a.sessionid = #{sessionid}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtFaqEvaluate" >
+		SELECT 
+			<include refid="hqrtFaqEvaluateColumns"/>
+		FROM hqrt_faq_evaluate a
+		<include refid="hqrtFaqEvaluateJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_faq_evaluate(
+			rowguid,
+			rowdatetime,
+			customerid,
+			customername,
+			customermobile,
+			customerprovince,
+			faqid,
+			faqroot,
+			faqmodel,
+			faqserialno,
+			faqtitle,
+			faqcreaterid,
+			faqcreatername,
+			faqcreatedatetime,
+			evaluatestar,
+			evaluatedatetime,
+			sessionid,
+			originalsessionid
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{customerid},
+			#{customername},
+			#{customermobile},
+			#{customerprovince},
+			#{faqid},
+			#{faqroot},
+			#{faqmodel},
+			#{faqserialno},
+			#{faqtitle},
+			#{faqcreaterid},
+			#{faqcreatername},
+			#{faqcreatedatetime},
+			#{evaluatestar},
+			#{evaluatedatetime},
+			#{sessionid},
+			#{originalsessionid}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_faq_evaluate SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			customerid = #{customerid},
+			customername = #{customername},
+			customermobile = #{customermobile},
+			customerprovince = #{customerprovince},
+			faqid = #{faqid},
+			faqroot = #{faqroot},
+			faqmodel = #{faqmodel},
+			faqserialno = #{faqserialno},
+			faqtitle = #{faqtitle},
+			faqcreaterid = #{faqcreaterid},
+			faqcreatername = #{faqcreatername},
+			faqcreatedatetime = #{faqcreatedatetime},
+			evaluatestar = #{evaluatestar},
+			evaluatedatetime = #{evaluatedatetime},
+			sessionid = #{sessionid},
+			originalsessionid = #{originalsessionid}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_faq_evaluate
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_faq_evaluate SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtFaqEvaluate" statementType="STATEMENT">
+		select * FROM hqrt_faq_evaluate  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>

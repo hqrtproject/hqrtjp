@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.faqmirror.mapper.HqrtFaqMirrorMapper">
+    
+	<sql id="hqrtFaqMirrorColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.faqid AS "faqid",
+		a.faqroot AS "faqroot",
+		a.faqmodel AS "faqmodel",
+		a.faqserialno AS "faqserialno",
+		a.faqtitle AS "faqtitle",
+		a.faqcreaterid AS "faqcreaterid",
+		a.faqcreatername AS "faqcreatername",
+		a.faqcreatedatetime AS "faqcreatedatetime",
+		a.faqstatuno AS "faqstatuno",
+		a.faqstatudesc AS "faqstatudesc",
+		a.faqapprovorid AS "faqapprovorid",
+		a.faqapprovortime AS "faqapprovortime",
+		a.faqapprovortimelen AS "faqapprovortimelen"
+	</sql>
+	
+	<sql id="hqrtFaqMirrorJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtFaqMirror" >
+		SELECT 
+			<include refid="hqrtFaqMirrorColumns"/>
+		FROM hqrt_faq_mirror a
+		<include refid="hqrtFaqMirrorJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtFaqMirror" >
+		SELECT 
+			<include refid="hqrtFaqMirrorColumns"/>
+		FROM hqrt_faq_mirror a
+		<include refid="hqrtFaqMirrorJoins"/>
+		<where>
+			
+			${dataScope}
+			<if test="rowdatetime != null and rowdatetime != ''">
+				AND a.rowdatetime = #{rowdatetime}
+			</if>
+			<if test="faqid != null and faqid != ''">
+				AND a.faqid = #{faqid}
+			</if>
+			<if test="faqmodel != null and faqmodel != ''">
+				AND a.faqmodel = #{faqmodel}
+			</if>
+			<if test="faqtitle != null and faqtitle != ''">
+				AND a.faqtitle = #{faqtitle}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtFaqMirror" >
+		SELECT 
+			<include refid="hqrtFaqMirrorColumns"/>
+		FROM hqrt_faq_mirror a
+		<include refid="hqrtFaqMirrorJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_faq_mirror(
+			rowguid,
+			rowdatetime,
+			faqid,
+			faqroot,
+			faqmodel,
+			faqserialno,
+			faqtitle,
+			faqcreaterid,
+			faqcreatername,
+			faqcreatedatetime,
+			faqstatuno,
+			faqstatudesc,
+			faqapprovorid,
+			faqapprovortime,
+			faqapprovortimelen
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{faqid},
+			#{faqroot},
+			#{faqmodel},
+			#{faqserialno},
+			#{faqtitle},
+			#{faqcreaterid},
+			#{faqcreatername},
+			#{faqcreatedatetime},
+			#{faqstatuno},
+			#{faqstatudesc},
+			#{faqapprovorid},
+			#{faqapprovortime},
+			#{faqapprovortimelen}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_faq_mirror SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			faqid = #{faqid},
+			faqroot = #{faqroot},
+			faqmodel = #{faqmodel},
+			faqserialno = #{faqserialno},
+			faqtitle = #{faqtitle},
+			faqcreaterid = #{faqcreaterid},
+			faqcreatername = #{faqcreatername},
+			faqcreatedatetime = #{faqcreatedatetime},
+			faqstatuno = #{faqstatuno},
+			faqstatudesc = #{faqstatudesc},
+			faqapprovorid = #{faqapprovorid},
+			faqapprovortime = #{faqapprovortime},
+			faqapprovortimelen = #{faqapprovortimelen}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_faq_mirror
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_faq_mirror SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtFaqMirror" statementType="STATEMENT">
+		select * FROM hqrt_faq_mirror  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>

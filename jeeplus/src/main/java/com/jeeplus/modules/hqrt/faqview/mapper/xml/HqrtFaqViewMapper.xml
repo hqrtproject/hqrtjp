@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeplus.modules.hqrt.faqview.mapper.HqrtFaqViewMapper">
+    
+	<sql id="hqrtFaqViewColumns">
+		a.id AS "id",
+		a.rowguid AS "rowguid",
+		a.rowdatetime AS "rowdatetime",
+		a.customerid AS "customerid",
+		a.customername AS "customername",
+		a.customermobile AS "customermobile",
+		a.customerprovince AS "customerprovince",
+		a.faqid AS "faqid",
+		a.faqroot AS "faqroot",
+		a.faqmodel AS "faqmodel",
+		a.faqserialno AS "faqserialno",
+		a.faqtitle AS "faqtitle",
+		a.faqcreaterid AS "faqcreaterid",
+		a.faqcreatername AS "faqcreatername",
+		a.faqcreatedatetime AS "faqcreatedatetime",
+		a.viewdatetime AS "viewdatetime"
+	</sql>
+	
+	<sql id="hqrtFaqViewJoins">
+		
+	</sql>
+	
+    
+	<select id="get" resultType="HqrtFaqView" >
+		SELECT 
+			<include refid="hqrtFaqViewColumns"/>
+		FROM hqrt_faq_view a
+		<include refid="hqrtFaqViewJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="HqrtFaqView" >
+		SELECT 
+			<include refid="hqrtFaqViewColumns"/>
+		FROM hqrt_faq_view a
+		<include refid="hqrtFaqViewJoins"/>
+		<where>
+			
+			${dataScope}
+			<if test="rowdatetime != null and rowdatetime != ''">
+				AND a.rowdatetime = #{rowdatetime}
+			</if>
+			<if test="faqmodel != null and faqmodel != ''">
+				AND a.faqmodel = #{faqmodel}
+			</if>
+			<if test="faqserialno != null and faqserialno != ''">
+				AND a.faqserialno = #{faqserialno}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="HqrtFaqView" >
+		SELECT 
+			<include refid="hqrtFaqViewColumns"/>
+		FROM hqrt_faq_view a
+		<include refid="hqrtFaqViewJoins"/>
+		<where>
+			
+			${dataScope}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO hqrt_faq_view(
+			rowguid,
+			rowdatetime,
+			customerid,
+			customername,
+			customermobile,
+			customerprovince,
+			faqid,
+			faqroot,
+			faqmodel,
+			faqserialno,
+			faqtitle,
+			faqcreaterid,
+			faqcreatername,
+			faqcreatedatetime,
+			viewdatetime
+		) VALUES (
+			#{rowguid},
+			#{rowdatetime},
+			#{customerid},
+			#{customername},
+			#{customermobile},
+			#{customerprovince},
+			#{faqid},
+			#{faqroot},
+			#{faqmodel},
+			#{faqserialno},
+			#{faqtitle},
+			#{faqcreaterid},
+			#{faqcreatername},
+			#{faqcreatedatetime},
+			#{viewdatetime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE hqrt_faq_view SET 	
+			rowguid = #{rowguid},
+			rowdatetime = #{rowdatetime},
+			customerid = #{customerid},
+			customername = #{customername},
+			customermobile = #{customermobile},
+			customerprovince = #{customerprovince},
+			faqid = #{faqid},
+			faqroot = #{faqroot},
+			faqmodel = #{faqmodel},
+			faqserialno = #{faqserialno},
+			faqtitle = #{faqtitle},
+			faqcreaterid = #{faqcreaterid},
+			faqcreatername = #{faqcreatername},
+			faqcreatedatetime = #{faqcreatedatetime},
+			viewdatetime = #{viewdatetime}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!--物理删除-->
+	<update id="delete">
+		DELETE FROM hqrt_faq_view
+		WHERE id = #{id}
+	</update>
+	
+	<!--逻辑删除-->
+	<update id="deleteByLogic">
+		UPDATE hqrt_faq_view SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<!-- 根据实体名称和字段名称和字段值获取唯一记录 -->
+	<select id="findUniqueByProperty" resultType="HqrtFaqView" statementType="STATEMENT">
+		select * FROM hqrt_faq_view  where ${propertyName} = '${value}'
+	</select>
+	
+</mapper>
