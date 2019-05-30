@@ -45,6 +45,7 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 	private String isvalid;		// 是否有效会话（0无效、1有效）
 	private String firstresponsetimelen;		// 首次响应时长
 	private String avgresponsetimelen;		// 平均响应时长
+	private String evaluatedatetime;		// 评价时间
 	private String customermessagecount;		// 客户发送消息数量
 	private String agentmessagecount;		// 坐席发送消息数量
 	private String evaluatestar;		// 评价星级(0未评价，1-5星)
@@ -294,6 +295,14 @@ public class HqrtAgentChat extends DataEntity<HqrtAgentChat> {
 
 	public void setAvgresponsetimelen(String avgresponsetimelen) {
 		this.avgresponsetimelen = avgresponsetimelen;
+	}
+
+	public String getEvaluatedatetime() {
+		return evaluatedatetime;
+	}
+
+	public void setEvaluatedatetime(String evaluatedatetime) {
+		this.evaluatedatetime = evaluatedatetime;
 	}
 	
 	@ExcelField(title="客户消息数", align=2, sort=15)

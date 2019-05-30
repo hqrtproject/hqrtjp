@@ -66,7 +66,24 @@ public class HqrtQueueChatController extends BaseController {
 	 */
 	/* @RequiresPermissions("hqrt:queuechat:hqrtQueueChat:list") */
 	@RequestMapping(value = { "list", "" })
-	public String list(HqrtQueueChat hqrtQueueChat, Model model) {
+	public String list(
+			/*@RequestParam(name="timestamp", required=true) Long timestamp,
+			@RequestParam(name="sign", required=true) String sign,*/
+			HqrtQueueChat hqrtQueueChat, Model model) {
+		/*long nowtimestamp = System.currentTimeMillis();
+		Long ratio = Math.round(nowtimestamp*0.1/600000*10);
+		if (ratio.equals(timestamp)) {
+			String salt = ratio + Global.getConfig("secretkey");
+			String md5 = DigestUtils.md5Hex(salt);
+			if (md5.equals(sign)) {
+				model.addAttribute("hqrtQueueChat", hqrtQueueChat);
+				return "modules/hqrt/queuechat/hqrtQueueChatList";
+			} else {
+				return "modules/hqrt/404";
+			}
+		} else {
+			return "modules/hqrt/404";
+		}*/
 		model.addAttribute("hqrtQueueChat", hqrtQueueChat);
 		return "modules/hqrt/queuechat/hqrtQueueChatList";
 	}
@@ -413,7 +430,24 @@ public class HqrtQueueChatController extends BaseController {
 	 */
 	/* @RequiresPermissions("hqrt:queuechatdetail:hqrtqueuechatdetail:list") */
 	@RequestMapping(value = "listdetail")
-	public String list(HqrtQueueChatdetail hqrtQueueChatdetail, Model model) {
+	public String list(
+			/*@RequestParam(name="timestamp", required=true) Long timestamp,
+			@RequestParam(name="sign", required=true) String sign,*/
+			HqrtQueueChatdetail hqrtQueueChatdetail, Model model) {
+		/*long nowtimestamp = System.currentTimeMillis();
+		Long ratio = Math.round(nowtimestamp*0.1/600000*10);
+		if (ratio.equals(timestamp)) {
+			String salt = ratio + Global.getConfig("secretkey");
+			String md5 = DigestUtils.md5Hex(salt);
+			if (md5.equals(sign)) {
+				model.addAttribute("HqrtQueueChatdetail", hqrtQueueChatdetail);
+				return "modules/hqrt/queuechat/hqrtQueueChatdetailList";
+			} else {
+				return "modules/hqrt/404";
+			}
+		} else {
+			return "modules/hqrt/404";
+		}*/
 		model.addAttribute("HqrtQueueChatdetail", hqrtQueueChatdetail);
 		return "modules/hqrt/queuechat/hqrtQueueChatdetailList";
 	}

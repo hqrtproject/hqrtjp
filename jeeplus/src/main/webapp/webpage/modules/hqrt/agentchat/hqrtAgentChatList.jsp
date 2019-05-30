@@ -74,6 +74,7 @@
 					});
 					// console.log(logicNodeValue);
 					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#queuename').val(logicNodeValue);// 给查询字段赋值
 				},
 				onCheck : function(node, checked) {
 					//选择故障模式，文本框只显示子节点，不显示父节点

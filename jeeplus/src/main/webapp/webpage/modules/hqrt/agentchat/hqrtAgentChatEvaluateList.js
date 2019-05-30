@@ -11,7 +11,7 @@ $(document).ready(function() {
                //显示检索按钮
 	           // showSearch: true,
                //显示刷新按钮
-               showRefresh: true,
+               //showRefresh: true,
                //显示切换手机试图按钮
                // showToggle: true,
                //显示 内容列下拉框
@@ -37,7 +37,7 @@ $(document).ready(function() {
                //可供选择的每页的行数（*）    
                pageList: [10, 25, 50, 100],
                //这个接口需要处理bootstrap table传递的固定参数,并返回特定格式的json数据  
-               url: "${ctx}/hqrt/agentchat/hqrtAgentChat/data",
+               url: "${ctx}/hqrt/agentchat/hqrtAgentChat/dataEvaluate",
                //默认值为 'limit',传给服务端的参数为：limit, offset, search, sort, order Else
                //queryParamsType:'',   
                ////查询参数,每次调用是会带上这个参数，可自定义                         
@@ -80,8 +80,13 @@ $(document).ready(function() {
                	onShowSearch: function () {
 			$("#search-collapse").slideToggle();
 		},
-               columns: [{
-		        checkbox: false
+			columns: [{
+		        field: 'ordernumber',
+		        title: '序号',
+		        sortable: false,
+		        align:'center',
+		        width:'60px',
+		        sortName: 'ordernumber'
 		       
 		    }
 			,{
@@ -93,7 +98,7 @@ $(document).ready(function() {
 		    }
 			,{
 		        field: 'agentid',
-		        title: '坐席ID',
+		        title: '坐席工号',
 		        sortable: false,
 		        sortName: 'agentid'
 		       
@@ -106,15 +111,22 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'evaluatestar',
-		        title: '评价星级(对客服)',
+		        field: 'evaluatedatetime',
+		        title: '评价时间',
 		        sortable: false,
-		        sortName: 'evaluatestar',
-		        formatter:function(value, row , index){
-		        	return jp.getDictLabel(${fns:toJson(fns:getDictList('evaluatestar'))}, value, "-");
-		        }
+		        sortName: 'evaluatedatetime'
 		       
 		    }
+			,{
+				field: 'evaluatestar',
+				title: '评价星级',
+				sortable: false,
+				sortName: 'evaluatestar',
+				formatter:function(value, row , index){
+					return jp.getDictLabel(${fns:toJson(fns:getDictList('evaluatestar'))}, value, "-");
+				}
+			
+			}
 			,{
 		        field: 'evaluatetext',
 		        title: '评价内容',
@@ -185,7 +197,7 @@ $(document).ready(function() {
                 values = values + "orderBy=" + sortName + " "+sortOrder;
             }
 
-			jp.downloadFile('${ctx}/hqrt/agentchat/hqrtAgentChat/export?'+values);
+			jp.downloadFile('${ctx}/hqrt/agentchat/hqrtAgentChat/exportEvaluate?'+values);
 	  })
 
 		    

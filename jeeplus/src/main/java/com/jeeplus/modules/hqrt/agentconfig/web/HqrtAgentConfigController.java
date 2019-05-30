@@ -63,7 +63,24 @@ public class HqrtAgentConfigController extends BaseController {
 	 * 坐席配置列表页面
 	 */
 	@RequestMapping(value = {"list", ""})
-	public String list(HqrtAgentConfig hqrtAgentConfig, Model model) {
+	public String list(
+			/*@RequestParam(name="timestamp", required=true) Long timestamp,
+			@RequestParam(name="sign", required=true) String sign,*/
+			HqrtAgentConfig hqrtAgentConfig, Model model) {
+		/*long nowtimestamp = System.currentTimeMillis();
+		Long ratio = Math.round(nowtimestamp*0.1/600000*10);
+		if (ratio.equals(timestamp)) {
+			String salt = ratio + Global.getConfig("secretkey");
+			String md5 = DigestUtils.md5Hex(salt);
+			if (md5.equals(sign)) {
+				model.addAttribute("hqrtAgentConfig", hqrtAgentConfig);
+				return "modules/hqrt/agentconfig/hqrtAgentConfigList";
+			} else {
+				return "modules/hqrt/404";
+			}
+		} else {
+			return "modules/hqrt/404";
+		}*/
 		model.addAttribute("hqrtAgentConfig", hqrtAgentConfig);
 		return "modules/hqrt/agentconfig/hqrtAgentConfigList";
 	}

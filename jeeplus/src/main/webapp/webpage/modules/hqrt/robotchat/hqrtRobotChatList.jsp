@@ -57,19 +57,35 @@
 			});
 			
 			$('#queuenameID').combotree({
-				multiple: true,
+				multiple : true,
 				// cascadeCheck: false,
 				// onlyLeafCheck: true
-		        prompt: '请选择...',
-				onCheck:function(node, checked){
+				prompt : '请选择...',
+				onClick : function(node, checked) {
 					//选择故障模式，文本框只显示子节点，不显示父节点
 					var tt = $("#queuenameID").combotree("tree");// 获取树对象
-					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
+					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
-					var logicNodeValue=[];
-					var childLength='';
-					$.each(checkedNodes,function(index){
-						if (typeof(checkedNodes[index].children)=='undefined') {  
+					var logicNodeValue = [];
+					var childLength = '';
+					$.each(checkedNodes, function(index) {
+						if (typeof (checkedNodes[index].children) == 'undefined') {
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#queuename').val(logicNodeValue);// 给查询字段赋值
+				},
+				onCheck : function(node, checked) {
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#queuenameID").combotree("tree");// 获取树对象
+					var checkedNodes = tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue = [];
+					var childLength = '';
+					$.each(checkedNodes, function(index) {
+						if (typeof (checkedNodes[index].children) == 'undefined') {
 							logicNodeValue.push(checkedNodes[index].text);
 						}
 					});
@@ -119,7 +135,7 @@
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-4" style="width:500px;height: 44px">
 				<label class="label-item single-overflow pull-left" title="用户省份：" style="margin-top:4px;"><font size="4">用户省份：</font>&nbsp;&nbsp;</label>
-				<input id="province" class="easyui-combotree" data-options="url:'${ctx}/hqrt/cmccarea/hqrtCmccArea/combotreedata',method:'post'" style="height:34px;width:340px">
+				<input id="province" class="easyui-combotree" data-options="url:'${ctx}/hqrt/cmccarea/hqrtCmccArea/combotreedata',method:'post'" style="height:34px;width:340px;">
 				<form:hidden path="customerprovince"/>
 			</div>
 			<div class="" style="margin-top: 26px;float:right">

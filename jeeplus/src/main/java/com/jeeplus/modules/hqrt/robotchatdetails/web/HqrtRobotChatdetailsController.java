@@ -61,7 +61,24 @@ public class HqrtRobotChatdetailsController extends BaseController {
 	 * 机器人对话内容列表页面
 	 */
 	@RequestMapping(value = {"list", ""})
-	public String list(HqrtRobotChatdetails hqrtRobotChatdetails, Model model) {
+	public String list(
+			/*@RequestParam(name="timestamp", required=true) Long timestamp,
+			@RequestParam(name="sign", required=true) String sign,*/
+			HqrtRobotChatdetails hqrtRobotChatdetails, Model model) {
+		/*long nowtimestamp = System.currentTimeMillis();
+		Long ratio = Math.round(nowtimestamp*0.1/600000*10);
+		if (ratio.equals(timestamp)) {
+			String salt = ratio + Global.getConfig("secretkey");
+			String md5 = DigestUtils.md5Hex(salt);
+			if (md5.equals(sign)) {
+				model.addAttribute("hqrtRobotChatdetails", hqrtRobotChatdetails);
+				return "modules/hqrt/robotchatdetails/hqrtRobotChatdetailsList";
+			} else {
+				return "modules/hqrt/404";
+			}
+		} else {
+			return "modules/hqrt/404";
+		}*/
 		model.addAttribute("hqrtRobotChatdetails", hqrtRobotChatdetails);
 		return "modules/hqrt/robotchatdetails/hqrtRobotChatdetailsList";
 	}

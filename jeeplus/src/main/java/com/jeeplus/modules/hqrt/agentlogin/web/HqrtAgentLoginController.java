@@ -61,7 +61,24 @@ public class HqrtAgentLoginController extends BaseController {
 	 * 坐席登录日志列表页面
 	 */
 	@RequestMapping(value = {"list", ""})
-	public String list(HqrtAgentLogin hqrtAgentLogin, Model model) {
+	public String list(
+			/*@RequestParam(name="timestamp", required=true) Long timestamp,
+			@RequestParam(name="sign", required=true) String sign,*/
+			HqrtAgentLogin hqrtAgentLogin, Model model) {
+		/*long nowtimestamp = System.currentTimeMillis();
+		Long ratio = Math.round(nowtimestamp*0.1/600000*10);
+		if (ratio.equals(timestamp)) {
+			String salt = ratio + Global.getConfig("secretkey");
+			String md5 = DigestUtils.md5Hex(salt);
+			if (md5.equals(sign)) {
+				model.addAttribute("hqrtAgentLogin", hqrtAgentLogin);
+				return "modules/hqrt/agentlogin/hqrtAgentLoginList";
+			} else {
+				return "modules/hqrt/404";
+			}
+		} else {
+			return "modules/hqrt/404";
+		}*/
 		model.addAttribute("hqrtAgentLogin", hqrtAgentLogin);
 		return "modules/hqrt/agentlogin/hqrtAgentLoginList";
 	}

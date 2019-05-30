@@ -60,7 +60,24 @@ public class HqrtAgentDndController extends BaseController {
 	 * 坐席置忙日志列表页面
 	 */
 	@RequestMapping(value = {"list", ""})
-	public String list(HqrtAgentDnd hqrtAgentDnd, Model model) {
+	public String list(
+			/*@RequestParam(name="timestamp", required=true) Long timestamp,
+			@RequestParam(name="sign", required=true) String sign,*/
+			HqrtAgentDnd hqrtAgentDnd, Model model) {
+		/*long nowtimestamp = System.currentTimeMillis();
+		Long ratio = Math.round(nowtimestamp*0.1/600000*10);
+		if (ratio.equals(timestamp)) {
+			String salt = ratio + Global.getConfig("secretkey");
+			String md5 = DigestUtils.md5Hex(salt);
+			if (md5.equals(sign)) {
+				model.addAttribute("hqrtAgentDnd", hqrtAgentDnd);
+				return "modules/hqrt/agentdnd/hqrtAgentDndList";
+			} else {
+				return "modules/hqrt/404";
+			}
+		} else {
+			return "modules/hqrt/404";
+		}*/
 		model.addAttribute("hqrtAgentDnd", hqrtAgentDnd);
 		return "modules/hqrt/agentdnd/hqrtAgentDndList";
 	}
