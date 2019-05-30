@@ -115,7 +115,7 @@
 				        <div class="col-xs-12 col-sm-1" style="width: 25px; margin-top: 8px">~</div>
 				        <div class="col-xs-12 col-sm-4">
 				        	<div class="layui-input-inline">
-								<input type="text" class="layui-input" id="endtime" name="endtime" style="height: 34px; border-radius: 6px; width: 150px">
+								<input type="text" class="layui-input" id="endtime" name="endttime" style="height: 34px; border-radius: 6px; width: 150px">
 							</div>
 					     </div>
 					</div>

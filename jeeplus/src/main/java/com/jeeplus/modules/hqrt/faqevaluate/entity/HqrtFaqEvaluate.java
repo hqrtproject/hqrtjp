@@ -41,6 +41,9 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 	private Date starttime; //开始时间
 	private Date endttime; // 结束时间
 	
+	private String evaluatestarmin; //最小值
+	private String evaluatestarmax; //最大值
+	
 	public HqrtFaqEvaluate() {
 		super();
 		this.setIdType(IDTYPE_AUTO);
@@ -228,6 +231,22 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 
 	public void setEndttime(Date endttime) {
 		this.endttime = endttime;
+	}
+	
+	public String getEvaluatestarmin() {
+		return evaluatestarmin;
+	}
+
+	public void setEvaluatestarmin(String evaluatestarmin) {
+		this.evaluatestarmin = evaluatestarmin;
+	}
+
+	public String getEvaluatestarmax() {
+		return evaluatestarmax;
+	}
+
+	public void setEvaluatestarmax(String evaluatestarmax) {
+		this.evaluatestarmax = evaluatestarmax;
 	}
 
 }

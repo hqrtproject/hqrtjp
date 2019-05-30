@@ -5,6 +5,9 @@ package com.jeeplus.modules.hqrt.faqevaluate.entity;
 
 
 import com.jeeplus.core.persistence.DataEntity;
+
+import java.util.Date;
+
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 
 /**
@@ -34,7 +37,13 @@ public class HqrtFaqEvaluateReport extends DataEntity<HqrtFaqEvaluateReport> {
 	private String sessionid;		// 关联会话ID
 	private String originalsessionid;		// 原始SessionID
 	private Integer ordernumber; // 序号
-	private Integer averagescore; // 平均分值
+	private Double averagescore; // 平均分值
+	
+	private Date starttime; //开始时间
+	private Date endttime; // 结束时间
+	
+	private String evaluatestarmin; //最小值
+	private String evaluatestarmax; //最大值
 
 	public HqrtFaqEvaluateReport() {
 		super();
@@ -203,12 +212,43 @@ public class HqrtFaqEvaluateReport extends DataEntity<HqrtFaqEvaluateReport> {
 	}
 	
 	@ExcelField(title="平均分值", align=2, sort=6)
-	public Integer getAveragescore() {
+	public Double getAveragescore() {
 		return averagescore;
 	}
 
-	public void setAveragescore(Integer averagescore) {
+	public void setAveragescore(Double averagescore) {
 		this.averagescore = averagescore;
 	}
+	
+	public Date getStarttime() {
+		return starttime;
+	}
 
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+
+	public Date getEndttime() {
+		return endttime;
+	}
+
+	public void setEndttime(Date endttime) {
+		this.endttime = endttime;
+	}
+
+	public String getEvaluatestarmin() {
+		return evaluatestarmin;
+	}
+
+	public void setEvaluatestarmin(String evaluatestarmin) {
+		this.evaluatestarmin = evaluatestarmin;
+	}
+
+	public String getEvaluatestarmax() {
+		return evaluatestarmax;
+	}
+
+	public void setEvaluatestarmax(String evaluatestarmax) {
+		this.evaluatestarmax = evaluatestarmax;
+	}
 }

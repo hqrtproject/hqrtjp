@@ -161,8 +161,8 @@
 				</div>
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-3" style="height: 44px; width: 500px;">
-					<label class="label-item single-overflow pull-left" title="平均最小值：" style="margin-top: 3px"><font size="4">分值最小值：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-						<form:select path="evaluatestar" class="form-control" style="width:340px;border-radius: 6px;">
+					<label class="label-item single-overflow pull-left" title="分值最小值：" style="margin-top: 3px"><font size="4">分值最小值：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<form:select path="evaluatestarmin" class="form-control" style="width:340px;border-radius: 6px;">
 							<option value="">请选择...</option>
 								<form:options items="${fns:getDictList('evaluatestar')}"
 										itemLabel="label" itemValue="value" htmlEscape="false" />
@@ -174,8 +174,8 @@
 				<form:hidden path="faqroot"/>
 			</div> 
 			 <div class="col-xs-12 col-sm-6 col-md-3" style="height: 44px; width: 500px;">
-					<label class="label-item single-overflow pull-left" title="平均最大值：" style="margin-top: 3px"><font size="4">分值最大值：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-						<form:select path="evaluatestar" class="form-control" style="width:340px;border-radius: 6px;">
+					<label class="label-item single-overflow pull-left" title="分值最大值：" style="margin-top: 3px"><font size="4">分值最大值：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						<form:select path="evaluatestarmax" class="form-control" style="width:340px;border-radius: 6px;">
 							<option value="">请选择...</option>
 								<form:options items="${fns:getDictList('evaluatestar')}"
 										itemLabel="label" itemValue="value" htmlEscape="false" />
@@ -200,7 +200,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
 					<label class="label-item single-overflow pull-left" title="评价人省份：" style="margin-top: 3px"><font size="4">评价人省份：</font>&nbsp;&nbsp;&nbsp;</label>
-					<input id="province" class="easyui-combotree" data-options="" style="height: 34px; width: 340px">
+					<input id="province" class="easyui-combotree" data-options="url:'${ctx}/hqrt/cmccarea/hqrtCmccArea/combotreedata',method:'post'" style="height: 34px; width: 340px">
 					<form:hidden path="customerprovince" />
 				</div>
 				<div class="">
