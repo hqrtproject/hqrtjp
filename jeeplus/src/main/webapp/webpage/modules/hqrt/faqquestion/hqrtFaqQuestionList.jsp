@@ -88,6 +88,13 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-6 col-md-5" style="height: 44px; width: 500px">
+				<label class="label-item single-overflow pull-left" title="解决状态：" style="margin-top: 4px"><font size="4">是否解答：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<form:select path="isanswered" class="form-control" style="width:340px;border-radius: 6px;">
+					<option value="">请选择...</option>
+					<form:options items="${fns:getDictList('isanswered')}" itemLabel="label" itemValue="value" htmlEscape="false" />
+				</form:select>
+			</div>
 			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
 				<label class="label-item single-overflow pull-left" title="知识编号" style="margin-top: 4px"><font size="4">知识编号：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="faqserialno" htmlEscape="false"
@@ -99,7 +106,11 @@
 						<input id="province" class="easyui-combotree"data-options="url:'${ctx}/hqrt/cmccarea/hqrtCmccArea/combotreedata',method:'post'"style="height: 34px; width: 340px">
 							<form:hidden path="customerprovince" />
 			</div>
-				<div class="">
+			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
+				<label class="label-item single-overflow pull-left" title="知识创建人" style="margin-top: 4px"><font size="4">知识创建人：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<form:input path="faqcreatername" htmlEscape="false" maxlength="50" class=" form-control" style="width:340px;border-radius: 6px;" />
+			</div>
+			<div class="">
 				<div
 					style="margin-top: 26px; width: 150px; height: 34px; float: right">
 					<a id="search" class="btn btn-warning"><i

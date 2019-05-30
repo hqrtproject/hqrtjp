@@ -30,7 +30,7 @@
 			 <div class="col-xs-12 col-sm-6 col-md-4" style="height:44px;width: 500px">
 				 <div class="form-group">
 					<div class="col-xs-12">
-						<label class="label-item single-overflow pull-left" title="进线时间：" style="margin-top: 3px"><font size="4">进线时间：</font>&nbsp;&nbsp;</label>
+						<label class="label-item single-overflow pull-left" title="进点击间：" style="margin-top: 3px"><font size="4">点击时间：</font>&nbsp;&nbsp;</label>
 					    <div class="col-xs-12 col-sm-4">
 							<div class="layui-input-inline">
 								<input type="text" class="layui-input" id="starttime" name="starttime" style="height: 34px; border-radius: 6px; width: 150px">
@@ -47,9 +47,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
 				<label class="label-item single-overflow pull-left" title="知识编号" style="margin-top: 4px"><font size="4">知识编号：</font>&nbsp;&nbsp;&nbsp;</label>
-				<form:input path="customername" htmlEscape="false"
-					maxlength="50" class=" form-control"
-					style="width:340px;border-radius: 6px;" />
+				<form:input path="faqserialno" htmlEscape="false" maxlength="50" class=" form-control" style="width:340px;border-radius: 6px;" />
 			</div>
 			<div class="">
 				<div

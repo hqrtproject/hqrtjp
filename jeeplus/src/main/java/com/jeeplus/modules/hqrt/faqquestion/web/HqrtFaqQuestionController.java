@@ -14,34 +14,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.Lists;
-import com.jeeplus.common.utils.DateUtils;
-import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
-import com.jeeplus.core.persistence.Page;
-import com.jeeplus.core.service.BaseService;
-import com.jeeplus.core.web.BaseController;
+import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
+import com.jeeplus.core.persistence.Page;
+import com.jeeplus.core.service.BaseService;
+import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
 import com.jeeplus.modules.hqrt.faqquestion.entity.HqrtFaqQuestion;
 import com.jeeplus.modules.hqrt.faqquestion.service.HqrtFaqQuestionService;
-import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
-import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -119,6 +113,14 @@ public class HqrtFaqQuestionController extends BaseController {
         	sqlcondition += " AND a.faqserialno = ?";
         	paramList.add(hqrtFaqQuestion.getFaqserialno());
         }
+        if (StringUtils.isNotBlank(hqrtFaqQuestion.getIsanswered())) {
+        	sqlcondition += " AND a.isanswered = ?";
+        	paramList.add(hqrtFaqQuestion.getIsanswered());
+        }
+        if (StringUtils.isNotBlank(hqrtFaqQuestion.getFaqcreatername())) {
+        	sqlcondition += " AND a.faqcreatername = ?";
+        	paramList.add(hqrtFaqQuestion.getFaqcreatername());
+        }
         if (hqrtFaqQuestion.getParent() != null && hqrtFaqQuestion.getParent().getStarttime() != null && hqrtFaqQuestion.getParent().getEndttime() != null) {
         	sqlcondition += " AND a.questiondatetime BETWEEN ? AND ?";
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -144,7 +146,7 @@ public class HqrtFaqQuestionController extends BaseController {
         	sqlcondition  = " where" + sqlcondition;
         }
         // 该语句仅仅为了查询当前条件下有多少符合条件的数据
-        String selectcountsql = sql + sqlcondition + " GROUP BY a.questiondatetime";
+        String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + "limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get("company");
         List<HqrtFaqQuestion> detailsList = md.queryList(sql, HqrtFaqQuestion.class, paramList.toArray());
@@ -154,13 +156,6 @@ public class HqrtFaqQuestionController extends BaseController {
 		hqrtFaqQuestion.setPage(page);
 		for (int i = 0; i < detailsList.size(); i++) {
 			detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
-		}
-		for (HqrtFaqQuestion faqQuestion : detailsList){
-			if ("0".equals(faqQuestion.getIsanswered())) {
-				faqQuestion.setIsanswered("未回答");
-			} else {
-				faqQuestion.setIsanswered("已回答");
-			}
 		}
 		page.setList(detailsList);
 		return getBootstrapData(page);
@@ -175,56 +170,7 @@ public class HqrtFaqQuestionController extends BaseController {
 		model.addAttribute("mode", mode);
 		return "modules/hqrt/faqquestion/hqrtFaqQuestionForm";
 	}
-
-	/**
-	 * 保存知识提问与解答明细
-	 */
-	@ResponseBody
-	@RequestMapping(value = "save")
-	public AjaxJson save(HqrtFaqQuestion hqrtFaqQuestion, Model model) throws Exception{
-		AjaxJson j = new AjaxJson();
-		/**
-		 * 后台hibernate-validation插件校验
-		 */
-		String errMsg = beanValidator(hqrtFaqQuestion);
-		if (StringUtils.isNotBlank(errMsg)){
-			j.setSuccess(false);
-			j.setMsg(errMsg);
-			return j;
-		}
-		//新增或编辑表单保存
-		hqrtFaqQuestionService.save(hqrtFaqQuestion);//保存
-		j.setSuccess(true);
-		j.setMsg("保存知识提问与解答明细成功");
-		return j;
-	}
 	
-	/**
-	 * 删除知识提问与解答明细
-	 */
-	@ResponseBody
-	@RequestMapping(value = "delete")
-	public AjaxJson delete(HqrtFaqQuestion hqrtFaqQuestion) {
-		AjaxJson j = new AjaxJson();
-		hqrtFaqQuestionService.delete(hqrtFaqQuestion);
-		j.setMsg("删除知识提问与解答明细成功");
-		return j;
-	}
-	
-	/**
-	 * 批量删除知识提问与解答明细
-	 */
-	@ResponseBody
-	@RequestMapping(value = "deleteAll")
-	public AjaxJson deleteAll(String ids) {
-		AjaxJson j = new AjaxJson();
-		String idArray[] =ids.split(",");
-		for(String id : idArray){
-			hqrtFaqQuestionService.delete(hqrtFaqQuestionService.get(id));
-		}
-		j.setMsg("删除知识提问与解答明细成功");
-		return j;
-	}
 	
 	/**
 	 * 导出excel文件
@@ -235,7 +181,7 @@ public class HqrtFaqQuestionController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "知识提问与解答明细"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-        	String sql = "select a.id AS 'id',a.rowguid AS 'rowguid', a.rowdatetime AS 'rowdatetime',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel',a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.questiontitle AS 'questiontitle',a.questioncontext AS 'questioncontext',a.questiondatetime AS 'questiondatetime',a.answeragentid AS 'answeragentid',a.answeragentname AS 'answeragentname',a.answercontext AS 'answercontext',a.answerdatetime AS 'answerdatetime',a.isanswered AS 'isanswered',a.answertimelen AS 'answertimelen',a.sessionid AS 'sessionid',a.originalsessionid AS 'originalsessionid' FROM hqrt_faq_question a";
+            String sql = "select a.id AS 'id',a.rowguid AS 'rowguid', a.rowdatetime AS 'rowdatetime',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel',a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.questiontitle AS 'questiontitle',a.questioncontext AS 'questioncontext',a.questiondatetime AS 'questiondatetime',a.answeragentid AS 'answeragentid',a.answeragentname AS 'answeragentname',a.answercontext AS 'answercontext',a.answerdatetime AS 'answerdatetime',a.isanswered AS 'isanswered',a.answertimelen AS 'answertimelen',a.sessionid AS 'sessionid',a.originalsessionid AS 'originalsessionid' FROM hqrt_faq_question a";
             String sqlcondition = "";
             List<Object> paramList = new ArrayList<Object>();
         	if (StringUtils.isNotBlank(hqrtFaqQuestion.getCustomerprovince())) {
@@ -269,6 +215,14 @@ public class HqrtFaqQuestionController extends BaseController {
             	sqlcondition += " AND a.faqserialno = ?";
             	paramList.add(hqrtFaqQuestion.getFaqserialno());
             }
+            if (StringUtils.isNotBlank(hqrtFaqQuestion.getIsanswered())) {
+            	sqlcondition += " AND a.isanswered = ?";
+            	paramList.add(hqrtFaqQuestion.getIsanswered());
+            }
+            if (StringUtils.isNotBlank(hqrtFaqQuestion.getFaqcreatername())) {
+            	sqlcondition += " AND a.faqcreatername = ?";
+            	paramList.add(hqrtFaqQuestion.getFaqcreatername());
+            }
             if (hqrtFaqQuestion.getParent() != null && hqrtFaqQuestion.getParent().getStarttime() != null && hqrtFaqQuestion.getParent().getEndttime() != null) {
             	sqlcondition += " AND a.questiondatetime BETWEEN ? AND ?";
             	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -288,7 +242,6 @@ public class HqrtFaqQuestionController extends BaseController {
             	paramList.add(ft.format(endOfDate));
             	
             }
-            Page<HqrtFaqQuestion> page = new Page<HqrtFaqQuestion>(request, response);
             if (StringUtils.isNotBlank(sqlcondition)) {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
             	sqlcondition  = " where" + sqlcondition;
@@ -297,6 +250,7 @@ public class HqrtFaqQuestionController extends BaseController {
             sql += sqlcondition;
             MultiDBUtils md = MultiDBUtils.get("company");
             List<HqrtFaqQuestion> detailsList = md.queryList(sql, HqrtFaqQuestion.class, paramList.toArray());
+            sql += sqlcondition;
     		for (int i = 0; i < detailsList.size(); i++) {
     			detailsList.get(i).setOrdernumber(i+1);
     		}

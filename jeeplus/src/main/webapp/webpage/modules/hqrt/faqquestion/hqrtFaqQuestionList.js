@@ -91,7 +91,7 @@ $(document).ready(function() {
 		    }
 			,{
 		        field: 'faqroot',
-		        title: '知识分类（业务系统）',
+		        title: '知识分类',
 		        sortable: false,
 		        sortName: 'faqroot'
 		       
@@ -136,9 +136,9 @@ $(document).ready(function() {
 		        field: 'isanswered',
 		        title: '是否回答',
 		        sortable: false,
-		        align:'center',
-		        sortName: 'isanswered'
-		       
+				formatter:function(value, row , index){
+					return jp.getDictLabel(${fns:toJson(fns:getDictList('isanswered'))}, value, "-");
+				}
 		    }
 			,{
 		        field: 'customername',

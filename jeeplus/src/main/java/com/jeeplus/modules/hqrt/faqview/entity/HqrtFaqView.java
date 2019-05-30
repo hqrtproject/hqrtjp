@@ -5,6 +5,9 @@ package com.jeeplus.modules.hqrt.faqview.entity;
 
 
 import com.jeeplus.core.persistence.DataEntity;
+
+import java.util.Date;
+
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 
 /**
@@ -32,6 +35,9 @@ public class HqrtFaqView extends DataEntity<HqrtFaqView> {
 	private String viewdatetime;		// 点击时间
 	private Integer clickcount;  // 点击量
 	private Integer ordernumber;  //序号
+	
+	private Date starttime;
+	private Date endtime;
 
 	public HqrtFaqView() {
 		super();
@@ -183,5 +189,21 @@ public class HqrtFaqView extends DataEntity<HqrtFaqView> {
 
 	public void setOrdernumber(Integer ordernumber) {
 		this.ordernumber = ordernumber;
+	}
+
+	public Date getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+
+	public Date getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
 	}
 }

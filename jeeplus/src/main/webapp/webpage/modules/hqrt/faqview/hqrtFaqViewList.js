@@ -27,7 +27,7 @@ $(document).ready(function() {
                //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）     
                cache: false,    
                //是否显示分页（*）  
-               pagination: true,   
+               //pagination: true,   
                 //排序方式 
                sortOrder: "asc",  
                //初始化加载第一页，默认第一页

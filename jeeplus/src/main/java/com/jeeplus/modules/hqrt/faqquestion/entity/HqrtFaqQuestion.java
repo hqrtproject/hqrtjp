@@ -112,7 +112,7 @@ public class HqrtFaqQuestion extends DataEntity<HqrtFaqQuestion> {
 		this.faqid = faqid;
 	}
 	
-	@ExcelField(title="知识分类（业务系统）", align=2, sort=2)
+	@ExcelField(title="知识分类", align=2, sort=2)
 	public String getFaqroot() {
 		return faqroot;
 	}
