@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,14 +21,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.google.common.collect.Lists;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
-import com.jeeplus.common.utils.excel.ImportExcel;
 import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.service.BaseService;
 import com.jeeplus.core.web.BaseController;
@@ -271,60 +267,6 @@ public class HqrtFaqQuestionController extends BaseController {
 			j.setMsg("导出知识提问与解答明细记录失败！失败信息："+e.getMessage());
 		}
 			return j;
-    }
-
-	/**
-	 * 导入Excel数据
-
-	 */
-	@ResponseBody
-    @RequestMapping(value = "import")
-   	public AjaxJson importFile(@RequestParam("file")MultipartFile file, HttpServletResponse response, HttpServletRequest request) {
-		AjaxJson j = new AjaxJson();
-		try {
-			int successNum = 0;
-			int failureNum = 0;
-			StringBuilder failureMsg = new StringBuilder();
-			ImportExcel ei = new ImportExcel(file, 1, 0);
-			List<HqrtFaqQuestion> list = ei.getDataList(HqrtFaqQuestion.class);
-			for (HqrtFaqQuestion hqrtFaqQuestion : list){
-				try{
-					hqrtFaqQuestionService.save(hqrtFaqQuestion);
-					successNum++;
-				}catch(ConstraintViolationException ex){
-					failureNum++;
-				}catch (Exception ex) {
-					failureNum++;
-				}
-			}
-			if (failureNum>0){
-				failureMsg.insert(0, "，失败 "+failureNum+" 条知识提问与解答明细记录。");
-			}
-			j.setMsg( "已成功导入 "+successNum+" 条知识提问与解答明细记录"+failureMsg);
-		} catch (Exception e) {
-			j.setSuccess(false);
-			j.setMsg("导入知识提问与解答明细失败！失败信息："+e.getMessage());
-		}
-		return j;
-    }
-	
-	/**
-	 * 下载导入知识提问与解答明细数据模板
-	 */
-	@ResponseBody
-    @RequestMapping(value = "import/template")
-     public AjaxJson importFileTemplate(HttpServletResponse response) {
-		AjaxJson j = new AjaxJson();
-		try {
-            String fileName = "知识提问与解答明细数据导入模板.xlsx";
-    		List<HqrtFaqQuestion> list = Lists.newArrayList(); 
-    		new ExportExcel("知识提问与解答明细数据", HqrtFaqQuestion.class, 1).setDataList(list).write(response, fileName).dispose();
-    		return null;
-		} catch (Exception e) {
-			j.setSuccess(false);
-			j.setMsg( "导入模板下载失败！失败信息："+e.getMessage());
-		}
-		return j;
     }
 
 }
