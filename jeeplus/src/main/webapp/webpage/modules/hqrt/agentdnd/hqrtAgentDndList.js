@@ -93,6 +93,7 @@ $(document).ready(function() {
    		        field: 'exqueuename',
    		        title: '业务系统',
    		        sortable: false,
+   		        width:'300px',
    		        sortName: 'exqueuename'
    		       
    		    }
@@ -100,7 +101,7 @@ $(document).ready(function() {
 		        field: 'agentid',
 		        title: '坐席ID',
 		        sortable: false,
-		        width:'130px',
+		        width:'220px',
 		        sortName: 'agentid'
 		       
 		    }
@@ -108,7 +109,7 @@ $(document).ready(function() {
 		        field: 'agentname',
 		        title: '坐席姓名',
 		        sortable: false,
-		        width:'130px',
+		        width:'220px',
 		        sortName: 'agentname'
 		       
 		    }
@@ -124,6 +125,7 @@ $(document).ready(function() {
 		        title: '开始时间',
 		        sortable: false,
 		        align:'center',
+		        width:'150px',
 		        sortName: 'startdatetime'
 		       
 		    }
@@ -132,6 +134,7 @@ $(document).ready(function() {
 		        title: '结束时间',
 		        sortable: false,
 		        align:'center',
+		        width:'150px',
 		        sortName: 'enddatetime'
 		       
 		    }

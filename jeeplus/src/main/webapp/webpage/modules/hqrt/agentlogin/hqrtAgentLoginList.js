@@ -92,6 +92,7 @@ $(document).ready(function() {
 		        field: 'agentid',
 		        title: '坐席ID编号',
 		        sortable: false,
+		        width:'300px',
 		        sortName: 'agentid'
 		       
 		    }
@@ -99,6 +100,7 @@ $(document).ready(function() {
 		        field: 'agentname',
 		        title: '坐席姓名',
 		        sortable: false,
+		        width:'220px',
 		        sortName: 'agentname'
 		       
 		    }
@@ -106,6 +108,7 @@ $(document).ready(function() {
 		        field: 'agentmobile',
 		        title: '坐席手机号码',
 		        sortable: false,
+		        width:'220px',
 		        sortName: 'agentmobile'
 		       
 		    }
@@ -113,6 +116,7 @@ $(document).ready(function() {
 		        field: 'agentprovince',
 		        title: '坐席所在省',
 		        sortable: false,
+		        width:'220px',
 		        sortName: 'agentprovince'
 		       
 		    }
@@ -121,6 +125,7 @@ $(document).ready(function() {
 		        title: '登录时间',
 		        sortable: false,
 		        align:'center',
+		        width:'150px',
 		        sortName: 'startdatetime'
 		       
 		    }
@@ -129,6 +134,7 @@ $(document).ready(function() {
 		        title: '退出时间',
 		        sortable: false,
 		        align:'center',
+		        width:'150px',
 		        sortName: 'enddatetime'
 		       
 		    }
