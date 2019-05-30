@@ -215,13 +215,12 @@
 								<form:input path="sessionid" htmlEscape="false" maxlength="50"
 									class=" form-control" style="width:340px;border-radius: 6px;" />
 							</div>
-							<div class="col-xs-12 col-sm-6 col-md-2"
-								style="height: 44px; width: 240px">
+							<div class="col-xs-12 col-sm-6 col-md-2" style="height: 44px; width: 240px">
 								<label class="label-item single-overflow pull-left"
 									title="结束原因：" style="margin-top: 3px"><font size="4">结束原因：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
 								<form:select path="endreasonno" class="form-control"
 									style="width:120px;border-radius: 6px;">
-									<option value="">请选择...</option>
+						 			<option value="">请选择...</option>
 									<form:options items="${fns:getDictList('endreason')}"
 										itemLabel="label" itemValue="value" htmlEscape="false" />
 								</form:select>

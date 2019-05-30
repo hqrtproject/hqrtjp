@@ -294,7 +294,7 @@ public class HqrtFaqQuestionController extends BaseController {
             	sqlcondition  = " where" + sqlcondition;
             }
             // 该语句仅仅为了查询当前条件下有多少符合条件的数据
-            sql += sqlcondition + " GROUP BY a.questiondatetime";
+            sql += sqlcondition;
             MultiDBUtils md = MultiDBUtils.get("company");
             List<HqrtFaqQuestion> detailsList = md.queryList(sql, HqrtFaqQuestion.class, paramList.toArray());
     		for (int i = 0; i < detailsList.size(); i++) {

@@ -3,6 +3,10 @@
  */
 package com.jeeplus.modules.hqrt.faqevaluate.web;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +36,13 @@ import com.jeeplus.core.web.BaseController;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
+import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
 import com.jeeplus.modules.hqrt.faqevaluate.entity.HqrtFaqEvaluate;
+import com.jeeplus.modules.hqrt.faqevaluate.entity.HqrtFaqEvaluateReport;
 import com.jeeplus.modules.hqrt.faqevaluate.service.HqrtFaqEvaluateService;
+import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChatdetail;
+import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
+import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
  * 知识评价信息报表Controller
@@ -46,6 +55,8 @@ public class HqrtFaqEvaluateController extends BaseController {
 
 	@Autowired
 	private HqrtFaqEvaluateService hqrtFaqEvaluateService;
+	@Autowired
+	private HqrtCmccAreaService hqrtCmccAreaService;
 	
 	@ModelAttribute
 	public HqrtFaqEvaluate get(@RequestParam(required=false) String id) {
@@ -74,7 +85,137 @@ public class HqrtFaqEvaluateController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtFaqEvaluate hqrtFaqEvaluate, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<HqrtFaqEvaluate> page = hqrtFaqEvaluateService.findPage(new Page<HqrtFaqEvaluate>(request, response), hqrtFaqEvaluate); 
+		
+		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel',a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.evaluatestar AS 'evaluatestar',a.evaluatedatetime AS 'evaluatedatetime',a.sessionid AS 'sessionid',a.originalsessionid AS 'originalsessionid' FROM hqrt_faq_evaluate a";
+		String sqlcondition = "";
+		List<Object> paramList = new ArrayList<Object>();
+		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqroot())) {
+        	MultiDBUtils md = MultiDBUtils.get("company");
+    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+    		List<String> queueNameList = new ArrayList<String>();
+    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+    			queueNameList.add(hqrtQueueConfig.getQueuename());
+    		}
+        	if (!hqrtFaqEvaluate.getFaqroot().contains("其他")) {
+        		sqlcondition += " AND a.faqroot in ('" + hqrtFaqEvaluate.getFaqroot().replace(",", "','") + "')";
+			} else {
+				String[] faqroot = hqrtFaqEvaluate.getFaqroot().split(",");
+				for (String faqrootname  : faqroot ) {
+					if (queueNameList.contains(faqrootname)) {
+						queueNameList.remove(faqrootname);
+					}
+				}
+				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
+			}
+        }
+		if (hqrtFaqEvaluate.getStarttime() != null && hqrtFaqEvaluate.getEndttime() != null) {
+        	sqlcondition += " AND a.evaluatedatetime BETWEEN ? AND ?";
+        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	paramList.add(ft.format(hqrtFaqEvaluate.getStarttime()));
+        	paramList.add(ft.format(hqrtFaqEvaluate.getEndttime()));
+        } else {
+        	sqlcondition += " AND a.evaluatedatetime BETWEEN ? AND ?";
+        	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	Calendar cal = Calendar.getInstance();
+            cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+            Date beginOfDate = cal.getTime();
+        	paramList.add(ft.format(beginOfDate));
+        	Calendar calendar2 = Calendar.getInstance();
+        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
+        	        23, 59, 59);
+        	Date endOfDate = calendar2.getTime();
+        	paramList.add(ft.format(endOfDate));
+        	
+        }
+		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqmodel())) {
+        	MultiDBUtils md = MultiDBUtils.get("company");
+    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+    		List<String> queueNameList = new ArrayList<String>();
+    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+    			queueNameList.add(hqrtQueueConfig.getQueuename());
+    		}
+        	if (!hqrtFaqEvaluate.getFaqmodel().contains("其他")) {
+        		sqlcondition += " AND a.faqmodel in ('" + hqrtFaqEvaluate.getFaqmodel().replace(",", "','") + "')";
+			} else {
+				String[] faqmodel = hqrtFaqEvaluate.getFaqmodel().split(",");
+				for (String faqmodelname  : faqmodel ) {
+					if (queueNameList.contains(faqmodelname )) {
+						queueNameList.remove(faqmodelname );
+					}
+				}
+				sqlcondition += " AND a.faqmodel not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
+			}
+        }
+		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqserialno())) {
+			sqlcondition += " AND a.faqserialno = ?";
+			paramList.add(hqrtFaqEvaluate.getFaqserialno());
+		}
+		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getCustomername())) {
+			sqlcondition += " AND a.customername = ?";
+			paramList.add(hqrtFaqEvaluate.getCustomername());
+		}
+		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqserialno())) {
+			sqlcondition += " AND a.faqserialno = ?";
+			paramList.add(hqrtFaqEvaluate.getFaqserialno());
+		}
+		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getCustomerprovince())) {
+			if (!hqrtFaqEvaluate.getCustomerprovince().contains("其他")) {
+				String[] provinceselect = hqrtFaqEvaluate.getCustomerprovince().split(",");
+				sqlcondition += " AND (";
+				for (String province : provinceselect) {
+					sqlcondition += "a.customerprovince like ? OR ";
+					paramList.add("%" + province + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("OR"));
+				sqlcondition += ")";
+			} else {
+				List<String> hqrtCmccAreaList = hqrtCmccAreaService.findAllProvineList();
+				String[] provinceselect = hqrtFaqEvaluate.getCustomerprovince().split(",");
+				for (String province : provinceselect) {
+					if (hqrtCmccAreaList.contains(province)) {
+						hqrtCmccAreaList.remove(province);
+					}
+				}
+				sqlcondition += " AND (";
+				for (String province : hqrtCmccAreaList) {
+					sqlcondition += "a.customerprovince not like ? AND ";
+					paramList.add("%" + province + "%");
+				}
+				sqlcondition = sqlcondition.substring(0, sqlcondition.lastIndexOf("AND"));
+				sqlcondition += ")";
+			}
+        }
+		if (StringUtils.isNotBlank(sqlcondition)) {
+			sqlcondition = sqlcondition.replaceFirst(" AND", "");
+			sqlcondition = " WHERE" + sqlcondition;
+		}
+		Page<HqrtFaqEvaluate> page = new Page<HqrtFaqEvaluate>(request, response);
+		String selectcountsql = sql + sqlcondition;
+        sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+        MultiDBUtils md = MultiDBUtils.get("company");
+        List<HqrtFaqEvaluate> detailsList = md.queryList(sql, HqrtFaqEvaluate.class, paramList.toArray());
+        List<HqrtFaqEvaluate> allDetailslList = md.queryList(selectcountsql, HqrtFaqEvaluate.class, paramList.toArray());
+    	for(int i = 0 ; i < detailsList.size(); i++){
+    		detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
+    	}
+    	for(HqrtFaqEvaluate faqEvaluate : detailsList){
+    		if ("0".equals(faqEvaluate.getEvaluatestar())) {
+    			faqEvaluate.setEvaluatestar("未评价");
+			} else if ("1".equals(faqEvaluate.getEvaluatestar())) {
+				faqEvaluate.setEvaluatestar("一星");
+			} else if ("2".equals(faqEvaluate.getEvaluatestar())) {
+				faqEvaluate.setEvaluatestar("二星");
+			} else if ("3".equals(faqEvaluate.getEvaluatestar())) {
+				faqEvaluate.setEvaluatestar("三星");
+			} else if ("4".equals(faqEvaluate.getEvaluatestar())) {
+				faqEvaluate.setEvaluatestar("四星");
+			} else if ("5".equals(faqEvaluate.getEvaluatestar())) {
+				faqEvaluate.setEvaluatestar("五星");
+			}
+    	}
+        page.setCount(allDetailslList.size());
+        hqrtFaqEvaluate.setPage(page);
+		page.setList(detailsList);
 		return getBootstrapData(page);
 	}
 
@@ -212,5 +353,10 @@ public class HqrtFaqEvaluateController extends BaseController {
 		}
 		return j;
     }
+	@RequestMapping(value = {"reportlist"})
+	public String list(HqrtFaqEvaluateReport hqrtFaqEvaluatereport, Model model) {
+		model.addAttribute("hqrtFaqEvaluatereport", hqrtFaqEvaluatereport);
+		return "modules/hqrt/faqevaluate/hqrtFaqEvaluatereportList";
+	}
 
 }

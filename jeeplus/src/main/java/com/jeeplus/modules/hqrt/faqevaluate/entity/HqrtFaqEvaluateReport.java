@@ -5,9 +5,6 @@ package com.jeeplus.modules.hqrt.faqevaluate.entity;
 
 
 import com.jeeplus.core.persistence.DataEntity;
-
-import java.util.Date;
-
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 
 /**
@@ -15,7 +12,7 @@ import com.jeeplus.common.utils.excel.annotation.ExcelField;
  * @author duan
  * @version 2019-05-29
  */
-public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
+public class HqrtFaqEvaluateReport extends DataEntity<HqrtFaqEvaluateReport> {
 	
 	private static final long serialVersionUID = 1L;
 	private String rowguid;		// 唯一记录标识（主键）
@@ -37,16 +34,14 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 	private String sessionid;		// 关联会话ID
 	private String originalsessionid;		// 原始SessionID
 	private Integer ordernumber; // 序号
-	
-	private Date starttime; //开始时间
-	private Date endttime; // 结束时间
-	
-	public HqrtFaqEvaluate() {
+	private Integer averagescore; // 平均分值
+
+	public HqrtFaqEvaluateReport() {
 		super();
 		this.setIdType(IDTYPE_AUTO);
 	}
 
-	public HqrtFaqEvaluate(String id){
+	public HqrtFaqEvaluateReport(String id){
 		super(id);
 	}
 
@@ -74,7 +69,6 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 		this.customerid = customerid;
 	}
 	
-	@ExcelField(title="评价人用户名", align=2, sort=9)
 	public String getCustomername() {
 		return customername;
 	}
@@ -91,7 +85,6 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 		this.customermobile = customermobile;
 	}
 	
-	@ExcelField(title="评价人省份", align=2, sort=10)
 	public String getCustomerprovince() {
 		return customerprovince;
 	}
@@ -152,7 +145,6 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 		this.faqcreaterid = faqcreaterid;
 	}
 	
-	@ExcelField(title="知识创建人", align=2, sort=7)
 	public String getFaqcreatername() {
 		return faqcreatername;
 	}
@@ -161,7 +153,6 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 		this.faqcreatername = faqcreatername;
 	}
 	
-	@ExcelField(title="创建时间", align=2, sort=8)
 	public String getFaqcreatedatetime() {
 		return faqcreatedatetime;
 	}
@@ -170,7 +161,6 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 		this.faqcreatedatetime = faqcreatedatetime;
 	}
 	
-	@ExcelField(title="评价分值", align=2, sort=6)
 	public String getEvaluatestar() {
 		return evaluatestar;
 	}
@@ -179,7 +169,6 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 		this.evaluatestar = evaluatestar;
 	}
 	
-	@ExcelField(title="评价时间", align=2, sort=11)
 	public String getEvaluatedatetime() {
 		return evaluatedatetime;
 	}
@@ -188,7 +177,6 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 		this.evaluatedatetime = evaluatedatetime;
 	}
 	
-	@ExcelField(title="关联会话ID", align=2, sort=12)
 	public String getSessionid() {
 		return sessionid;
 	}
@@ -214,20 +202,13 @@ public class HqrtFaqEvaluate extends DataEntity<HqrtFaqEvaluate> {
 		this.ordernumber = ordernumber;
 	}
 	
-	public Date getStarttime() {
-		return starttime;
+	@ExcelField(title="平均分值", align=2, sort=6)
+	public Integer getAveragescore() {
+		return averagescore;
 	}
 
-	public void setStarttime(Date starttime) {
-		this.starttime = starttime;
-	}
-
-	public Date getEndttime() {
-		return endttime;
-	}
-
-	public void setEndttime(Date endttime) {
-		this.endttime = endttime;
+	public void setAveragescore(Integer averagescore) {
+		this.averagescore = averagescore;
 	}
 
 }

@@ -116,55 +116,12 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'evaluatestar',
-		        title: '评价分值',
+		        field: 'averagescore',
+		        title: '平均分值',
 		        sortable: false,
-		        sortName: 'evaluatestar'
+		        sortName: 'averagescore'
 		       
 		    }
-			,{
-		        field: 'faqcreatername',
-		        title: '知识创建人',
-		        sortable: false,
-		        sortName: 'faqcreatername'
-		       
-		    }
-			,{
-		        field: 'faqcreatedatetime',
-		        title: '创建时间',
-		        sortable: false,
-		        sortName: 'faqcreatedatetime'
-		       
-		    }
-			,{
-		        field: 'customername',
-		        title: '评价人用户名',
-		        sortable: false,
-		        sortName: 'customername'
-		       
-		    }
-			,{
-		        field: 'customerprovince',
-		        title: '评价人省份',
-		        sortable: false,
-		        sortName: 'customerprovince'
-		       
-		    }
-			,{
-		        field: 'evaluatedatetime',
-		        title: '评价时间',
-		        sortable: false,
-		        sortName: 'evaluatedatetime'
-		       
-		    }
-			,{
-		        field: 'sessionid',
-		        title: '关联会话ID',
-		        sortable: false,
-		        sortName: 'sessionid'
-		       
-		    }
-		    
 		     ]
 		
 		});

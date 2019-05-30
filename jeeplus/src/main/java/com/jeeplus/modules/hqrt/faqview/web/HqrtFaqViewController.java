@@ -3,6 +3,7 @@
  */
 package com.jeeplus.modules.hqrt.faqview.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,8 +75,9 @@ public class HqrtFaqViewController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtFaqView hqrtFaqView, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<HqrtFaqView> page = hqrtFaqViewService.findPage(new Page<HqrtFaqView>(request, response), hqrtFaqView); 
-		return getBootstrapData(page);
+		Map<String, Object> map = new HashMap<String, Object>();
+		String sql = "select";
+		return null;
 	}
 
 	/**
