@@ -14,29 +14,30 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.Lists;
-import com.jeeplus.common.utils.DateUtils;
+import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
-import com.jeeplus.core.persistence.Page;
-import com.jeeplus.core.web.BaseController;
+import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
+import com.jeeplus.core.persistence.Page;
+import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
 import com.jeeplus.modules.hqrt.faqevaluate.entity.HqrtFaqEvaluate;
 import com.jeeplus.modules.hqrt.faqevaluate.entity.HqrtFaqEvaluateReport;
 import com.jeeplus.modules.hqrt.faqevaluate.service.HqrtFaqEvaluateService;
-import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChat;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
@@ -86,7 +87,7 @@ public class HqrtFaqEvaluateController extends BaseController {
 		String sqlcondition = "";
 		List<Object> paramList = new ArrayList<Object>();
 		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqroot())) {
-        	MultiDBUtils md = MultiDBUtils.get("company");
+        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
     		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
     		List<String> queueNameList = new ArrayList<String>();
     		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -129,7 +130,7 @@ public class HqrtFaqEvaluateController extends BaseController {
         	
         }
 		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqmodel())) {
-        	MultiDBUtils md = MultiDBUtils.get("company");
+        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
     		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
     		List<String> queueNameList = new ArrayList<String>();
     		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -193,7 +194,7 @@ public class HqrtFaqEvaluateController extends BaseController {
 		Page<HqrtFaqEvaluate> page = new Page<HqrtFaqEvaluate>(request, response);
 		String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
-        MultiDBUtils md = MultiDBUtils.get("company");
+        MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqEvaluate> detailsList = md.queryList(sql, HqrtFaqEvaluate.class, paramList.toArray());
         List<HqrtFaqEvaluate> allDetailslList = md.queryList(selectcountsql, HqrtFaqEvaluate.class, paramList.toArray());
     	for(int i = 0 ; i < detailsList.size(); i++){
@@ -293,7 +294,7 @@ public class HqrtFaqEvaluateController extends BaseController {
     		String sqlcondition = "";
     		List<Object> paramList = new ArrayList<Object>();
     		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqroot())) {
-            	MultiDBUtils md = MultiDBUtils.get("company");
+            	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
         		List<String> queueNameList = new ArrayList<String>();
         		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -336,7 +337,7 @@ public class HqrtFaqEvaluateController extends BaseController {
             	
             }
     		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqmodel())) {
-            	MultiDBUtils md = MultiDBUtils.get("company");
+            	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
         		List<String> queueNameList = new ArrayList<String>();
         		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -398,7 +399,7 @@ public class HqrtFaqEvaluateController extends BaseController {
     			sqlcondition = " WHERE" + sqlcondition;
     		}
     		sql += sqlcondition;
-            MultiDBUtils md = MultiDBUtils.get("company");
+            MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
             List<HqrtFaqEvaluate> detailsList = md.queryList(sql, HqrtFaqEvaluate.class, paramList.toArray());
         	for(int i = 0 ; i < detailsList.size(); i++){
         		detailsList.get(i).setOrdernumber(i+1);
@@ -497,7 +498,7 @@ public class HqrtFaqEvaluateController extends BaseController {
 		 String sqlcondition = "";
 		 List<Object> paramList = new ArrayList<Object>();
 		 if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getFaqroot())) {
-         	MultiDBUtils md = MultiDBUtils.get("company");
+         	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
      		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
      		List<String> queueNameList = new ArrayList<String>();
      		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -540,7 +541,7 @@ public class HqrtFaqEvaluateController extends BaseController {
         	
         }
 		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getFaqmodel())) {
-        	MultiDBUtils md = MultiDBUtils.get("company");
+        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
     		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
     		List<String> queueNameList = new ArrayList<String>();
     		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -567,7 +568,7 @@ public class HqrtFaqEvaluateController extends BaseController {
 			sqlcondition = " WHERE" + sqlcondition;
 		}
 		sql += sqlcondition+ " GROUP BY a.faqroot,a.faqserialno,a.faqserialno";
-		MultiDBUtils md = MultiDBUtils.get("company");
+		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqEvaluateReport> detailsList = md.queryList(sql, HqrtFaqEvaluateReport.class, paramList.toArray());
       	for(int i = 0 ; i < detailsList.size(); i++){
       		detailsList.get(i).setOrdernumber(i+1);
@@ -588,7 +589,7 @@ public class HqrtFaqEvaluateController extends BaseController {
 		 String sqlcondition = "";
 		 List<Object> paramList = new ArrayList<Object>();
 		 if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getFaqroot())) {
-         	MultiDBUtils md = MultiDBUtils.get("company");
+         	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
      		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
      		List<String> queueNameList = new ArrayList<String>();
      		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -631,7 +632,7 @@ public class HqrtFaqEvaluateController extends BaseController {
         	
         }
 		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getFaqmodel())) {
-        	MultiDBUtils md = MultiDBUtils.get("company");
+        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
     		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
     		List<String> queueNameList = new ArrayList<String>();
     		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -658,7 +659,7 @@ public class HqrtFaqEvaluateController extends BaseController {
 			sqlcondition = " WHERE" + sqlcondition;
 		}
 		sql += sqlcondition+ " GROUP BY a.faqroot,a.faqserialno,a.faqserialno";
-		MultiDBUtils md = MultiDBUtils.get("company");
+		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqEvaluateReport> detailsList = md.queryList(sql, HqrtFaqEvaluateReport.class, paramList.toArray());
       	for(int i = 0 ; i < detailsList.size(); i++){
       		detailsList.get(i).setOrdernumber(i+1);

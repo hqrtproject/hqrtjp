@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.Lists;
+import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
@@ -76,7 +77,7 @@ public class HqrtFaqViewController extends BaseController {
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtFaqView hqrtFaqView, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		MultiDBUtils md = MultiDBUtils.get("company");
+		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 		// 首先根据业务和省份分组查询
         String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel',a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.viewdatetime AS 'viewdatetime',COUNT(1) AS clickcount FROM hqrt_faq_view a ";
         String sqlcondition = "";
@@ -137,7 +138,7 @@ public class HqrtFaqViewController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "知识点击量统计"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-    		MultiDBUtils md = MultiDBUtils.get("company");
+    		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
     		// 首先根据业务和省份分组查询
             String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel',a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.viewdatetime AS 'viewdatetime',COUNT(1) AS clickcount FROM hqrt_faq_view a ";
             String sqlcondition = "";

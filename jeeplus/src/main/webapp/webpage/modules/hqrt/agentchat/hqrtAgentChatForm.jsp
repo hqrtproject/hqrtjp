@@ -102,7 +102,7 @@
 								</div> 
 							</div>
 						</c:if>
-						<c:if test="${detail.messagesender eq 3}">
+						<%-- <c:if test="${detail.messagesender eq 3}">
 							<div style="text-align:center;margin:20px">-----------${detail.messagedatetime}-----------</div>
 							<div class="T_consumer m-chatpanel-item m-chatpanel-item-right bubble-up-from-right m-chatpanel-consumer" data-mid="">
 								<div class="chat clearfix">
@@ -115,7 +115,7 @@
 									
 								</div> 
 							</div>
-						</c:if>
+						</c:if> --%>
 						<c:if test="${detail.messagesender eq 1}">
 							<div style="text-align:center;margin:20px">-----------${detail.messagedatetime}-----------</div>
 							<div class="m-loading" data-mid="">

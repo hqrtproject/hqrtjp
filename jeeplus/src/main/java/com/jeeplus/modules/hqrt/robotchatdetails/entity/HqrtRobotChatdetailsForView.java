@@ -4,10 +4,8 @@
 package com.jeeplus.modules.hqrt.robotchatdetails.entity;
 
 
-import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 import com.jeeplus.core.persistence.DataEntity;
 import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
@@ -17,7 +15,7 @@ import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
  * @author cz
  * @version 2019-05-16
  */
-public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
+public class HqrtRobotChatdetailsForView extends DataEntity<HqrtRobotChatdetailsForView> {
 	
 	private static final long serialVersionUID = 1L;
 	private String rowguid;		// 唯一记录标识（主键）
@@ -48,12 +46,12 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 	private String originalsessionid;  // 原始SessionID
 	private HqrtRobotChat parent ;
 	private Integer ordernumber; // 序号
-	public HqrtRobotChatdetails() {
+	public HqrtRobotChatdetailsForView() {
 		super();
 		this.setIdType(IDTYPE_AUTO);
 	}
 
-	public HqrtRobotChatdetails(String id){
+	public HqrtRobotChatdetailsForView(String id){
 		super(id);
 	}
 
@@ -66,7 +64,6 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.rowguid = rowguid;
 	}
 	
-	@ExcelField(title="用户提问时间", align=2, sort=10)
 	public String getRowdatetime() {
 		return rowdatetime;
 	}
@@ -75,7 +72,6 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.rowdatetime = rowdatetime;
 	}
 	
-	@ExcelField(title="会话ID", align=2, sort=13)
 	public String getSessionid() {
 		return sessionid;
 	}
@@ -84,7 +80,6 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.sessionid = sessionid;
 	}
 	
-	@ExcelField(title="用户ID", align=2, sort=8)
 	public String getCustomerid() {
 		return customerid;
 	}
@@ -93,7 +88,6 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.customerid = customerid;
 	}
 	
-	@ExcelField(title="用户名", align=2, sort=7)
 	public String getCustomername() {
 		return customername;
 	}
@@ -111,7 +105,6 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.customermobile = customermobile;
 	}
 	
-	@ExcelField(title="用户所属省份", align=2, sort=9)
 	public String getCustomerprovince() {
 		return customerprovince;
 	}
@@ -129,7 +122,6 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.queueid = queueid;
 	}
 	
-	@ExcelField(title="业务系统", align=2, sort=2)
 	public String getQueuename() {
 		return queuename;
 	}
@@ -146,7 +138,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.queuenameList = queuenameList;
 	}
 
-	@ExcelField(title="用户提问内容", align=2, sort=11)
+	@ExcelField(title="用户提问内容", align=2, sort=2)
 	public String getRequestcontext() {
 		return requestcontext;
 	}
@@ -191,7 +183,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.faqid = faqid;
 	}
 	
-	@ExcelField(title="知识分类", align=2, sort=3)
+	@ExcelField(title="知识分类", align=2, sort=4)
 	public String getFaqroot() {
 		return faqroot;
 	}
@@ -200,7 +192,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.faqroot = faqroot;
 	}
 	
-	@ExcelField(title="子模块", align=2, sort=4)
+	@ExcelField(title="子模块", align=2, sort=5)
 	public String getFaqmodel() {
 		return faqmodel;
 	}
@@ -209,7 +201,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.faqmodel = faqmodel;
 	}
 	
-	@ExcelField(title="知识编码", align=2, sort=5)
+	@ExcelField(title="知识编码", align=2, sort=6)
 	public String getFaqserialno() {
 		return faqserialno;
 	}
@@ -218,7 +210,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.faqserialno = faqserialno;
 	}
 	
-	@ExcelField(title="知识标题", align=2, sort=6)
+	@ExcelField(title="知识标题", align=2, sort=7)
 	public String getFaqtitle() {
 		return faqtitle;
 	}
@@ -227,7 +219,6 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.faqtitle = faqtitle;
 	}
 	
-	@ExcelField(title="知识创建人", align=2, sort=14)
 	public String getFaqcreaterid() {
 		return faqcreaterid;
 	}
@@ -244,7 +235,6 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.faqcreatername = faqcreatername;
 	}
 	
-	@ExcelField(title="知识创建时间", align=2, sort=15)
 	public String getFaqcreatedatetime() {
 		return faqcreatedatetime;
 	}
@@ -262,7 +252,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.satisfyno = satisfyno;
 	}
 	
-	@ExcelField(title="是否解决（解决状态）", align=2, sort=12)
+	@ExcelField(title="是否解决", align=2, sort=8)
 	public String getSatisfydesc() {
 		return satisfydesc;
 	}
@@ -270,6 +260,7 @@ public class HqrtRobotChatdetails extends DataEntity<HqrtRobotChatdetails> {
 		this.satisfydesc = satisfydesc;
 	}
 	
+	@ExcelField(title="用户提问时间", align=2, sort=3)
 	public String getMessagedatetime() {
 		return messagedatetime;
 	}

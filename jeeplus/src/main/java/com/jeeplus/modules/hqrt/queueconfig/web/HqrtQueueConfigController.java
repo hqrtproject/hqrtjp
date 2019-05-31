@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.Lists;
+import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
@@ -89,7 +90,7 @@ public class HqrtQueueConfigController extends BaseController {
 	@RequestMapping(value = "combotreedata")
 	public List<Map<String, Object>> combotreedata(HqrtQueueConfig hqrtQueueConfig, HttpServletRequest request, HttpServletResponse response, Model model) {
 		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename' FROM hqrt_queue_config a";
-		MultiDBUtils md = MultiDBUtils.get("company");
+		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 		List<HqrtQueueConfig> queryList = md.queryList(sql, HqrtQueueConfig.class);
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		int id = 1;
@@ -103,6 +104,10 @@ public class HqrtQueueConfigController extends BaseController {
 			id++;
 			mapList.add(map);
 		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("text", "其他");
+		mapList.add(map);
 		return mapList;
 	}
 

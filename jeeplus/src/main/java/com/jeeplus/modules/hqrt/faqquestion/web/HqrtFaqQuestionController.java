@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
@@ -144,7 +145,7 @@ public class HqrtFaqQuestionController extends BaseController {
         // 该语句仅仅为了查询当前条件下有多少符合条件的数据
         String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + "limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
-        MultiDBUtils md = MultiDBUtils.get("company");
+        MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqQuestion> detailsList = md.queryList(sql, HqrtFaqQuestion.class, paramList.toArray());
         List<HqrtFaqQuestion> allDetailslList = md.queryList(selectcountsql, HqrtFaqQuestion.class, paramList.toArray());
         page.setCount(allDetailslList.size());
@@ -244,7 +245,7 @@ public class HqrtFaqQuestionController extends BaseController {
             }
             // 该语句仅仅为了查询当前条件下有多少符合条件的数据
             sql += sqlcondition;
-            MultiDBUtils md = MultiDBUtils.get("company");
+            MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
             List<HqrtFaqQuestion> detailsList = md.queryList(sql, HqrtFaqQuestion.class, paramList.toArray());
             sql += sqlcondition;
     		for (int i = 0; i < detailsList.size(); i++) {

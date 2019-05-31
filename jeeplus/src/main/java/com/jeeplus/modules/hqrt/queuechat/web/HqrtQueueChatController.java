@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
@@ -101,7 +102,7 @@ public class HqrtQueueChatController extends BaseController {
 		String sqlcondition = "";
 		List<Object> paramList = new ArrayList<Object>();
 		if (StringUtils.isNotBlank(hqrtQueueChat.getQueuename())) {
-        	MultiDBUtils md = MultiDBUtils.get("company");
+        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
     		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
     		List<String> queueNameList = new ArrayList<String>();
     		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -143,7 +144,7 @@ public class HqrtQueueChatController extends BaseController {
 			sqlcondition = " WHERE" + sqlcondition;
 		}
 		sql += sqlcondition + " GROUP BY a.QueueName";
-		MultiDBUtils md = MultiDBUtils.get("company");
+		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 		List<HqrtQueueChat> queryListGroupby = md.queryList(sql, HqrtQueueChat.class, paramList.toArray());
 		for (HqrtQueueChat queueChat : queryListGroupby) {
 			String _sql= "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_queue_chat a";
@@ -179,7 +180,7 @@ public class HqrtQueueChatController extends BaseController {
 				_sqlcondition = " WHERE" + _sqlcondition;
 			}
 			_sql += _sqlcondition;
-			MultiDBUtils mu = MultiDBUtils.get("company");
+			MultiDBUtils mu = MultiDBUtils.get(Global.getConfig("datasourcename"));
 			List<HqrtQueueChat> queryList = mu.queryList(_sql, HqrtQueueChat.class, paramList.toArray());
 			queueChat.setTotalincount(queryList.size());
 			// 转通坐席量
@@ -266,7 +267,7 @@ public class HqrtQueueChatController extends BaseController {
 			String sqlcondition = "";
 			List<Object> paramList = new ArrayList<Object>();
 			if (StringUtils.isNotBlank(hqrtQueueChat.getQueuename())) {
-	        	MultiDBUtils md = MultiDBUtils.get("company");
+	        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 	    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
 	    		List<String> queueNameList = new ArrayList<String>();
 	    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -308,7 +309,7 @@ public class HqrtQueueChatController extends BaseController {
 				sqlcondition = " WHERE" + sqlcondition;
 			}
 			sql += sqlcondition + " GROUP BY a.QueueName";
-			MultiDBUtils md = MultiDBUtils.get("company");
+			MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 			List<HqrtQueueChat> queryListGroupby = md.queryList(sql, HqrtQueueChat.class, paramList.toArray());
 			for (HqrtQueueChat queueChat : queryListGroupby) {
 				String _sql= "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_queue_chat a";
@@ -344,7 +345,7 @@ public class HqrtQueueChatController extends BaseController {
 					_sqlcondition = " WHERE" + _sqlcondition;
 				}
 				_sql += _sqlcondition;
-				MultiDBUtils mu = MultiDBUtils.get("company");
+				MultiDBUtils mu = MultiDBUtils.get(Global.getConfig("datasourcename"));
 				List<HqrtQueueChat> queryList = mu.queryList(_sql, HqrtQueueChat.class, paramList.toArray());
 				queueChat.setTotalincount(queryList.size());
 				// 转通坐席量
@@ -464,7 +465,7 @@ public class HqrtQueueChatController extends BaseController {
 		String sqlcondition = "";
 		List<Object> paramList = new ArrayList<Object>();
 		if (StringUtils.isNotBlank(hqrtQueueChatdetail.getQueuename())) {
-        	MultiDBUtils md = MultiDBUtils.get("company");
+        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
     		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
     		List<String> queueNameList = new ArrayList<String>();
     		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -512,7 +513,7 @@ public class HqrtQueueChatController extends BaseController {
 		Page<HqrtQueueChatdetail> page = new Page<HqrtQueueChatdetail>(request, response);
 		String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
-        MultiDBUtils md = MultiDBUtils.get("company");
+        MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtQueueChatdetail> detailsList = md.queryList(sql, HqrtQueueChatdetail.class, paramList.toArray());
         List<HqrtQueueChatdetail> allDetailslList = md.queryList(selectcountsql, HqrtQueueChatdetail.class, paramList.toArray());
     	for(int i = 0 ; i < detailsList.size(); i++){
@@ -541,7 +542,7 @@ public class HqrtQueueChatController extends BaseController {
 			String sqlcondition = "";
 			List<Object> paramList = new ArrayList<Object>();
 			if (StringUtils.isNotBlank(hqrtQueueChatdetail.getQueuename())) {
-	        	MultiDBUtils md = MultiDBUtils.get("company");
+	        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 	    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
 	    		List<String> queueNameList = new ArrayList<String>();
 	    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -585,7 +586,7 @@ public class HqrtQueueChatController extends BaseController {
 				sqlcondition = " WHERE" + sqlcondition;
 			}
 			sql += sqlcondition;
-			MultiDBUtils md = MultiDBUtils.get("company");
+			MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 			List<HqrtQueueChatdetail> queryList = md.queryList(sql, HqrtQueueChatdetail.class, paramList.toArray());
 			for(int i = 0 ; i < queryList.size(); i++){
 				queryList.get(i).setOrdernumber(i+1);

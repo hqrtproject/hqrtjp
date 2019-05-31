@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
@@ -101,7 +102,7 @@ public class HqrtAgentChatController extends BaseController {
 	public Map<String, Object> data(HqrtAgentChat hqrtAgentChat, HttpServletRequest request, HttpServletResponse response, Model model) {
         Page<HqrtAgentChat> page = new Page<>(request, response);
         hqrtAgentChat.setPage(page);
-		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.talkindex AS 'talkindex',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',a.isvalid AS 'isvalid',a.firstresponsetimelen AS 'firstresponsetimelen',a.avgresponsetimelen AS 'avgresponsetimelen',a.customermessagecount AS 'customermessagecount',a.agentmessagecount AS 'agentmessagecount',a.evaluatestar AS 'evaluatestar',a.evaluatetext AS 'evaluatetext',a.evaluatedatetime AS 'evaluatedatetime',a.originalsessionid AS 'originalsessionid' FROM hqrt_agent_chat a LEFT JOIN hqrt_agent_chatdetails b ON a.sessionid = b.sessionid";
+		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.talkindex AS 'talkindex',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',a.isvalid AS 'isvalid',a.firstresponsetimelen AS 'firstresponsetimelen',a.avgresponsetimelen AS 'avgresponsetimelen',a.customermessagecount AS 'customermessagecount',a.agentmessagecount AS 'agentmessagecount',a.evaluatestar AS 'evaluatestar',a.evaluatetext AS 'evaluatetext',a.evaluatedatetime AS 'evaluatedatetime',a.originalsessionid AS 'originalsessionid' FROM hqrt_agent_chat a LEFT JOIN hqrt_agent_chatdetails b ON a.sessionid = b.sessionid AND a.talkindex=b.talkindex ";
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
 		if (StringUtils.isNotBlank(hqrtAgentChat.getCustomerprovince())) {
@@ -132,7 +133,7 @@ public class HqrtAgentChatController extends BaseController {
 			}
         }
         if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
-        	MultiDBUtils md = MultiDBUtils.get("company");
+        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
     		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
     		List<String> queueNameList = new ArrayList<String>();
     		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -197,7 +198,7 @@ public class HqrtAgentChatController extends BaseController {
         }
         String selectcountsql = sql + sqlcondition + " GROUP BY a.sessionid";
         sql += sqlcondition + " GROUP BY a.sessionid" + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
-        MultiDBUtils md = MultiDBUtils.get("company");
+        MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
         for (int i = 0; i < detailsList.size(); i++) {
         	detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
@@ -220,7 +221,7 @@ public class HqrtAgentChatController extends BaseController {
 		String sqlcondition = "";
 		List<Object> paramList = new ArrayList<Object>();
 		if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
-			MultiDBUtils md = MultiDBUtils.get("company");
+			MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 			List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
 			List<String> queueNameList = new ArrayList<String>();
 			for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -269,7 +270,7 @@ public class HqrtAgentChatController extends BaseController {
 		}
 		String selectcountsql = sql + sqlcondition + " GROUP BY a.sessionid";
 		sql += sqlcondition + " GROUP BY a.sessionid" + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
-		MultiDBUtils md = MultiDBUtils.get("company");
+		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 		List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
 		for (int i = 0; i < detailsList.size(); i++) {
 			detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
@@ -285,13 +286,16 @@ public class HqrtAgentChatController extends BaseController {
 	 */
 	@RequestMapping(value = "form/{mode}")
 	public String form(@PathVariable String mode, HqrtAgentChat hqrtAgentChat, Model model) {
-		String sql = "select a.messagecontext AS 'messagecontext', a.messagetype AS 'messagetype', a.messagesender AS 'messagesender',a.messagedateTime AS 'messagedateTime' FROM hqrt_agent_chatdetails a where a.sessionid = ?";
+		String sql = "select a.messagecontext AS 'messagecontext', a.messagetype AS 'messagetype', a.messagesender AS 'messagesender',a.messagedateTime AS 'messagedateTime' FROM hqrt_agent_chatdetails a where a.sessionid = ? AND a.talkindex = ? AND a.messagesender != '3'";
         List<Object> paramList = new ArrayList<Object>();
         if (StringUtils.isNotBlank(hqrtAgentChat.getSessionid())) {
         	paramList.add(hqrtAgentChat.getSessionid());
         }
+        if (StringUtils.isNotBlank(hqrtAgentChat.getTalkindex())) {
+        	paramList.add(hqrtAgentChat.getTalkindex());
+        }
         sql = sql + " ORDER BY a.messagedatetime";
-        MultiDBUtils md = MultiDBUtils.get("company");
+        MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtAgentChatdetails> detailsList = md.queryList(sql, HqrtAgentChatdetails.class, paramList.toArray());
 		for (HqrtAgentChatdetails hqrtAgentChatdetails : detailsList) {
 			if("2".equals(hqrtAgentChatdetails.getMessagetype())){
@@ -314,7 +318,7 @@ public class HqrtAgentChatController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "在线客服会话明细"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-    		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.talkindex AS 'talkindex',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',a.isvalid AS 'isvalid',a.firstresponsetimelen AS 'firstresponsetimelen',a.avgresponsetimelen AS 'avgresponsetimelen',a.customermessagecount AS 'customermessagecount',a.agentmessagecount AS 'agentmessagecount',a.evaluatestar AS 'evaluatestar',a.evaluatetext AS 'evaluatetext',a.originalsessionid AS 'originalsessionid' FROM hqrt_agent_chat a LEFT JOIN hqrt_agent_chatdetails b ON a.sessionid = b.sessionid";
+    		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.talkindex AS 'talkindex',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',a.isvalid AS 'isvalid',a.firstresponsetimelen AS 'firstresponsetimelen',a.avgresponsetimelen AS 'avgresponsetimelen',a.customermessagecount AS 'customermessagecount',a.agentmessagecount AS 'agentmessagecount',a.evaluatestar AS 'evaluatestar',a.evaluatetext AS 'evaluatetext',a.originalsessionid AS 'originalsessionid' FROM hqrt_agent_chat a LEFT JOIN hqrt_agent_chatdetails b ON a.sessionid = b.sessionid AND a.talkindex=b.talkindex ";
             String sqlcondition = "";
             List<Object> paramList = new ArrayList<Object>();
     		if (StringUtils.isNotBlank(hqrtAgentChat.getCustomerprovince())) {
@@ -345,7 +349,7 @@ public class HqrtAgentChatController extends BaseController {
     			}
             }
             if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
-            	MultiDBUtils md = MultiDBUtils.get("company");
+            	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
         		List<String> queueNameList = new ArrayList<String>();
         		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -409,7 +413,7 @@ public class HqrtAgentChatController extends BaseController {
             	sqlcondition  = " where" + sqlcondition;
             }
             sql += sqlcondition + " GROUP BY a.sessionid";
-            MultiDBUtils md = MultiDBUtils.get("company");
+            MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
             List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
             for (HqrtAgentChat agentChat : detailsList) {
 				if ("0".equals(agentChat.getIsvalid())) {
@@ -458,7 +462,7 @@ public class HqrtAgentChatController extends BaseController {
 			String sqlcondition = "";
 			List<Object> paramList = new ArrayList<Object>();
 			if (StringUtils.isNotBlank(hqrtAgentChat.getQueuename())) {
-				MultiDBUtils md = MultiDBUtils.get("company");
+				MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 				List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
 				List<String> queueNameList = new ArrayList<String>();
 				for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -506,7 +510,7 @@ public class HqrtAgentChatController extends BaseController {
 				sqlcondition  = " where" + sqlcondition;
 			}
 			sql += sqlcondition + " GROUP BY a.sessionid";
-			MultiDBUtils md = MultiDBUtils.get("company");
+			MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 			List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
 			for (HqrtAgentChat agentChat : detailsList) {
 				if ("0".equals(agentChat.getEvaluatestar())) {
@@ -555,12 +559,17 @@ public class HqrtAgentChatController extends BaseController {
             	sqlcondition += " AND a.sessionid = ?";
             	paramList.add(hqrtAgentChatdetails.getSessionid());
             }
+            if (StringUtils.isNotBlank(hqrtAgentChatdetails.getTalkindex())) {
+            	sqlcondition += " AND a.talkindex = ?";
+            	paramList.add(hqrtAgentChatdetails.getTalkindex());
+            }
+        	sqlcondition += " AND a.messagesender != '3'";
             if (StringUtils.isNotBlank(sqlcondition)) {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
             	sqlcondition  = " where" + sqlcondition;
             }
             sql += sqlcondition + " ORDER BY a.messagedatetime";
-            MultiDBUtils md = MultiDBUtils.get("company");
+            MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
             List<HqrtAgentChatdetailsForExport> detailsList = md.queryList(sql, HqrtAgentChatdetailsForExport.class, paramList.toArray());
 			for (HqrtAgentChatdetailsForExport hqrtAgentChatdetailsForExport : detailsList) {
 				if (hqrtAgentChatdetailsForExport.getMessagesender() == 1) {

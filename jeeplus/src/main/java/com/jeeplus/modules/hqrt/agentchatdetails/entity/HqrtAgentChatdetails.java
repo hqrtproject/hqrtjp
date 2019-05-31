@@ -34,6 +34,7 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 	private String messagesender;		// 发送消息方：1客户，2坐席，3系统
 	private String messagedatetime;		// 消息时间
 	private String originalsessionid;		// 原始SessionID
+	private String talkindex;		// 原始SessionID
 	
 	public HqrtAgentChatdetails() {
 		super();
@@ -213,6 +214,14 @@ public class HqrtAgentChatdetails extends DataEntity<HqrtAgentChatdetails> {
 
 	public void setOriginalsessionid(String originalsessionid) {
 		this.originalsessionid = originalsessionid;
+	}
+
+	public String getTalkindex() {
+		return talkindex;
+	}
+
+	public void setTalkindex(String talkindex) {
+		this.talkindex = talkindex;
 	}
 	
 }

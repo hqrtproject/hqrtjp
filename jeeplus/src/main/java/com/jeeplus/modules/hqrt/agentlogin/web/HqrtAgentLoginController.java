@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jeeplus.common.config.Global;
 import com.jeeplus.common.json.AjaxJson;
 import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
@@ -96,7 +97,7 @@ public class HqrtAgentLoginController extends BaseController {
 		String sqlcondition = "";
 		List<Object> paramList = new ArrayList<Object>();
 	     if (StringUtils.isNotBlank(hqrtAgentLogin.getExqueuename())) {
-	        	MultiDBUtils md = MultiDBUtils.get("company");
+	        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 	    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
 	    		List<String> queueNameList = new ArrayList<String>();
 	    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -141,7 +142,7 @@ public class HqrtAgentLoginController extends BaseController {
         }
         String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
-        MultiDBUtils md = MultiDBUtils.get("company");
+        MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtAgentLogin> detailsList = md.queryList(sql, HqrtAgentLogin.class, paramList.toArray());
         List<HqrtAgentLogin> allDetailslList = md.queryList(selectcountsql, HqrtAgentLogin.class, paramList.toArray());
         for(int i = 0 ; i < detailsList.size(); i++){
@@ -204,7 +205,7 @@ public class HqrtAgentLoginController extends BaseController {
             	sqlcondition  = " where" + sqlcondition;
             }
             sql += sqlcondition ;
-            MultiDBUtils md = MultiDBUtils.get("company");
+            MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
             List<HqrtAgentLogin> detailsList = md.queryList(sql, HqrtAgentLogin.class, paramList.toArray());
             for(int i = 0 ; i < detailsList.size(); i++){
             	detailsList.get(i).setOrdernumber(i+1);
