@@ -197,7 +197,7 @@ public class HqrtAgentChatController extends BaseController {
         	sqlcondition  = " where" + sqlcondition;
         }
         String selectcountsql = sql + sqlcondition + " GROUP BY a.sessionid";
-        sql += sqlcondition + " GROUP BY a.sessionid" + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+        sql += sqlcondition + " GROUP BY a.sessionid ORDER BY a.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
         for (int i = 0; i < detailsList.size(); i++) {
@@ -269,7 +269,7 @@ public class HqrtAgentChatController extends BaseController {
 			sqlcondition  = " where" + sqlcondition;
 		}
 		String selectcountsql = sql + sqlcondition + " GROUP BY a.sessionid";
-		sql += sqlcondition + " GROUP BY a.sessionid" + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+		sql += sqlcondition + " GROUP BY a.sessionid ORDER BY a.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
 		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 		List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
 		for (int i = 0; i < detailsList.size(); i++) {
@@ -412,7 +412,7 @@ public class HqrtAgentChatController extends BaseController {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
             	sqlcondition  = " where" + sqlcondition;
             }
-            sql += sqlcondition + " GROUP BY a.sessionid";
+            sql += sqlcondition + " GROUP BY a.sessionid ORDER BY a.queuename";
             MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
             List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
             for (HqrtAgentChat agentChat : detailsList) {
@@ -509,7 +509,7 @@ public class HqrtAgentChatController extends BaseController {
 				sqlcondition = sqlcondition.replaceFirst(" AND", "");
 				sqlcondition  = " where" + sqlcondition;
 			}
-			sql += sqlcondition + " GROUP BY a.sessionid";
+			sql += sqlcondition + " GROUP BY a.sessionid ORDER BY a.queuename";
 			MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 			List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
 			for (HqrtAgentChat agentChat : detailsList) {

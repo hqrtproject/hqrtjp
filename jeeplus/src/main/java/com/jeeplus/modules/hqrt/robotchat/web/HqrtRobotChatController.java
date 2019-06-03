@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -198,7 +200,7 @@ public class HqrtRobotChatController extends BaseController {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
         	sqlcondition  = " where" + sqlcondition;
         }
-        sql += sqlcondition + " GROUP BY a.QueueName,a.CustomerProvince";
+        sql += sqlcondition+"GROUP BY a.QueueName,a.CustomerProvince";
         List<HqrtRobotChat> hqrtRobotChatlist = md.queryList(sql, HqrtRobotChat.class, paramList.toArray());
 		for (HqrtRobotChat robotChat : hqrtRobotChatlist) {
 			String _sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.sessionid AS 'sessionid',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.startdatetime AS 'startdatetime',a.enddatetime AS 'enddatetime',a.timelen AS 'timelen',a.endreasonno AS 'endreasonno',a.endreason AS 'endreason',a.queueid AS 'queueid',a.queuename AS 'queuename',a.originalsessionid AS 'originalsessionid' FROM hqrt_robot_chat a";
@@ -351,6 +353,11 @@ public class HqrtRobotChatController extends BaseController {
 		for(int i = 0 ; i < hqrtRobotChatlist.size(); i++){
 			hqrtRobotChatlist.get(i).setOrdernumber(i+1);
     	}
+		Collections.sort(hqrtRobotChatlist, new Comparator<HqrtRobotChat>() {
+			public int compare(HqrtRobotChat p1, HqrtRobotChat p2) {
+			return p1.getQueuename().compareTo(p2.getQueuename());
+			   }
+			});
 		map.put("rows", hqrtRobotChatlist);
 		// map.put("total", page.getCount());
 		return map;
@@ -449,7 +456,7 @@ public class HqrtRobotChatController extends BaseController {
 		Page<HqrtRobotChatForDetails> page = new Page<HqrtRobotChatForDetails>(request, response);
 		hqrtRobotChatDetails.setPage(page);
         String selectcountsql = sql + sqlcondition;
-		sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+		sql += sqlcondition + "ORDER BY a.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
 		List<HqrtRobotChatForDetails> hqrtRobotChatDetailslist = md.queryList(sql, HqrtRobotChatForDetails.class, paramList.toArray());
 		List<HqrtRobotChatForDetails> allHqrtRobotChatDetailslist = md.queryList(selectcountsql, HqrtRobotChatForDetails.class, paramList.toArray());
 		page.setCount(allHqrtRobotChatDetailslist.size());
@@ -612,7 +619,7 @@ public class HqrtRobotChatController extends BaseController {
     		        	__sqlcondition = __sqlcondition.replaceFirst(" AND", "");
     		        	__sqlcondition  = " where" + __sqlcondition;
     		        }
-    				__sql += __sqlcondition;
+    				__sql += __sqlcondition + "ORDER BY a.queuename";
     				List<HqrtRobotChatdetails> hqrtRobotChatdetailsList = md.queryList(__sql, HqrtRobotChatdetails.class, paramList.toArray());
     				if (hrc.getEndreasonno() == 1) {
     					conversionvolume++;
@@ -695,6 +702,11 @@ public class HqrtRobotChatController extends BaseController {
     		for(int i = 0 ; i < hqrtRobotChatlist.size(); i++){
     			hqrtRobotChatlist.get(i).setOrdernumber(i+1);
         	}
+    		Collections.sort(hqrtRobotChatlist, new Comparator<HqrtRobotChat>() {
+    			public int compare(HqrtRobotChat p1, HqrtRobotChat p2) {
+    			return p1.getQueuename().compareTo(p2.getQueuename());
+    			   }
+    			});
     		new ExportExcel("机器人拦截统计", HqrtRobotChat.class).setDataList(hqrtRobotChatlist).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
@@ -799,7 +811,7 @@ public class HqrtRobotChatController extends BaseController {
 				sqlcondition = sqlcondition.replaceFirst(" AND", "");
 				sqlcondition  = " where" + sqlcondition;
 			}
-			sql += sqlcondition;
+			sql += sqlcondition + "ORDER BY a.queuename";
 			List<HqrtRobotChatForDetails> hqrtRobotChatDetailslist = md.queryList(sql, HqrtRobotChatForDetails.class, paramList.toArray());
 			for (int i = 0; i < hqrtRobotChatDetailslist.size(); i++) {
 				hqrtRobotChatDetailslist.get(i).setOrdernumber(i+1);

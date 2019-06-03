@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,6 +37,7 @@ import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChat;
 import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChatdetail;
 import com.jeeplus.modules.hqrt.queuechat.service.HqrtQueueChatService;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
+import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -249,6 +252,11 @@ public class HqrtQueueChatController extends BaseController {
 		for (int i = 0; i < queryListGroupby.size(); i++) {
 			queryListGroupby.get(i).setOrdernumber(i+1);
 		}
+		Collections.sort(queryListGroupby, new Comparator<HqrtQueueChat>() {
+			public int compare(HqrtQueueChat p1, HqrtQueueChat p2) {
+			return p1.getQueuename().compareTo(p2.getQueuename());
+			   }
+			});
 		map.put("rows", queryListGroupby);
 		return map;
 	}
@@ -414,6 +422,11 @@ public class HqrtQueueChatController extends BaseController {
 			for (int i = 0; i < queryListGroupby.size(); i++) {
 				queryListGroupby.get(i).setOrdernumber(i+1);
 			}
+			Collections.sort(queryListGroupby, new Comparator<HqrtQueueChat>() {
+				public int compare(HqrtQueueChat p1, HqrtQueueChat p2) {
+				return p1.getQueuename().compareTo(p2.getQueuename());
+				   }
+				});
 			new ExportExcel("排队统计", HqrtQueueChat.class).setDataList(queryListGroupby).write(response, fileName)
 					.dispose();
 			j.setSuccess(true);
@@ -512,7 +525,7 @@ public class HqrtQueueChatController extends BaseController {
 		}
 		Page<HqrtQueueChatdetail> page = new Page<HqrtQueueChatdetail>(request, response);
 		String selectcountsql = sql + sqlcondition;
-        sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+        sql += sqlcondition + "ORDER BY a.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtQueueChatdetail> detailsList = md.queryList(sql, HqrtQueueChatdetail.class, paramList.toArray());
         List<HqrtQueueChatdetail> allDetailslList = md.queryList(selectcountsql, HqrtQueueChatdetail.class, paramList.toArray());
@@ -585,7 +598,7 @@ public class HqrtQueueChatController extends BaseController {
 				sqlcondition = sqlcondition.replaceFirst(" AND", "");
 				sqlcondition = " WHERE" + sqlcondition;
 			}
-			sql += sqlcondition;
+			sql += sqlcondition + "ORDER BY a.queuename";
 			MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 			List<HqrtQueueChatdetail> queryList = md.queryList(sql, HqrtQueueChatdetail.class, paramList.toArray());
 			for(int i = 0 ; i < queryList.size(); i++){

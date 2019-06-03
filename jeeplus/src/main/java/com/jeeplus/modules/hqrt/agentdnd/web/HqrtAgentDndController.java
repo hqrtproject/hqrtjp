@@ -139,7 +139,7 @@ public class HqrtAgentDndController extends BaseController {
         	sqlcondition  = " where" + sqlcondition;
         }
         String selectcountsql = sql + sqlcondition;
-        sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+        sql += sqlcondition + " ORDER BY b.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtAgentDnd> detailsList = md.queryList(sql, HqrtAgentDnd.class, paramList.toArray());
         List<HqrtAgentDnd> allDetailslList = md.queryList(selectcountsql, HqrtAgentDnd.class, paramList.toArray());
@@ -188,7 +188,7 @@ public class HqrtAgentDndController extends BaseController {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
             	sqlcondition  = " where" + sqlcondition;
             }
-            sql += sqlcondition;
+            sql += sqlcondition + " ORDER BY b.queuename";
             MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
             List<HqrtAgentDnd> detailsList = md.queryList(sql, HqrtAgentDnd.class, paramList.toArray());
             for(int i = 0 ; i < detailsList.size(); i++){

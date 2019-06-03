@@ -150,7 +150,7 @@ public class HqrtRobotChatdetailsController extends BaseController {
         }
         // 该语句仅仅为了查询当前条件下有多少符合条件的数据
         String selectcountsql = sql + sqlcondition;
-        sql += sqlcondition + "limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+        sql += sqlcondition + "ORDER BY a.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtRobotChatdetails> detailsList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
         List<HqrtRobotChatdetails> allDetailslList = md.queryList(selectcountsql, HqrtRobotChatdetails.class, paramList.toArray());
@@ -231,7 +231,7 @@ public class HqrtRobotChatdetailsController extends BaseController {
             	sqlcondition  = " where" + sqlcondition;
             }
             // 该语句仅仅为了查询当前条件下有多少符合条件的数据
-            sql += sqlcondition;
+            sql += sqlcondition + "ORDER BY a.queuename";
             MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
             List<HqrtRobotChatdetails> detailsList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
     		for (int i = 0; i < detailsList.size(); i++) {

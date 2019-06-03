@@ -32,13 +32,6 @@ public class HqrtFaqMirror extends DataEntity<HqrtFaqMirror> {
 	private String faqapprovortimelen;		// 审批时长(单位：秒)
 	private Integer ordernumber; // 序号
 	
-	//统计
-	private Integer faqcount; // 知识总数
-	private Integer pendingcount; // 待审批数
-	private Integer approvalcount; // 审批中数
-	private Integer throughcount; // 审批通过数
-	private Integer nothroughcount; // 审批未通过数
-	
 	public HqrtFaqMirror() {
 		super();
 		this.setIdType(IDTYPE_AUTO);
@@ -184,51 +177,4 @@ public class HqrtFaqMirror extends DataEntity<HqrtFaqMirror> {
 	public void setOrdernumber(Integer ordernumber) {
 		this.ordernumber = ordernumber;
 	}
-	
-	@ExcelField(title="知识总数", align=2, sort=3)
-	public Integer getFaqcount() {
-		return faqcount;
-	}
-
-	public void setFaqcount(Integer faqcount) {
-		this.faqcount = faqcount;
-	}
-	
-	@ExcelField(title="待审批数", align=2, sort=4)
-	public Integer getPendingcount() {
-		return pendingcount;
-	}
-
-	public void setPendingcount(Integer pendingcount) {
-		this.pendingcount = pendingcount;
-	}
-
-	@ExcelField(title="审批中数", align=2, sort=5)
-	public Integer getApprovalcount() {
-		return approvalcount;
-	}
-
-	public void setApprovalcount(Integer approvalcount) {
-		this.approvalcount = approvalcount;
-	}
-	
-	@ExcelField(title="审批通过数", align=2, sort=6)
-	public Integer getThroughcount() {
-		return throughcount;
-	}
-
-	public void setThroughcount(Integer throughcount) {
-		this.throughcount = throughcount;
-	}
-	
-	@ExcelField(title="审批未通过数", align=2, sort=7)
-	public Integer getNothroughcount() {
-		return nothroughcount;
-	}
-
-	public void setNothroughcount(Integer nothroughcount) {
-		this.nothroughcount = nothroughcount;
-	}
-
-	
 }

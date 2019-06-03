@@ -95,41 +95,6 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'faqcount',
-		        title: '知识总数',
-		        sortable: false,
-		        sortName: 'faqcount'
-		       
-		    }
-			,{
-		        field: 'pendingcount',
-		        title: '待审批数',
-		        sortable: false,
-		        sortName: 'pendingcount'
-		       
-		    }
-			,{
-		        field: 'approvalcount',
-		        title: '审批中数',
-		        sortable: false,
-		        sortName: 'approvalcount'
-		       
-		    }
-			,{
-		        field: 'throughcount',
-		        title: '审批通过数',
-		        sortable: false,
-		        sortName: 'throughcount'
-		       
-		    }
-			,{
-		        field: 'nothroughcount',
-		        title: '审批未通过数',
-		        sortable: false,
-		        sortName: 'nothroughcount'
-		       
-		    }
-			,{
 		        field: 'faqmodel',
 		        title: '知识模块',
 		        sortable: false,

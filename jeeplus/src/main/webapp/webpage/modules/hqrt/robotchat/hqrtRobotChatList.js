@@ -96,8 +96,7 @@ $(document).ready(function() {
 		        sortable: false,
 		        width:'250px',
 		        sortName: 'queuename'
-		       
-		    }
+			 }
 			,{
 		        field: 'totalincount',
 		        title: '总进线量',

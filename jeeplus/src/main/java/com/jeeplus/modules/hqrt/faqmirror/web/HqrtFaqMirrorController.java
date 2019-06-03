@@ -70,7 +70,7 @@ public class HqrtFaqMirrorController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtFaqMirror hqrtFaqMirror, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<HqrtFaqMirror> page = hqrtFaqMirrorService.findPage(new Page<HqrtFaqMirror>(request, response), hqrtFaqMirror); 
+		Page<HqrtFaqMirror> page = hqrtFaqMirrorService.findPage(new Page<HqrtFaqMirror>(request, response), hqrtFaqMirror);
 		return getBootstrapData(page);
 	}
 

@@ -150,7 +150,7 @@ public class HqrtAgentConfigController extends BaseController {
         	sqlcondition  = " where" + sqlcondition;
         }
         Page<HqrtAgentConfig> page = new Page<>(request, response);
-        String selectcountsql = sql + sqlcondition;
+        String selectcountsql = sql + sqlcondition + "ORDER BY a.queuename";
         /*sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         List<HqrtAgentConfig> detailsList = md.queryList(sql, HqrtAgentConfig.class, paramList.toArray());*/
         List<HqrtAgentConfig> allDetailslList = md.queryList(selectcountsql, HqrtAgentConfig.class, paramList.toArray());
@@ -389,7 +389,7 @@ public class HqrtAgentConfigController extends BaseController {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
             	sqlcondition  = " where" + sqlcondition;
             }
-            String selectcountsql = sql + sqlcondition;
+            String selectcountsql = sql + sqlcondition + "ORDER BY a.queuename";
             /*sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
             List<HqrtAgentConfig> detailsList = md.queryList(sql, HqrtAgentConfig.class, paramList.toArray());*/
             List<HqrtAgentConfig> allDetailslList = md.queryList(selectcountsql, HqrtAgentConfig.class, paramList.toArray());
