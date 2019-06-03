@@ -7,32 +7,32 @@
  * @version 2.0v
  */
 (function() {
-
+	topPage = window;
     jp = {
-			
+
 	   /**使用jp.open代替top.layer.open，参数使用完全一致，请参照layer官网, 不在直接暴露layer在，jeeplus对layer进行统一封装**/
-	   open:top.layer.open,
-	   
+	   open:topPage.layer.open,
+
 	   /**通知方法，不阻塞浏览器当前窗口，四个级别 info,warning,error,success，图标不同，其余用法完全相同*/		
 	   info:function(msg){
-			return top.layer.msg(msg);
+			return topPage.layer.msg(msg);
 	   },
 		
 	   warning: function(msg){//通知
-		   return top.layer.msg(msg, {icon:0});
+		   return topPage.layer.msg(msg, {icon:0});
 	   },
 	   
 	   success:function(msg){
-		   return top.layer.msg(msg, {icon:1});
+		   return topPage.layer.msg(msg, {icon:1});
 	   },
 
 	   error:function(msg){
-		   return top.layer.msg(msg, {icon:2});
+		   return topPage.layer.msg(msg, {icon:2});
 	   },
 	   
 	   //layer之外的另一个选择toast风格消息提示框,直接使用jp.toastr调用
 	   toastr:(function(){
-		   top.toastr.options = {
+		   topPage.toastr.options = {
 					  "closeButton": true,
 					  "debug": false,
 					  "progressBar": true,
@@ -47,7 +47,7 @@
 					  "showMethod": "fadeIn",
 					  "hideMethod": "fadeOut"
 					}
-		   return top.toastr;
+		   return topPage.toastr;
 	   })(),
 	   
 	   //页面提示声音
@@ -63,7 +63,7 @@
 			   msg = '正在提交，请稍等...';
 		   }
 		   
-		  var index = top.layer.msg(msg, {
+		  var index = topPage.layer.msg(msg, {
 			  icon: 16
 			  ,shade: 0.01,
 			  time:999999999//设置超长时间
@@ -74,9 +74,9 @@
 	   
 	   close:function(index){
 		   if(index){
-			   top.layer.close(index);
+			   topPage.layer.close(index);
 		   }else{
-			   top.layer.closeAll();
+			   topPage.layer.closeAll();
 		   }
 		   
 	   },
@@ -84,7 +84,7 @@
 	   
 	   /**alert弹出框，阻塞浏览器窗口*/
 	   alert:function(msg){
-		   top.layer.alert(msg, {
+		   topPage.layer.alert(msg, {
 			    skin: 'layui-layer-lan'
 			    ,area:['auto', 'auto']
 			    ,icon: 0
@@ -95,7 +95,7 @@
 	   
 	   /**询问框，阻塞浏览器窗口*/
 	   confirm:function(msg, succFuc, cancelFuc){//msg:询问信息， succFuc：点‘是’调用的函数， errFuc:点‘否’调用的函数
-		   top.layer.confirm(msg, 
+		   topPage.layer.confirm(msg, 
 		     {icon: 3, title:'系统提示', btn: ['是','否'] //按钮
 		     }, function(index){
 		    	 if (typeof succFuc == 'function') {
@@ -105,33 +105,34 @@
 		 			location = succFuc;
 		 			jp.success("操作成功！", {icon:1});
 		 		}
-			     top.layer.close(index);
+			     topPage.layer.close(index);
 			 }, function(index){
 				 if(cancelFuc)
 					 cancelFuc();
-			     top.layer.close(index);
+			     topPage.layer.close(index);
 			 });
 		   
 		   return false;
 	   },
 
         prompt:function (title, href) {
-            var index = top.layer.prompt({title: title, formType: 2}, function(text){
+            var index = topPage.layer.prompt({title: title, formType: 2}, function(text){
                 if (typeof href == 'function') {
                     href(text);
                 }else{
                     location = href + encodeURIComponent(text);
                 }
 
-                top.layer.close(index);
+                topPage.layer.close(index);
             });
 
         },
         //打开一个窗体
         windowOpen:function(url, name, width, height){
-        var top=parseInt((window.screen.height-height)/2,10),left=parseInt((window.screen.width-width)/2,10),
+        	alert("1111");
+        var itop=parseInt((window.screen.height-height)/2,10),ileft=parseInt((window.screen.width-width)/2,10),
             options="location=no,menubar=no,toolbar=no,dependent=yes,minimizable=no,modal=yes,alwaysRaised=yes,"+
-                "resizable=yes,scrollbars=yes,"+"width="+width+",height="+height+",top="+top+",left="+left;
+                "resizable=yes,scrollbars=yes,"+"width="+width+",height="+height+",top="+itop+",left="+ileft;
         window.open(url ,name , options);
    	 },
 
@@ -190,7 +191,7 @@
 				     }
 				   ]
 				 };
-		   top.layer.photos({
+		   topPage.layer.photos({
 			    photos: json
 			    ,anim: 0 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
 			  });
@@ -199,7 +200,7 @@
 	   
 	   /**用户选择框**/
         openUserSelectDialog:function(isMultiSelect, yesFuc){
-            top.layer.open({
+            topPage.layer.open({
                 type: 2,
                 area: ['900px', '560px'],
                 title:"选择用户",
@@ -218,11 +219,11 @@
                     // 执行保存
                     yesFuc(ids.join(","), names.join(","), loginNames.join(","));
 
-                    top.layer.close(index);
+                    topPage.layer.close(index);
                 },
                 cancel: function(index){
                     //取消默认为空，如需要请自行扩展。
-                    top.layer.close(index);
+                    topPage.layer.close(index);
                 }
             });
         },
@@ -232,7 +233,7 @@
             var url = ctx + "/sys/role/data";
             var fieldLabels = "角色名|英文名";
             var fieldKeys = "name|enname";
-            top.layer.open({
+            topPage.layer.open({
                 type: 2,
                 area: ['800px', '500px'],
                 title:"角色选择",
@@ -255,7 +256,7 @@
                         names.push(item.enname)
                     }
                     yesFuc(ids.join(","), names.join(","));
-                    top.layer.close(index);//关闭对话框。
+                    topPage.layer.close(index);//关闭对话框。
                 },
                 cancel: function(index){
                 }
@@ -323,21 +324,21 @@
 	                		jp.info("连接失败，请检查网络!")
 	                	}else if(xhr.status == 404){
 	                		var errDetail ="<font color='red'>404,请求地址不存在！</font>";
-		                	top.layer.alert(errDetail , {
+		                	topPage.layer.alert(errDetail , {
 		                		  icon: 2,
 		                		  area:['auto','auto'],
 		                		  title:"请求出错"
 		                	})
 	                	}else if(xhr.status && xhr.responseText){
                             var errDetail ="<font color='red'>"+ xhr.responseText.replace(/[\r\n]/g,"<br>").replace(/[\r]/g,"<br>").replace(/[\n]/g,"<br>")+"</font>";
-                            top.layer.alert(errDetail , {
+                            topPage.layer.alert(errDetail , {
                                 icon: 2,
                                 area:['80%','70%'],
                                 title:xhr.status+"错误"
                             })
                         }else{
 	                		var errDetail ="<font color='red'>未知错误!</font>";
-		                	top.layer.alert(errDetail , {
+		                	topPage.layer.alert(errDetail , {
 		                		  icon: 2,
 		                		  area:['auto','auto'],
 		                		  title:"真悲剧，后台抛出异常了"
@@ -363,21 +364,21 @@
 	                		jp.info("连接失败，请检查网络!")
 	                	}else if(xhr.status == 404){
 	                		var errDetail ="<font color='red'>404,请求地址不存在！</font>";
-		                	top.layer.alert(errDetail , {
+		                	topPage.layer.alert(errDetail , {
 		                		  icon: 2,
 		                		  area:['auto','auto'],
 		                		  title:"请求出错"
 		                	})
 	                	}else if(xhr.status && xhr.responseText){
                             var errDetail ="<font color='red'>"+ xhr.responseText.replace(/[\r\n]/g,"<br>").replace(/[\r]/g,"<br>").replace(/[\n]/g,"<br>")+"</font>";
-                            top.layer.alert(errDetail , {
+                            topPage.layer.alert(errDetail , {
                                 icon: 2,
                                 area:['80%','70%'],
                                 title:xhr.status+"错误"
                             })
                         }else{
 	                		var errDetail ="<font color='red'>未知错误!</font>";
-		                	top.layer.alert(errDetail , {
+		                	topPage.layer.alert(errDetail , {
 		                		  icon: 2,
 		                		  area:['auto','auto'],
 		                		  title:"真悲剧，后台抛出异常了"
@@ -387,7 +388,7 @@
 	                },
 	                success:function(data,textStatus,jqXHR){
                         if(data.indexOf == "_login_page_"){//返回首页内容代表登录超时
-							top.layer.alert("登录超时！")
+							topPage.layer.alert("登录超时！")
 	                		location.reload(true);   
 	                	}else{
 	                		callback(data);
@@ -425,21 +426,21 @@
                         jp.info("连接失败，请检查网络!")
                     }else if(xhr.status == 404){
                         var errDetail ="<font color='red'>404,请求地址不存在！</font>";
-                        top.layer.alert(errDetail , {
+                        topPage.layer.alert(errDetail , {
                             icon: 2,
                             area:['auto','auto'],
                             title:"请求出错"
                         })
                     }else if(xhr.status && xhr.responseText){
                         var errDetail ="<font color='red'>"+ xhr.responseText.replace(/[\r\n]/g,"<br>").replace(/[\r]/g,"<br>").replace(/[\n]/g,"<br>")+"</font>";
-                        top.layer.alert(errDetail , {
+                        topPage.layer.alert(errDetail , {
                             icon: 2,
                             area:['80%','70%'],
                             title:xhr.status+"错误"
                         })
                     }else{
                         var errDetail ="<font color='red'>未知错误!</font>";
-                        top.layer.alert(errDetail , {
+                        topPage.layer.alert(errDetail , {
                             icon: 2,
                             area:['auto','auto'],
                             title:"真悲剧，后台抛出异常了"
@@ -462,7 +463,7 @@
             if(width.indexOf("%")>=0 || height.indexOf("%")>=0 ){
                 auto =false;
             }
-            top.layer.open({
+            topPage.layer.open({
                 type: 2,
                 area: [width, height],
                 title: title,
@@ -484,7 +485,7 @@
             if(width.indexOf("%")>=0 || height.indexOf("%")>=0 ){
                 auto =false;
             }
-            top.layer.open({
+            topPage.layer.open({
                 type: 2,
                 area: [width, height],
                 title: title,
@@ -504,7 +505,7 @@
         if(width.indexOf("%")>=0 || height.indexOf("%")>=0 ){
         	auto =false;
         }
-          	top.layer.open({
+          	topPage.layer.open({
           	    type: 2,
           	    area: [width, height],
           	    title: title,
@@ -538,7 +539,7 @@
 			window.location.href = url;
         },
 	    openTab:function(url,title, isNew){//isNew 为true时，打开一个新的选项卡；为false时，如果选项卡不存在，打开一个新的选项卡，如果已经存在，使已经存在的选项卡变为活跃状态。
-	    	top.openTab(url,title,isNew);
+	    	topPage.openTab(url,title,isNew);
 	    },
         /**
 		 * Ajax上传文件
@@ -566,21 +567,21 @@
                         jp.info("连接失败，请检查网络!")
                     }else if(xhr.status == 404){
                         var errDetail ="<font color='red'>404,请求地址不存在！</font>";
-                        top.layer.alert(errDetail , {
+                        topPage.layer.alert(errDetail , {
                             icon: 2,
                             area:['auto','auto'],
                             title:"请求出错"
                         })
                     }else if(xhr.status && xhr.responseText){
                         var errDetail ="<font color='red'>"+ xhr.responseText.replace(/[\r\n]/g,"<br>").replace(/[\r]/g,"<br>").replace(/[\n]/g,"<br>")+"</font>";
-                        top.layer.alert(errDetail , {
+                        topPage.layer.alert(errDetail , {
                             icon: 2,
                             area:['80%','70%'],
                             title:xhr.status+"错误"
                         })
                     }else{
                         var errDetail =xhr.responseText=="<font color='red'>未知错误!</font>";
-                        top.layer.alert(errDetail , {
+                        topPage.layer.alert(errDetail , {
                             icon: 2,
                             area:['auto','auto'],
                             title:"真悲剧，后台抛出异常了"
@@ -599,10 +600,10 @@
          * 返回当前活跃的tab页面关联的iframe的Windows对象，方便layer弹窗调用父页面的方法。
          */
         getParent: function () {
-            return top.getActiveTab()[0].contentWindow;
+            return topPage.getActiveTab()[0].contentWindow;
         }
 	}
-
-
+    
+    
 		
 })(jQuery);
