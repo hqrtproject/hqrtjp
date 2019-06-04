@@ -37,9 +37,9 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 	private Integer receivecount;		// 接待量
 	private Integer invalidcount;		// 无效量
 	private Integer chattotaltime;		// 会话总时长
-	private Double chatavgtime;		//会话平均时长
-	private Double firstresponsetimelenavg;	// 首次响应平均时长
-	private Double avgresponsetimelen;		// 响应平均时长
+	private Integer chatavgtime;		//会话平均时长
+	private Integer firstresponsetimelenavg;	// 首次响应平均时长
+	private Integer avgresponsetimelen;		// 响应平均时长
 	private String qaratio;		// 问答比
 	private Integer participationcount;		// 参评量 
 	private String participationrate;		// 参评率
@@ -224,29 +224,29 @@ public class HqrtAgentConfig extends DataEntity<HqrtAgentConfig> {
 	}
 
 	@ExcelField(title="会话平均时长", align=2, sort=14)
-	public Double getChatavgtime() {
+	public Integer getChatavgtime() {
 		return chatavgtime;
 	}
 
-	public void setChatavgtime(Double chatavgtime) {
+	public void setChatavgtime(Integer chatavgtime) {
 		this.chatavgtime = chatavgtime;
 	}
 
 	@ExcelField(title="首次响应平均时长", align=2, sort=15)
-	public Double getFirstresponsetimelenavg() {
+	public Integer getFirstresponsetimelenavg() {
 		return firstresponsetimelenavg;
 	}
 
-	public void setFirstresponsetimelenavg(Double firstresponsetimelenavg) {
+	public void setFirstresponsetimelenavg(Integer firstresponsetimelenavg) {
 		this.firstresponsetimelenavg = firstresponsetimelenavg;
 	}
 
 	@ExcelField(title="响应平均时长", align=2, sort=16)
-	public Double getAvgresponsetimelen() {
+	public Integer getAvgresponsetimelen() {
 		return avgresponsetimelen;
 	}
 
-	public void setAvgresponsetimelen(Double avgresponsetimelen) {
+	public void setAvgresponsetimelen(Integer avgresponsetimelen) {
 		this.avgresponsetimelen = avgresponsetimelen;
 	}
 

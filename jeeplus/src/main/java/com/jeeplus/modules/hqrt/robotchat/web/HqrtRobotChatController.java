@@ -298,7 +298,11 @@ public class HqrtRobotChatController extends BaseController {
 			robotChat.setNotevaluated(notevaluated);
 			robotChat.setFailurefindknowledge(failurefindknowledge);
 			DecimalFormat df = new DecimalFormat("#0.00");
-			robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
+			if (robotChat.getTotalincount() == 0) {
+				robotChat.setConversionrate("0.00%");
+			} else {
+				robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
+			}
 		}
 		Iterator<HqrtRobotChat> it = hqrtRobotChatlist.iterator();
 		List<String> hqrtCmccAreaList = hqrtCmccAreaService.findAllProvineList();
@@ -347,7 +351,11 @@ public class HqrtRobotChatController extends BaseController {
 		for (String key : mapnew.keySet()) {
 			HqrtRobotChat chat = mapnew.get(key);
 			DecimalFormat df = new DecimalFormat("#0.00");
-			chat.setConversionrate(df.format(chat.getConversionvolume()*0.1/chat.getTotalincount()*1000) + "%");
+			if (chat.getTotalincount() == 0) {
+				chat.setConversionrate("0.00%");
+			} else {
+				chat.setConversionrate(df.format(chat.getConversionvolume()*0.1/chat.getTotalincount()*1000) + "%");
+			}
 			hqrtRobotChatlist.add(chat);
 		}
 		for(int i = 0 ; i < hqrtRobotChatlist.size(); i++){
@@ -647,7 +655,11 @@ public class HqrtRobotChatController extends BaseController {
     			robotChat.setNotevaluated(notevaluated);
     			robotChat.setFailurefindknowledge(failurefindknowledge);
     			DecimalFormat df = new DecimalFormat("#0.00");
-    			robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
+    			if (robotChat.getTotalincount() == 0) {
+    				robotChat.setConversionrate("0.00%");
+    			} else {
+    				robotChat.setConversionrate(df.format(robotChat.getConversionvolume()*0.1/robotChat.getTotalincount()*1000) + "%");
+    			}
     		}
     		Iterator<HqrtRobotChat> it = hqrtRobotChatlist.iterator();
     		List<String> hqrtCmccAreaList = hqrtCmccAreaService.findAllProvineList();
@@ -696,7 +708,11 @@ public class HqrtRobotChatController extends BaseController {
     		for (String key : mapnew.keySet()) {
     			HqrtRobotChat chat = mapnew.get(key);
     			DecimalFormat df = new DecimalFormat("#0.00");
-    			chat.setConversionrate(df.format(chat.getConversionvolume()*0.1/chat.getTotalincount()*1000) + "%");
+    			if (chat.getTotalincount() == 0) {
+    				chat.setConversionrate("0.00%");
+    			} else {
+        			chat.setConversionrate(df.format(chat.getConversionvolume()*0.1/chat.getTotalincount()*1000) + "%");
+    			}
     			hqrtRobotChatlist.add(chat);
     		}
     		for(int i = 0 ; i < hqrtRobotChatlist.size(); i++){

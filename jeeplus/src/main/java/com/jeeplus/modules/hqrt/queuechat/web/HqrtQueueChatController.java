@@ -37,7 +37,6 @@ import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChat;
 import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChatdetail;
 import com.jeeplus.modules.hqrt.queuechat.service.HqrtQueueChatService;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
-import com.jeeplus.modules.hqrt.robotchat.entity.HqrtRobotChat;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -207,9 +206,15 @@ public class HqrtQueueChatController extends BaseController {
 				queueChat.setLinupcancelvolume(linupcancelvolume);
 				queueChat.setLinuptimeoutvolume(linuptimeoutvolume);
 				DecimalFormat df = new DecimalFormat("#0.00");
-				queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-				queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-				queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+				if (queueChat.getTotalincount() != 0) {
+					queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+					queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+					queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+				} else {
+					queueChat.setConnectrate("0.00%");
+					queueChat.setCancelrate("0.00%");
+					queueChat.setTimeoutrate("0.00%");
+				}
 			}
 		}
 		Iterator<HqrtQueueChat> it = queryListGroupby.iterator();
@@ -235,10 +240,16 @@ public class HqrtQueueChatController extends BaseController {
 					queueChat.setConversionvolume(queueChat.getConversionvolume() + hqc.getConversionvolume());
 					queueChat.setLinupcancelvolume(queueChat.getLinupcancelvolume() + hqc.getLinupcancelvolume());
 					queueChat.setLinuptimeoutvolume(queueChat.getLinuptimeoutvolume() + hqc.getLinuptimeoutvolume());
-					DecimalFormat df = new DecimalFormat("#0.00"); 
-					queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-					queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-					queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+					DecimalFormat df = new DecimalFormat("#0.00");
+					if (queueChat.getTotalincount() != 0) {
+						queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+						queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+						queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+					} else {
+						queueChat.setConnectrate("0.00%");
+						queueChat.setCancelrate("0.00%");
+						queueChat.setTimeoutrate("0.00%");
+					}
 					mapnew.put(key, queueChat);
 				}
 				// 删除掉存在其他的数据，统计后重新加入
@@ -377,9 +388,15 @@ public class HqrtQueueChatController extends BaseController {
 					queueChat.setLinupcancelvolume(linupcancelvolume);
 					queueChat.setLinuptimeoutvolume(linuptimeoutvolume);
 					DecimalFormat df = new DecimalFormat("#0.00");
-					queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-					queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-					queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+					if (queueChat.getTotalincount() != 0) {
+						queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+						queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+						queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+					} else {
+						queueChat.setConnectrate("0.00%");
+						queueChat.setCancelrate("0.00%");
+						queueChat.setTimeoutrate("0.00%");
+					}
 				}
 			}
 			Iterator<HqrtQueueChat> it = queryListGroupby.iterator();
@@ -406,9 +423,15 @@ public class HqrtQueueChatController extends BaseController {
 						queueChat.setLinupcancelvolume(queueChat.getLinupcancelvolume() + hqc.getLinupcancelvolume());
 						queueChat.setLinuptimeoutvolume(queueChat.getLinuptimeoutvolume() + hqc.getLinuptimeoutvolume());
 						DecimalFormat df = new DecimalFormat("#0.00"); 
-						queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-						queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
-						queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+						if (queueChat.getTotalincount() != 0) {
+							queueChat.setConnectrate(df.format(queueChat.getConversionvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+							queueChat.setCancelrate(df.format(queueChat.getLinupcancelvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+							queueChat.setTimeoutrate(df.format(queueChat.getLinuptimeoutvolume() * 0.1 / queueChat.getTotalincount() * 1000) + "%");
+						} else {
+							queueChat.setConnectrate("0.00%");
+							queueChat.setCancelrate("0.00%");
+							queueChat.setTimeoutrate("0.00%");
+						}
 						mapnew.put(key, queueChat);
 					}
 					// 删除掉存在其他的数据，统计后重新加入

@@ -98,7 +98,7 @@ public class HqrtAgentConfigController extends BaseController {
 		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
 			queueNameList.add(hqrtQueueConfig.getQueuename());
 		}
-		String sql = "SELECT a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',IFNULL(b.TimeLen,0) AS timelenlogin,IFNULL(b.TimeLen,0)-IFNULL(c.TimeLen,0) AS timelenonline,IFNULL(c.TimeLen,0) AS timelendnd,IFNULL(d.TimeLen,0) AS timelenwork,IFNULL(b.TimeLen,0)-IFNULL(c.TimeLen,0)-IFNULL(d.TimeLen,0) AS timelenfree,IFNULL(e.advicecount,0) AS advicecount,IFNULL(e.receivecount,0) AS receivecount,IFNULL(e.invalidcount,0) AS invalidcount,IFNULL(e.chattotaltime,0) AS chattotaltime,IFNULL(e.chatavgtime,0) AS chatavgtime,IFNULL(e.firstresponsetimelenavg,0) AS firstresponsetimelenavg,IFNULL(e.avgresponsetimelen,0) AS avgresponsetimelen,CONCAT(FORMAT(IFNULL(e.qaratio,0)*100,2),'%') AS qaratio,IFNULL(e.participationcount,0) AS participationcount,CONCAT(case when e.advicecount is null then 0.00 else FORMAT((IFNULL(e.participationcount,0)/e.advicecount)*100,2) end ,'%') AS participationrate,IFNULL(e.avgstarcount,0) AS avgstarcount,IFNULL(e.onestarcount,0) AS onestarcount,IFNULL(e.twostarcount,0) AS twostarcount,IFNULL(e.threestarcount,0) AS threestarcount,IFNULL(e.fourstarcount,0) AS fourstarcount,IFNULL(e.fivestarcount,0) AS fivestarcount,IFNULL(e.customermessagecount,0) AS customermessagecount,IFNULL(e.agentmessagecount,0) AS agentmessagecount FROM hqrt_agent_config a LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_login WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS b ON a.AgentID = b.AgentID LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_dnd WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS c ON a.AgentID = c.AgentID LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_work WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS d ON a.AgentID = d.AgentID LEFT JOIN (select AgentID,COUNT(1) AS advicecount,SUM(IFNULL(TimeLen,0)) AS chattotaltime,FORMAT(AVG(IFNULL(TimeLen,0)),2) AS chatavgtime,FORMAT(AVG(IFNULL(FirstResponseTimeLen,0)),2) AS firstresponsetimelenavg,FORMAT(AVG(IFNULL(AvgResponseTimeLen,0)),2) AS avgresponsetimelen,FORMAT(SUM(IFNULL(CustomerMessageCount,0))/SUM(IFNULL(AgentMessageCount,0)),2) AS qaratio,FORMAT(AVG(IFNULL(EvaluateStar,0)),2) AS avgstarcount,SUM(case when IsValid = '1' then 1 else 0 end) AS receivecount,SUM(case when IsValid = '0' then 1 else 0 end) AS invalidcount,SUM(case when EvaluateStar != '0' then 1 else 0 end) AS participationcount,SUM(case when EvaluateStar = '1' then 1 else 0 end) AS onestarcount,SUM(case when EvaluateStar = '2' then 1 else 0 end) AS twostarcount,SUM(case when EvaluateStar = '3' then 1 else 0 end) AS threestarcount,SUM(case when EvaluateStar = '4' then 1 else 0 end) AS fourstarcount,SUM(case when EvaluateStar = '5' then 1 else 0 end) AS fivestarcount,SUM(IFNULL(CustomerMessageCount,0)) AS customermessagecount,SUM(IFNULL(AgentMessageCount,0)) AS agentmessagecount from hqrt_agent_chat WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS e ON a.AgentID = e.AgentID ";
+		String sql = "SELECT a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename',IFNULL(b.TimeLen,0) AS timelenlogin,IFNULL(b.TimeLen,0)-IFNULL(c.TimeLen,0) AS timelenonline,IFNULL(c.TimeLen,0) AS timelendnd,IFNULL(d.TimeLen,0) AS timelenwork,IFNULL(b.TimeLen,0)-IFNULL(c.TimeLen,0)-IFNULL(d.TimeLen,0) AS timelenfree,IFNULL(e.advicecount,0) AS advicecount,IFNULL(e.receivecount,0) AS receivecount,IFNULL(e.invalidcount,0) AS invalidcount,IFNULL(e.chattotaltime,0) AS chattotaltime,IFNULL(e.chatavgtime,0) AS chatavgtime,IFNULL(e.firstresponsetimelenavg,0) AS firstresponsetimelenavg,IFNULL(e.avgresponsetimelen,0) AS avgresponsetimelen,CONCAT(FORMAT(IFNULL(e.qaratio,0)*100,2),'%') AS qaratio,IFNULL(e.participationcount,0) AS participationcount,CONCAT(case when e.advicecount is null then 0.00 else FORMAT((IFNULL(e.participationcount,0)/e.advicecount)*100,2) end ,'%') AS participationrate,IFNULL(e.avgstarcount,0) AS avgstarcount,IFNULL(e.onestarcount,0) AS onestarcount,IFNULL(e.twostarcount,0) AS twostarcount,IFNULL(e.threestarcount,0) AS threestarcount,IFNULL(e.fourstarcount,0) AS fourstarcount,IFNULL(e.fivestarcount,0) AS fivestarcount,IFNULL(e.customermessagecount,0) AS customermessagecount,IFNULL(e.agentmessagecount,0) AS agentmessagecount FROM hqrt_agent_config a LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_login WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS b ON a.AgentID = b.AgentID LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_dnd WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS c ON a.AgentID = c.AgentID LEFT JOIN (select AgentID,SUM(IFNULL(TimeLen,0)) AS TimeLen from  hqrt_agent_work WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS d ON a.AgentID = d.AgentID LEFT JOIN (select AgentID,COUNT(1) AS advicecount,SUM(IFNULL(TimeLen,0)) AS chattotaltime,AVG(IFNULL(TimeLen,0)) AS chatavgtime,AVG(IFNULL(FirstResponseTimeLen,0)) AS firstresponsetimelenavg,AVG(IFNULL(AvgResponseTimeLen,0)) AS avgresponsetimelen,FORMAT(SUM(IFNULL(CustomerMessageCount,0))/SUM(IFNULL(AgentMessageCount,0)),2) AS qaratio,FORMAT(AVG(IFNULL(EvaluateStar,0)),2) AS avgstarcount,SUM(case when IsValid = '1' then 1 else 0 end) AS receivecount,SUM(case when IsValid = '0' then 1 else 0 end) AS invalidcount,SUM(case when EvaluateStar != '0' then 1 else 0 end) AS participationcount,SUM(case when EvaluateStar = '1' then 1 else 0 end) AS onestarcount,SUM(case when EvaluateStar = '2' then 1 else 0 end) AS twostarcount,SUM(case when EvaluateStar = '3' then 1 else 0 end) AS threestarcount,SUM(case when EvaluateStar = '4' then 1 else 0 end) AS fourstarcount,SUM(case when EvaluateStar = '5' then 1 else 0 end) AS fivestarcount,SUM(IFNULL(CustomerMessageCount,0)) AS customermessagecount,SUM(IFNULL(AgentMessageCount,0)) AS agentmessagecount from hqrt_agent_chat WHERE StartDateTime BETWEEN ? AND ? GROUP BY AgentID) AS e ON a.AgentID = e.AgentID ";
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
         if (StringUtils.isNotBlank(hqrtAgentConfig.getQueuename())) {
@@ -180,13 +180,13 @@ public class HqrtAgentConfigController extends BaseController {
 					agentChat.setInvalidcount(agentChat.getInvalidcount() + hac.getInvalidcount());
 					agentChat.setChattotaltime(agentChat.getChattotaltime() + hac.getChattotaltime());
 					if (agentChat.getAdvicecount() + hac.getAdvicecount() != 0) {
-						agentChat.setChatavgtime(Double.valueOf(df.format((agentChat.getChatavgtime()*agentChat.getAdvicecount() + hac.getChatavgtime()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
-						agentChat.setFirstresponsetimelenavg(Double.valueOf(df.format((agentChat.getFirstresponsetimelenavg()*agentChat.getAdvicecount() + hac.getFirstresponsetimelenavg()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
-						agentChat.setAvgresponsetimelen(Double.valueOf(df.format((agentChat.getAvgresponsetimelen()*agentChat.getAdvicecount() + hac.getAvgresponsetimelen()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+						agentChat.setChatavgtime(Integer.valueOf(df.format((agentChat.getChatavgtime()*agentChat.getAdvicecount() + hac.getChatavgtime()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+						agentChat.setFirstresponsetimelenavg(Integer.valueOf(df.format((agentChat.getFirstresponsetimelenavg()*agentChat.getAdvicecount() + hac.getFirstresponsetimelenavg()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+						agentChat.setAvgresponsetimelen(Integer.valueOf(df.format((agentChat.getAvgresponsetimelen()*agentChat.getAdvicecount() + hac.getAvgresponsetimelen()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
 					} else {
-						agentChat.setChatavgtime(0.0);
-						agentChat.setFirstresponsetimelenavg(0.0);
-						agentChat.setAvgresponsetimelen(0.0);
+						agentChat.setChatavgtime(0);
+						agentChat.setFirstresponsetimelenavg(0);
+						agentChat.setAvgresponsetimelen(0);
 					}
 					agentChat.setCustomermessagecount(agentChat.getCustomermessagecount() + hac.getCustomermessagecount());
 					agentChat.setAgentmessagecount(agentChat.getAgentmessagecount() + hac.getAgentmessagecount());
@@ -436,14 +436,32 @@ public class HqrtAgentConfigController extends BaseController {
     					agentChat.setReceivecount(agentChat.getReceivecount() + hac.getReceivecount());
     					agentChat.setInvalidcount(agentChat.getInvalidcount() + hac.getInvalidcount());
     					agentChat.setChattotaltime(agentChat.getChattotaltime() + hac.getChattotaltime());
-    					agentChat.setChatavgtime(Double.valueOf(df.format((agentChat.getChatavgtime()*agentChat.getAdvicecount() + hac.getChatavgtime()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
-    					agentChat.setFirstresponsetimelenavg(Double.valueOf(df.format((agentChat.getFirstresponsetimelenavg()*agentChat.getAdvicecount() + hac.getFirstresponsetimelenavg()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
-    					agentChat.setAvgresponsetimelen(Double.valueOf(df.format((agentChat.getAvgresponsetimelen()*agentChat.getAdvicecount() + hac.getAvgresponsetimelen()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+    					if (agentChat.getAdvicecount() + hac.getAdvicecount() != 0) {
+    						agentChat.setChatavgtime(Integer.valueOf(df.format((agentChat.getChatavgtime()*agentChat.getAdvicecount() + hac.getChatavgtime()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+    						agentChat.setFirstresponsetimelenavg(Integer.valueOf(df.format((agentChat.getFirstresponsetimelenavg()*agentChat.getAdvicecount() + hac.getFirstresponsetimelenavg()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+    						agentChat.setAvgresponsetimelen(Integer.valueOf(df.format((agentChat.getAvgresponsetimelen()*agentChat.getAdvicecount() + hac.getAvgresponsetimelen()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+    					} else {
+    						agentChat.setChatavgtime(0);
+    						agentChat.setFirstresponsetimelenavg(0);
+    						agentChat.setAvgresponsetimelen(0);
+    					}
     					agentChat.setCustomermessagecount(agentChat.getCustomermessagecount() + hac.getCustomermessagecount());
     					agentChat.setAgentmessagecount(agentChat.getAgentmessagecount() + hac.getAgentmessagecount());
-    					agentChat.setQaratio(df.format(agentChat.getCustomermessagecount()*0.1/agentChat.getAgentmessagecount()*1000) + "%");
+    					if (agentChat.getAgentmessagecount() != 0) {
+    						agentChat.setQaratio(df.format(agentChat.getCustomermessagecount()*0.1/agentChat.getAgentmessagecount()*1000) + "%");
+    					} else if (agentChat.getCustomermessagecount() != 0) {
+    						agentChat.setQaratio("100.00%");
+    					} else {
+    						agentChat.setQaratio("0.00%");
+    					}
     					agentChat.setParticipationcount(agentChat.getParticipationcount() + hac.getParticipationcount());
-    					agentChat.setParticipationrate(df.format(agentChat.getParticipationcount()*0.1/agentChat.getAdvicecount()*1000) + "%");
+    					if (agentChat.getAdvicecount() != 0) {
+    						agentChat.setParticipationrate(df.format(agentChat.getParticipationcount()*0.1/agentChat.getAdvicecount()*1000) + "%");
+    					} else if (agentChat.getParticipationcount() != 0) {
+    						agentChat.setQaratio("100.00%");
+    					} else {
+    						agentChat.setQaratio("0.00%");
+    					}
     					agentChat.setOnestarcount(agentChat.getOnestarcount() + hac.getOnestarcount());
     					agentChat.setTwostarcount(agentChat.getTwostarcount() + hac.getTwostarcount());
     					agentChat.setThreestarcount(agentChat.getThreestarcount() + hac.getThreestarcount());
