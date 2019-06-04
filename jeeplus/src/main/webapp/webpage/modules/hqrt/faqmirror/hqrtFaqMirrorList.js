@@ -116,10 +116,10 @@ $(document).ready(function() {
 		       
 		    }
 			,{
-		        field: 'faqcreaterid',
+		        field: 'faqcreatername',
 		        title: '知识创建人',
 		        sortable: false,
-		        sortName: 'faqcreaterid'
+		        sortName: 'faqcreatername'
 		       
 		    }
 			,{

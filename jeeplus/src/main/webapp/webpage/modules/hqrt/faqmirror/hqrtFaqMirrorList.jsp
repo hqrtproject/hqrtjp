@@ -141,7 +141,7 @@
 						<div class="col-xs-12 col-sm-6 col-md-4" style="height:44px;width: 500px">
 				 	<div class="form-group">
 						<div class="col-xs-12">
-							<label class="label-item single-overflow pull-left" title="进线时间：" style="margin-top: 3px"><font size="4">进线时间：</font>&nbsp;&nbsp;</label>
+							<label class="label-item single-overflow pull-left" title="进线时间：" style="margin-top: 3px"><font size="4">&nbsp;&nbsp;&nbsp;进线时间：</font>&nbsp;&nbsp;</label>
 					    	<div class="col-xs-12 col-sm-4">
 								<div class="layui-input-inline">
 									<input type="text" class="layui-input" id="starttime" name="starttime" style="height: 34px; border-radius: 6px; width: 150px">
@@ -150,33 +150,43 @@
 				        <div class="col-xs-12 col-sm-1" style="width: 25px; margin-top: 8px">~</div>
 				        <div class="col-xs-12 col-sm-4">
 				        	<div class="layui-input-inline">
-								<input type="text" class="layui-input" id="endtime" name="endtime" style="height: 34px; border-radius: 6px; width: 150px">
+								<input type="text" class="layui-input" id="endtime" name="endttime" style="height: 34px; border-radius: 6px; width: 150px">
 							</div>
 					     </div>
 					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-5"style="height:44px;width: 500px">
-				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="faqrootID" class="easyui-combotree" data-options="" style="height:34px;width:340px">
+				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">&nbsp;&nbsp;&nbsp;业务系统：</font>&nbsp;&nbsp;&nbsp;</label>
+				<input id="faqrootID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:340px">
 				<form:hidden path="faqroot"/>
 			</div>
+			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
+				<label class="label-item single-overflow pull-left" title="知识创建人" style="margin-top: 4px"><font size="4">知识创建人：</font>&nbsp;&nbsp;</label>
+				<form:input path="faqcreatername" htmlEscape="false"
+					maxlength="50" class=" form-control"
+					style="width:340px;border-radius: 6px;" />
+			</div>
 			<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
-					<label class="label-item single-overflow pull-left" title="知识创建人：" style="margin-top: 3px"><font size="4">知识创建人：</font>&nbsp;&nbsp;&nbsp;</label>
-					<input id="faqcreaterID" class="easyui-combotree" data-options="" style="height: 34px; width: 340px">
-					<form:hidden path="faqcreaterid" />
-				</div> 
-			<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
-					<label class="label-item single-overflow pull-left" title="知识模块：" style="margin-top: 3px"><font size="4">知识模块：</font>&nbsp;&nbsp;&nbsp;</label>
+					<label class="label-item single-overflow pull-left" title="知识模块：" style="margin-top: 3px"><font size="4">&nbsp;&nbsp;&nbsp;知识模块：</font>&nbsp;&nbsp;&nbsp;</label>
 					<input id="faqmodelID" class="easyui-combotree" data-options="" style="height: 34px; width: 340px">
 					<form:hidden path="faqmodel" />
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
-				<label class="label-item single-overflow pull-left" title="知识编号" style="margin-top: 4px"><font size="4">知识编号：</font>&nbsp;&nbsp;&nbsp;</label>
+				<label class="label-item single-overflow pull-left" title="知识编号" style="margin-top: 4px"><font size="4">&nbsp;&nbsp;&nbsp;知识编号：</font>&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="faqserialno" htmlEscape="false"
 					maxlength="50" class=" form-control"
 					style="width:340px;border-radius: 6px;" />
 			</div>
+			<div class="col-xs-12 col-sm-6 col-md-5" style="height: 44px; width: 500px">
+								<label class="label-item single-overflow pull-left"
+									title="知识状态：" style="margin-top: 4px"><font size="4">&nbsp;&nbsp;&nbsp;知识状态：</font>&nbsp;&nbsp;&nbsp;</label>
+								<form:select path="faqstatuno" class="form-control" style="width:340px;border-radius: 6px;">
+									<option value="">请选择...</option>
+									<form:options items="${fns:getDictList('faqstatuno')}"
+										itemLabel="label" itemValue="value" htmlEscape="false" />
+								</form:select>
+							</div>
 			<div class="">
 				<div
 					style="margin-top: 26px; width: 150px; height: 34px; float: right">
@@ -190,39 +200,6 @@
 	</form:form>
 	</div>
 	</div>
-	
-	<!-- 工具栏 -->
-	<div id="toolbar">
-			<shiro:hasPermission name="hqrt:faqmirror:hqrtFaqMirror:add">
-				<button id="add" class="btn btn-primary" onclick="add()">
-					<i class="glyphicon glyphicon-plus"></i> 新建
-				</button>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="hqrt:faqmirror:hqrtFaqMirror:edit">
-			    <button id="edit" class="btn btn-success" disabled onclick="edit()">
-	            	<i class="glyphicon glyphicon-edit"></i> 修改
-	        	</button>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="hqrt:faqmirror:hqrtFaqMirror:del">
-				<button id="remove" class="btn btn-danger" disabled onclick="deleteAll()">
-	            	<i class="glyphicon glyphicon-remove"></i> 删除
-	        	</button>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="hqrt:faqmirror:hqrtFaqMirror:import">
-				<button id="btnImport" class="btn btn-info"><i class="fa fa-folder-open-o"></i> 导入</button>
-			</shiro:hasPermission>
-			<shiro:hasPermission name="hqrt:faqmirror:hqrtFaqMirror:export">
-	        		<button id="export" class="btn btn-warning">
-					<i class="fa fa-file-excel-o"></i> 导出
-				</button>
-			 </shiro:hasPermission>
-	                 <shiro:hasPermission name="hqrt:faqmirror:hqrtFaqMirror:view">
-				<button id="view" class="btn btn-default" disabled onclick="view()">
-					<i class="fa fa-search-plus"></i> 查看
-				</button>
-			</shiro:hasPermission>
-		    </div>
-		
 	<!-- 表格 -->
 	<table id="hqrtFaqMirrorTable"   data-toolbar="#toolbar"></table>
 

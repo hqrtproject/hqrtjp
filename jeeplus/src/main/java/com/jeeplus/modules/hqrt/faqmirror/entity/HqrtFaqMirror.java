@@ -5,6 +5,9 @@ package com.jeeplus.modules.hqrt.faqmirror.entity;
 
 
 import com.jeeplus.core.persistence.DataEntity;
+
+import java.util.Date;
+
 import com.jeeplus.common.utils.excel.annotation.ExcelField;
 
 /**
@@ -28,9 +31,13 @@ public class HqrtFaqMirror extends DataEntity<HqrtFaqMirror> {
 	private String faqstatuno;		// 知识状态编号：2待审批，3审批中，4审批通过，5审批退回
 	private String faqstatudesc;		// 知识状态编号：2待审批，3审批中，4审批通过，5审批退回
 	private String faqapprovorid;		// 审批人标识
-	private String faqapprovortime;		// faqapprovortime
+	private String faqapprovortime;		// 审批时间
 	private String faqapprovortimelen;		// 审批时长(单位：秒)
 	private Integer ordernumber; // 序号
+	
+	// 过滤的开始结束时间
+	private Date starttime;
+	private Date endttime;
 	
 	public HqrtFaqMirror() {
 		super();
@@ -101,7 +108,6 @@ public class HqrtFaqMirror extends DataEntity<HqrtFaqMirror> {
 		this.faqtitle = faqtitle;
 	}
 	
-	@ExcelField(title="知识创建人", align=2, sort=11)
 	public String getFaqcreaterid() {
 		return faqcreaterid;
 	}
@@ -110,6 +116,7 @@ public class HqrtFaqMirror extends DataEntity<HqrtFaqMirror> {
 		this.faqcreaterid = faqcreaterid;
 	}
 	
+	@ExcelField(title="知识创建人", align=2, sort=11)
 	public String getFaqcreatername() {
 		return faqcreatername;
 	}
@@ -177,4 +184,21 @@ public class HqrtFaqMirror extends DataEntity<HqrtFaqMirror> {
 	public void setOrdernumber(Integer ordernumber) {
 		this.ordernumber = ordernumber;
 	}
+	
+	public Date getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+
+	public Date getEndttime() {
+		return endttime;
+	}
+
+	public void setEndttime(Date endttime) {
+		this.endttime = endttime;
+	}
+
 }
