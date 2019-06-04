@@ -34,6 +34,7 @@ import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
 import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
+import com.jeeplus.modules.hqrt.agentconfig.entity.HqrtAgentConfig;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.hqrt.queueconfig.service.HqrtQueueConfigService;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
@@ -108,6 +109,51 @@ public class HqrtQueueConfigController extends BaseController {
 		map.put("id", id);
 		map.put("text", "其他");
 		mapList.add(map);
+		return mapList;
+	}
+	
+	/**
+	 * 坐席配置列表数据
+	 */
+	@ResponseBody
+	@RequestMapping(value = "cascadeAgent")
+	public List<Map<String, Object>> cascadeAgent(HqrtQueueConfig hqrtQueueConfig, HttpServletRequest request, HttpServletResponse response, Model model) {
+		String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.agentid AS 'agentid',a.agentname AS 'agentname',a.agentmobile AS 'agentmobile',a.agentprovince AS 'agentprovince',a.queueid AS 'queueid',a.queuecode AS 'queuecode',a.queuename AS 'queuename' FROM hqrt_agent_config a";
+		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
+		List<HqrtAgentConfig> queryList = md.queryList(sql, HqrtAgentConfig.class);
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+		int id = 1;
+		while(queryList.size() > 0) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<Map<String, Object>> mapListChild = new ArrayList<Map<String, Object>>();
+			int idChildBase = 1;
+			Iterator<HqrtAgentConfig> it = queryList.iterator();
+			while(it.hasNext()){
+				HqrtAgentConfig config = it.next();
+				if (!hqrtQueueConfig.getQueuename().contains(config.getQueuename())) {
+					it.remove();
+					continue;
+				}
+				Map<String, Object> mapChild = new HashMap<String, Object>();
+				if (map.get("text") != null && map.get("text").equals(config.getQueuename())) {
+					mapChild.put("id", id*10+idChildBase);
+					mapChild.put("text", config.getAgentname() + "(" + config.getAgentid() + ")");
+					mapListChild.add(mapChild);
+					it.remove();
+				} else if (map.get("text") == null) {
+					map.put("id", id);
+					map.put("text", config.getQueuename());
+					mapChild.put("id", id*10+idChildBase);
+					mapChild.put("text", config.getAgentname() + "(" + config.getAgentid() + ")");
+					mapListChild.add(mapChild);
+					it.remove();
+				}
+				idChildBase++;
+			}
+			map.put("children", mapListChild);
+			id++;
+			mapList.add(map);
+		}
 		return mapList;
 	}
 

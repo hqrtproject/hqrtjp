@@ -179,14 +179,32 @@ public class HqrtAgentConfigController extends BaseController {
 					agentChat.setReceivecount(agentChat.getReceivecount() + hac.getReceivecount());
 					agentChat.setInvalidcount(agentChat.getInvalidcount() + hac.getInvalidcount());
 					agentChat.setChattotaltime(agentChat.getChattotaltime() + hac.getChattotaltime());
-					agentChat.setChatavgtime(Double.valueOf(df.format((agentChat.getChatavgtime()*agentChat.getAdvicecount() + hac.getChatavgtime()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
-					agentChat.setFirstresponsetimelenavg(Double.valueOf(df.format((agentChat.getFirstresponsetimelenavg()*agentChat.getAdvicecount() + hac.getFirstresponsetimelenavg()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
-					agentChat.setAvgresponsetimelen(Double.valueOf(df.format((agentChat.getAvgresponsetimelen()*agentChat.getAdvicecount() + hac.getAvgresponsetimelen()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+					if (agentChat.getAdvicecount() + hac.getAdvicecount() != 0) {
+						agentChat.setChatavgtime(Double.valueOf(df.format((agentChat.getChatavgtime()*agentChat.getAdvicecount() + hac.getChatavgtime()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+						agentChat.setFirstresponsetimelenavg(Double.valueOf(df.format((agentChat.getFirstresponsetimelenavg()*agentChat.getAdvicecount() + hac.getFirstresponsetimelenavg()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+						agentChat.setAvgresponsetimelen(Double.valueOf(df.format((agentChat.getAvgresponsetimelen()*agentChat.getAdvicecount() + hac.getAvgresponsetimelen()*hac.getAdvicecount())/(agentChat.getAdvicecount() + hac.getAdvicecount()))));
+					} else {
+						agentChat.setChatavgtime(0.0);
+						agentChat.setFirstresponsetimelenavg(0.0);
+						agentChat.setAvgresponsetimelen(0.0);
+					}
 					agentChat.setCustomermessagecount(agentChat.getCustomermessagecount() + hac.getCustomermessagecount());
 					agentChat.setAgentmessagecount(agentChat.getAgentmessagecount() + hac.getAgentmessagecount());
-					agentChat.setQaratio(df.format(agentChat.getCustomermessagecount()*0.1/agentChat.getAgentmessagecount()*1000) + "%");
+					if (agentChat.getAgentmessagecount() != 0) {
+						agentChat.setQaratio(df.format(agentChat.getCustomermessagecount()*0.1/agentChat.getAgentmessagecount()*1000) + "%");
+					} else if (agentChat.getCustomermessagecount() != 0) {
+						agentChat.setQaratio("100.00%");
+					} else {
+						agentChat.setQaratio("0.00%");
+					}
 					agentChat.setParticipationcount(agentChat.getParticipationcount() + hac.getParticipationcount());
-					agentChat.setParticipationrate(df.format(agentChat.getParticipationcount()*0.1/agentChat.getAdvicecount()*1000) + "%");
+					if (agentChat.getAdvicecount() != 0) {
+						agentChat.setParticipationrate(df.format(agentChat.getParticipationcount()*0.1/agentChat.getAdvicecount()*1000) + "%");
+					} else if (agentChat.getParticipationcount() != 0) {
+						agentChat.setQaratio("100.00%");
+					} else {
+						agentChat.setQaratio("0.00%");
+					}
 					agentChat.setOnestarcount(agentChat.getOnestarcount() + hac.getOnestarcount());
 					agentChat.setTwostarcount(agentChat.getTwostarcount() + hac.getTwostarcount());
 					agentChat.setThreestarcount(agentChat.getThreestarcount() + hac.getThreestarcount());

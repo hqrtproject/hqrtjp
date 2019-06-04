@@ -34,6 +34,13 @@
 					});
 					// console.log(logicNodeValue);
 					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#agentID').combotree({
+						reload: true,
+						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#queuename").val(),
+						required: true,
+						multiple : true,
+						prompt : '请选择...'
+					});
 				},
 				onCheck : function(node, checked) {
 					//选择故障模式，文本框只显示子节点，不显示父节点
@@ -50,6 +57,13 @@
 					// console.log(logicNodeValue);
 					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
 					$('#queuename').val(logicNodeValue);// 给查询字段赋值
+					$('#agentID').combotree({
+						reload: true,
+						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#queuename").val(),
+						required: true,
+						multiple : true,
+						prompt : '请选择...'
+					});
 				}
 			});
 			$('#agentID').combotree({
@@ -128,10 +142,9 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-5" style="height: 44px;width: 500px">
-					<label class="label-item single-overflow pull-left"
-						title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+					<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 					<input id="queuenameID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height: 34px; width: 340px">
-					<form:hidden path="queuename" />
+					<form:hidden path="queuename"/>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
 					<label class="label-item single-overflow pull-left" title="坐席工号：" style="margin-top: 3px"><font size="4">坐席工号：</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
