@@ -35,6 +35,13 @@
 					});
 					// console.log(logicNodeValue);
 					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#agentID').combotree({
+						reload: true,
+						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#exqueuename").val(),
+						required: true,
+						multiple : true,
+						prompt : '请选择...'
+					});
 				},
 				onCheck:function(node, checked){
 					//选择故障模式，文本框只显示子节点，不显示父节点
@@ -51,6 +58,13 @@
 					// console.log(logicNodeValue);
 					$('#queuenameID').combotree('setText', logicNodeValue);// 给文本框赋值
 					$('#exqueuename').val(logicNodeValue);// 给查询字段赋值
+					$('#agentID').combotree({
+						reload: true,
+						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#exqueuename").val(),
+						required: true,
+						multiple : true,
+						prompt : '请选择...'
+					});
 				}
 			});
 
