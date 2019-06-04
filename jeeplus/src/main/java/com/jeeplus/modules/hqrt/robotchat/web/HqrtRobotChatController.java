@@ -463,11 +463,10 @@ public class HqrtRobotChatController extends BaseController {
 		}
 		Page<HqrtRobotChatForDetails> page = new Page<HqrtRobotChatForDetails>(request, response);
 		hqrtRobotChatDetails.setPage(page);
-        String selectcountsql = sql + sqlcondition;
 		sql += sqlcondition + "ORDER BY a.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
 		List<HqrtRobotChatForDetails> hqrtRobotChatDetailslist = md.queryList(sql, HqrtRobotChatForDetails.class, paramList.toArray());
-		List<HqrtRobotChatForDetails> allHqrtRobotChatDetailslist = md.queryList(selectcountsql, HqrtRobotChatForDetails.class, paramList.toArray());
-		page.setCount(allHqrtRobotChatDetailslist.size());
+		List<HqrtRobotChatdetails> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_robot_chatdetails a" + sqlcondition, HqrtRobotChatdetails.class, paramList.toArray());
+		page.setCount(allDetailslList.get(0).getOrdernumber());
 		for (int i = 0; i < hqrtRobotChatDetailslist.size(); i++) {
 			hqrtRobotChatDetailslist.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
 		}

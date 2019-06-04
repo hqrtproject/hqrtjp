@@ -84,6 +84,8 @@ $(document).ready(function() {
 		        field: 'ordernumber',
 		        title: '序号',
 		        sortable: false,
+		        align:'center',
+		        width:'40px',
 		        sortName: 'ordernumber'
 		       
 		    }
@@ -126,6 +128,8 @@ $(document).ready(function() {
 		        field: 'faqcreatedatetime',
 		        title: '创建时间',
 		        sortable: false,
+		        align:'center',
+		        width:'150px',
 		        sortName: 'faqcreatedatetime'
 		       
 		    }
@@ -139,18 +143,22 @@ $(document).ready(function() {
 		        field: 'faqapprovortime',
 		        title: '审核时间',
 		        sortable: false,
+		        align:'center',
+		        width:'150px',
 		        sortName: 'faqapprovortime'
 		       
 		    },{
 		        field: 'faqapprovortimelen',
 		        title: '发布时间',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'faqapprovortimelen'
 		       
 		    },{
 		        field: 'faqapprovortimelen',
 		        title: '驳回时间',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'faqapprovortimelen'
 		       
 		    }

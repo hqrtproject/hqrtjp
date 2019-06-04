@@ -37,6 +37,7 @@ import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChat;
 import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChatdetail;
 import com.jeeplus.modules.hqrt.queuechat.service.HqrtQueueChatService;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
+import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -547,15 +548,14 @@ public class HqrtQueueChatController extends BaseController {
 			sqlcondition = " WHERE" + sqlcondition;
 		}
 		Page<HqrtQueueChatdetail> page = new Page<HqrtQueueChatdetail>(request, response);
-		String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + "ORDER BY a.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtQueueChatdetail> detailsList = md.queryList(sql, HqrtQueueChatdetail.class, paramList.toArray());
-        List<HqrtQueueChatdetail> allDetailslList = md.queryList(selectcountsql, HqrtQueueChatdetail.class, paramList.toArray());
+        List<HqrtQueueChatdetail> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_queue_chat a" + sqlcondition, HqrtQueueChatdetail.class, paramList.toArray());
+		page.setCount(allDetailslList.get(0).getOrdernumber());
     	for(int i = 0 ; i < detailsList.size(); i++){
     		detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
     	}
-        page.setCount(allDetailslList.size());
 		hqrtQueueChatdetail.setPage(page);
 		page.setList(detailsList);
 		return getBootstrapData(page);

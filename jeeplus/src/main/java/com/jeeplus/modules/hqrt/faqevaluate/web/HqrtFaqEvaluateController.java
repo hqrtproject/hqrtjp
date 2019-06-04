@@ -34,6 +34,7 @@ import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
 import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
+import com.jeeplus.modules.hqrt.agentlogin.entity.HqrtAgentLogin;
 import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
 import com.jeeplus.modules.hqrt.faqevaluate.entity.HqrtFaqEvaluate;
 import com.jeeplus.modules.hqrt.faqevaluate.entity.HqrtFaqEvaluateReport;
@@ -192,11 +193,11 @@ public class HqrtFaqEvaluateController extends BaseController {
 			sqlcondition = " WHERE" + sqlcondition;
 		}
 		Page<HqrtFaqEvaluate> page = new Page<HqrtFaqEvaluate>(request, response);
-		String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqEvaluate> detailsList = md.queryList(sql, HqrtFaqEvaluate.class, paramList.toArray());
-        List<HqrtFaqEvaluate> allDetailslList = md.queryList(selectcountsql, HqrtFaqEvaluate.class, paramList.toArray());
+        List<HqrtFaqEvaluate> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_faq_evaluate a" + sqlcondition, HqrtFaqEvaluate.class, paramList.toArray());
+		page.setCount(allDetailslList.get(0).getOrdernumber());
     	for(int i = 0 ; i < detailsList.size(); i++){
     		detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
     	}
@@ -215,7 +216,6 @@ public class HqrtFaqEvaluateController extends BaseController {
 				faqEvaluate.setEvaluatestar("五星");
 			}
     	}
-        page.setCount(allDetailslList.size());
         hqrtFaqEvaluate.setPage(page);
 		page.setList(detailsList);
 		return getBootstrapData(page);

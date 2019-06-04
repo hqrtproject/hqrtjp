@@ -29,6 +29,7 @@ import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
+import com.jeeplus.modules.hqrt.agentdnd.entity.HqrtAgentDnd;
 import com.jeeplus.modules.hqrt.agentlogin.entity.HqrtAgentLogin;
 import com.jeeplus.modules.hqrt.agentlogin.service.HqrtAgentLoginService;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
@@ -140,16 +141,15 @@ public class HqrtAgentLoginController extends BaseController {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
         	sqlcondition  = " where" + sqlcondition;
         }
-        String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtAgentLogin> detailsList = md.queryList(sql, HqrtAgentLogin.class, paramList.toArray());
-        List<HqrtAgentLogin> allDetailslList = md.queryList(selectcountsql, HqrtAgentLogin.class, paramList.toArray());
+    	List<HqrtAgentLogin> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_agent_login a" + sqlcondition, HqrtAgentLogin.class, paramList.toArray());
+		page.setCount(allDetailslList.get(0).getOrdernumber());
         for(int i = 0 ; i < detailsList.size(); i++){
         	detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
     	}
 		page.setList(detailsList);
-		page.setCount(allDetailslList.size());
 		return getBootstrapData(page);
 		/*Page<HqrtAgentLogin> page = hqrtAgentLoginService.findPage(new Page<HqrtAgentLogin>(request, response), hqrtAgentLogin); 
 		return getBootstrapData(page);*/

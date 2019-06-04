@@ -31,6 +31,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.service.BaseService;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
+import com.jeeplus.modules.hqrt.faqevaluate.entity.HqrtFaqEvaluate;
 import com.jeeplus.modules.hqrt.faqquestion.entity.HqrtFaqQuestion;
 import com.jeeplus.modules.hqrt.faqquestion.service.HqrtFaqQuestionService;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
@@ -143,12 +144,11 @@ public class HqrtFaqQuestionController extends BaseController {
         	sqlcondition  = " where" + sqlcondition;
         }
         // 该语句仅仅为了查询当前条件下有多少符合条件的数据
-        String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + "limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqQuestion> detailsList = md.queryList(sql, HqrtFaqQuestion.class, paramList.toArray());
-        List<HqrtFaqQuestion> allDetailslList = md.queryList(selectcountsql, HqrtFaqQuestion.class, paramList.toArray());
-        page.setCount(allDetailslList.size());
+        List<HqrtFaqQuestion> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_faq_question a" + sqlcondition, HqrtFaqQuestion.class, paramList.toArray());
+		page.setCount(allDetailslList.get(0).getOrdernumber());
 		BaseService.dataRuleFilter(hqrtFaqQuestion);
 		hqrtFaqQuestion.setPage(page);
 		for (int i = 0; i < detailsList.size(); i++) {

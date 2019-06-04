@@ -32,6 +32,7 @@ import com.jeeplus.modules.hqrt.agentchat.entity.HqrtAgentChatEvaluate;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetailsForExport;
 import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
+import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChatdetail;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
@@ -268,16 +269,15 @@ public class HqrtAgentChatController extends BaseController {
 			sqlcondition = sqlcondition.replaceFirst(" AND", "");
 			sqlcondition  = " where" + sqlcondition;
 		}
-		String selectcountsql = sql + sqlcondition + " GROUP BY a.sessionid";
 		sql += sqlcondition + " GROUP BY a.sessionid ORDER BY a.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
 		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 		List<HqrtAgentChat> detailsList = md.queryList(sql, HqrtAgentChat.class, paramList.toArray());
 		for (int i = 0; i < detailsList.size(); i++) {
 			detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
 		}
-		List<HqrtAgentChat> allDetailslList = md.queryList(selectcountsql, HqrtAgentChat.class, paramList.toArray());
+		List<HqrtAgentChat> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_agent_chat a" + sqlcondition + " GROUP BY a.sessionid", HqrtAgentChat.class, paramList.toArray());
+		page.setCount(allDetailslList.get(0).getOrdernumber());
 		page.setList(detailsList);
-		page.setCount(allDetailslList.size());
 		return getBootstrapData(page);
 	}
 

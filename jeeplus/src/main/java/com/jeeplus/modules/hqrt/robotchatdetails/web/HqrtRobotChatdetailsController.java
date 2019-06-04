@@ -149,12 +149,11 @@ public class HqrtRobotChatdetailsController extends BaseController {
         	sqlcondition  = " where" + sqlcondition;
         }
         // 该语句仅仅为了查询当前条件下有多少符合条件的数据
-        String selectcountsql = sql + sqlcondition;
         sql += sqlcondition + "ORDER BY a.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtRobotChatdetails> detailsList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
-        List<HqrtRobotChatdetails> allDetailslList = md.queryList(selectcountsql, HqrtRobotChatdetails.class, paramList.toArray());
-        page.setCount(allDetailslList.size());
+        List<HqrtRobotChatdetails> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_robot_chatdetails a" + sqlcondition, HqrtRobotChatdetails.class, paramList.toArray());
+		page.setCount(allDetailslList.get(0).getOrdernumber());
 		BaseService.dataRuleFilter(hqrtRobotChatdetails);
 		hqrtRobotChatdetails.setPage(page);
 		for (int i = 0; i < detailsList.size(); i++) {
