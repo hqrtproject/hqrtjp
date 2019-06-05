@@ -119,6 +119,7 @@ $(document).ready(function() {
 		        field: 'clickcount',
 		        title: '点击量',
 		        sortable: false,
+		        align:'center',
 		        sortName: 'clickcount'
 		       
 		    }
