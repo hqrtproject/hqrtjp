@@ -27,7 +27,6 @@ import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.core.persistence.Page;
-import com.jeeplus.core.service.BaseService;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.hqrt.robotchatdetails.entity.HqrtRobotChatdetails;
@@ -154,7 +153,6 @@ public class HqrtRobotChatdetailsController extends BaseController {
         List<HqrtRobotChatdetails> detailsList = md.queryList(sql, HqrtRobotChatdetails.class, paramList.toArray());
         List<HqrtRobotChatdetails> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_robot_chatdetails a" + sqlcondition, HqrtRobotChatdetails.class, paramList.toArray());
 		page.setCount(allDetailslList.get(0).getOrdernumber());
-		BaseService.dataRuleFilter(hqrtRobotChatdetails);
 		hqrtRobotChatdetails.setPage(page);
 		for (int i = 0; i < detailsList.size(); i++) {
 			detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));

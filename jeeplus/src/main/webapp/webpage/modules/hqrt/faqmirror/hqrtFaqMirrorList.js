@@ -132,12 +132,17 @@ $(document).ready(function() {
 		        width:'150px',
 		        sortName: 'faqcreatedatetime'
 		       
-		    }
-			,{
+		    },{
 		        field: 'faqapprovorid',
 		        title: '知识审核人',
 		        sortable: false,
 		        sortName: 'faqapprovorid'
+		       
+		    },{
+		        field: 'faqstatudesc',
+		        title: '知识状态',
+		        sortable: false,
+		        sortName: 'faqstatudesc'
 		       
 		    },{
 		        field: 'faqapprovortime',
@@ -148,18 +153,34 @@ $(document).ready(function() {
 		        sortName: 'faqapprovortime'
 		       
 		    },{
-		        field: 'faqapprovortimelen',
+		        field: 'faqstatuno',
 		        title: '发布时间',
 		        sortable: false,
 		        align:'center',
-		        sortName: 'faqapprovortimelen'
+		        width:'150px',
+		        sortName: 'faqstatuno',
+		        formatter:function(value, row , index){
+		        	if(value == '4') {
+		        		return row.faqapprovortime;
+		        	} else {
+				      	return "";
+		        	}
+		         }
 		       
 		    },{
-		        field: 'faqapprovortimelen',
+		        field: 'faqstatuno',
 		        title: '驳回时间',
 		        sortable: false,
 		        align:'center',
-		        sortName: 'faqapprovortimelen'
+		        width:'150px',
+		        sortName: 'faqstatuno',
+		        formatter:function(value, row , index){
+		        	if(value == '5') {
+		        		return row.faqapprovortime;
+		        	} else {
+				      	return "";
+		        	}
+		         }
 		       
 		    }
 		     ]

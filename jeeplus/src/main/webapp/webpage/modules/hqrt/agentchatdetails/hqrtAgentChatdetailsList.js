@@ -88,8 +88,8 @@ $(document).ready(function() {
 		        field: 'rowdatetime',
 		        title: '记录创建时间',
 		        sortable: true,
-		        sortName: 'rowdatetime'
-		        ,formatter:function(value, row , index){
+		        sortName: 'rowdatetime',
+		        formatter:function(value, row , index){
 		        	value = jp.unescapeHTML(value);
 				   <c:choose>
 					   <c:when test="${fns:hasPermission('hqrt:agentchatdetails:hqrtAgentChatdetails:edit')}">
