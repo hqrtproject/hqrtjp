@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -467,7 +466,6 @@ public class HqrtFaqEvaluateController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "datareport")
 	public Map<String, Object> dataReport(HqrtFaqEvaluateReport hqrtFaqEvaluatereport, HttpServletRequest request, HttpServletResponse response, Model model) {
-		 Map<String, Object> map = new HashMap<String, Object>(); 
 		 String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel',a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.evaluatestar AS 'evaluatestar',a.evaluatedatetime AS 'evaluatedatetime',a.sessionid AS 'sessionid',a.originalsessionid AS 'originalsessionid',FORMAT(AVG(a.evaluatestar),2) AS 'averagescore' FROM hqrt_faq_evaluate a";
 		 String sqlcondition = "";
 		 List<Object> paramList = new ArrayList<Object>();
@@ -489,14 +487,6 @@ public class HqrtFaqEvaluateController extends BaseController {
  				}
  				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
  			}
-        }
-		 if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmin())){
-        	sqlcondition += " AND AVG(a.evaluatestar) >= ?";
-        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmin());
-        }
-		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmax())){
-        	sqlcondition += " AND AVG(a.evaluatestar) <= ?";
-        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmax());
         }
 		if (hqrtFaqEvaluatereport.getStarttime() != null && hqrtFaqEvaluatereport.getEndttime() != null) {
         	sqlcondition += " AND a.evaluatedatetime BETWEEN ? AND ?";
@@ -544,14 +534,36 @@ public class HqrtFaqEvaluateController extends BaseController {
 			sqlcondition = sqlcondition.replaceFirst(" AND", "");
 			sqlcondition = " WHERE" + sqlcondition;
 		}
-		sql += sqlcondition+ " GROUP BY a.FAQID";
+		sql += sqlcondition + " GROUP BY a.FAQID";
+		String sqlconditioncount = sqlcondition + " GROUP BY a.FAQID";
+		sqlcondition = "";
+		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmin())){
+        	sqlcondition += " AND AVG(a.evaluatestar) >= ?";
+        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmin());
+        }
+		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmax())){
+        	sqlcondition += " AND AVG(a.evaluatestar) <= ?";
+        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmax());
+        }
+		if (StringUtils.isNotBlank(sqlcondition)) {
+			sqlcondition = sqlcondition.replaceFirst(" AND", "");
+			sqlcondition = " HAVING" + sqlcondition;
+		}
+      	Page<HqrtFaqEvaluateReport> page = new Page<HqrtFaqEvaluateReport>(request, response);
+        sql += sqlcondition + " limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
 		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqEvaluateReport> detailsList = md.queryList(sql, HqrtFaqEvaluateReport.class, paramList.toArray());
-      	for(int i = 0 ; i < detailsList.size(); i++){
-      		detailsList.get(i).setOrdernumber(i+1);
-      	}
-      	map.put("rows", detailsList);
-		return map;
+        List<HqrtFaqEvaluateReport> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_faq_evaluate a" + sqlconditioncount + sqlcondition, HqrtFaqEvaluateReport.class, paramList.toArray());
+		if (allDetailslList.size() == 0) {
+			page.setCount(0);
+		} else {
+			page.setCount(allDetailslList.get(0).getOrdernumber());
+		}
+    	for(int i = 0 ; i < detailsList.size(); i++){
+    		detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
+    	}
+		page.setList(detailsList);
+		return getBootstrapData(page);
 	}
 	/**
 	 * 导出excel文件
@@ -584,14 +596,6 @@ public class HqrtFaqEvaluateController extends BaseController {
  				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
  			}
         }
-		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmin())){
-        	sqlcondition += " AND AVG(a.evaluatestar) >= ?";
-        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmin());
-        }
-		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmax())){
-        	sqlcondition += " AND AVG(a.evaluatestar) <= ?";
-        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmax());
-        }
 		if (hqrtFaqEvaluatereport.getStarttime() != null && hqrtFaqEvaluatereport.getEndttime() != null) {
         	sqlcondition += " AND a.evaluatedatetime BETWEEN ? AND ?";
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -639,6 +643,20 @@ public class HqrtFaqEvaluateController extends BaseController {
 			sqlcondition = " WHERE" + sqlcondition;
 		}
 		sql += sqlcondition+ " GROUP BY a.FAQID";
+		sqlcondition = "";
+		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmin())){
+        	sqlcondition += " AND AVG(a.evaluatestar) >= ?";
+        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmin());
+        }
+		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmax())){
+        	sqlcondition += " AND AVG(a.evaluatestar) <= ?";
+        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmax());
+        }
+		if (StringUtils.isNotBlank(sqlcondition)) {
+			sqlcondition = sqlcondition.replaceFirst(" AND", "");
+			sqlcondition = " HAVING" + sqlcondition;
+		}
+		sql += sqlcondition;
 		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqEvaluateReport> detailsList = md.queryList(sql, HqrtFaqEvaluateReport.class, paramList.toArray());
       	for(int i = 0 ; i < detailsList.size(); i++){
