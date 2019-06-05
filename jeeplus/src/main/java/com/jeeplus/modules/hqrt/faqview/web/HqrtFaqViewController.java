@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +31,7 @@ import com.jeeplus.common.utils.DateUtils;
 import com.jeeplus.common.utils.StringUtils;
 import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
+import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.faqview.entity.HqrtFaqView;
 import com.jeeplus.modules.hqrt.faqview.service.HqrtFaqViewService;
@@ -78,13 +78,13 @@ public class HqrtFaqViewController extends BaseController {
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtFaqView hqrtFaqView, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		MultiDBUtils mu = MultiDBUtils.get(Global.getConfig("datasourcename"));
+		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
+
 		// 首先根据业务和省份分组查询
         String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel',a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.viewdatetime AS 'viewdatetime',COUNT(1) AS clickcount FROM hqrt_faq_view a ";
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
     	if (StringUtils.isNotBlank(hqrtFaqView.getFaqroot())) {
-        	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
     		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
     		List<String> queueNameList = new ArrayList<String>();
     		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
@@ -115,8 +115,7 @@ public class HqrtFaqViewController extends BaseController {
             Date beginOfDate = cal.getTime();
         	paramList.add(ft.format(beginOfDate));
         	Calendar calendar2 = Calendar.getInstance();
-        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH),
-        	        23, 59, 59);
+        	calendar2.set(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH), calendar2.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
         	Date endOfDate = calendar2.getTime();
         	paramList.add(ft.format(endOfDate));
         }
@@ -128,15 +127,18 @@ public class HqrtFaqViewController extends BaseController {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
         	sqlcondition  = " where" + sqlcondition;
         }
-        sql += sqlcondition + " GROUP BY a.FAQID ORDER BY clickcount DESC";
-        List<HqrtFaqView> hqrtFaqViewlist = mu.queryList(sql, HqrtFaqView.class, paramList.toArray());
-		
-		for(int i = 0 ; i < hqrtFaqViewlist.size(); i++){
-			hqrtFaqViewlist.get(i).setOrdernumber(i+1);
-    	}
-		map.put("rows", hqrtFaqViewlist);
-		// map.put("total", page.getCount());
-		return map;
+
+        Page<HqrtFaqView> page = new Page<HqrtFaqView>(request, response);
+        sql += sqlcondition + " GROUP BY a.FAQID ORDER BY clickcount DESC limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+        List<HqrtFaqView> hqrtFaqViewlist = md.queryList(sql, HqrtFaqView.class, paramList.toArray());
+        List<HqrtFaqView> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_faq_view a" + sqlcondition, HqrtFaqView.class, paramList.toArray());
+        page.setCount(allDetailslList.get(0).getOrdernumber());
+        hqrtFaqView.setPage(page);
+		for (int i = 0; i < hqrtFaqViewlist.size(); i++) {
+			hqrtFaqViewlist.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
+		}
+		page.setList(hqrtFaqViewlist);
+		return getBootstrapData(page);
 	}
 
 	/**
