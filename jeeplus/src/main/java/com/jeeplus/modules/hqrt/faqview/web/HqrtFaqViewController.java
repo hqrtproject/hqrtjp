@@ -77,7 +77,6 @@ public class HqrtFaqViewController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtFaqView hqrtFaqView, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Map<String, Object> map = new HashMap<String, Object>();
 		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
 
 		// 首先根据业务和省份分组查询
