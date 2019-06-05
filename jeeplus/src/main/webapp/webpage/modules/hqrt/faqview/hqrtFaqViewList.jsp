@@ -14,6 +14,47 @@
 	<%-- <script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.min.js"></script> --%>
 	<script type="text/javascript" src="${ctxStatic}/plugin/combotree/js/jquery.easyui.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="${ctxStatic}/plugin/layui_v2/css/layui.css">
+		<script>
+		$(document).ready(function() {
+			$('#faqrootID').combotree({
+				multiple: true,
+				// cascadeCheck: false,
+				// onlyLeafCheck: true
+		        prompt: '请选择...',
+				onClick:function(node, checked){
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#faqrootID").combotree("tree");// 获取树对象
+					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue=[];
+					var childLength='';
+					$.each(checkedNodes,function(index){
+						if (typeof(checkedNodes[index].children)=='undefined') {
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#faqrootID').combotree('setText', logicNodeValue);// 给文本框赋值
+				},
+				onCheck:function(node, checked){
+					//选择故障模式，文本框只显示子节点，不显示父节点
+					var tt = $("#faqrootID").combotree("tree");// 获取树对象
+					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
+					// console.log(checkedNodes);
+					var logicNodeValue=[];
+					var childLength='';
+					$.each(checkedNodes,function(index){
+						if (typeof(checkedNodes[index].children)=='undefined') {  
+							logicNodeValue.push(checkedNodes[index].text);
+						}
+					});
+					// console.log(logicNodeValue);
+					$('#faqrootID').combotree('setText', logicNodeValue);// 给文本框赋值
+					$('#faqroot').val(logicNodeValue);// 给查询字段赋值
+				}
+			});
+		});
+	</script>
 </head>
 <body>
 	<div class="wrapper wrapper-content">
@@ -45,6 +86,11 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-6 col-md-5" style="height:44px;width: 500px">
+				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;</label>
+				<input id="faqrootID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:340px">
+				<form:hidden path="faqroot"/>
+			</div> 
 			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
 				<label class="label-item single-overflow pull-left" title="知识编号" style="margin-top: 4px"><font size="4">知识编号：</font>&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="faqserialno" htmlEscape="false" maxlength="50" class=" form-control" style="width:340px;border-radius: 6px;" />

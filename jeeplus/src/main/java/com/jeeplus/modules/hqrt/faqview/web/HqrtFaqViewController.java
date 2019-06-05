@@ -35,6 +35,7 @@ import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
 import com.jeeplus.modules.hqrt.faqview.entity.HqrtFaqView;
 import com.jeeplus.modules.hqrt.faqview.service.HqrtFaqViewService;
+import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 
 /**
@@ -76,11 +77,31 @@ public class HqrtFaqViewController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "data")
 	public Map<String, Object> data(HqrtFaqView hqrtFaqView, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
+
 		// 首先根据业务和省份分组查询
         String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel',a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.viewdatetime AS 'viewdatetime',COUNT(1) AS clickcount FROM hqrt_faq_view a ";
         String sqlcondition = "";
         List<Object> paramList = new ArrayList<Object>();
+    	if (StringUtils.isNotBlank(hqrtFaqView.getFaqroot())) {
+    		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+    		List<String> queueNameList = new ArrayList<String>();
+    		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+    			queueNameList.add(hqrtQueueConfig.getQueuename());
+    		}
+        	if (!hqrtFaqView.getFaqroot().contains("其他")) {
+        		sqlcondition += " AND a.faqroot in ('" + hqrtFaqView.getFaqroot().replace(",", "','") + "')";
+			} else {
+				String[] faqroot = hqrtFaqView.getFaqroot().split(",");
+				for (String faqrootname  : faqroot ) {
+					if (queueNameList.contains(faqrootname)) {
+						queueNameList.remove(faqrootname);
+					}
+				}
+				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
+			}
+        }
         if (hqrtFaqView.getStarttime() != null && hqrtFaqView.getEndtime() != null) {
         	sqlcondition += " AND a.viewdatetime BETWEEN ? AND ?";
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -106,8 +127,9 @@ public class HqrtFaqViewController extends BaseController {
         	sqlcondition = sqlcondition.replaceFirst(" AND", "");
         	sqlcondition  = " where" + sqlcondition;
         }
+
         Page<HqrtFaqView> page = new Page<HqrtFaqView>(request, response);
-        sql += sqlcondition + " GROUP BY a.FAQID limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
+        sql += sqlcondition + " GROUP BY a.FAQID ORDER BY clickcount DESC limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         List<HqrtFaqView> hqrtFaqViewlist = md.queryList(sql, HqrtFaqView.class, paramList.toArray());
         List<HqrtFaqView> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_faq_view a" + sqlcondition, HqrtFaqView.class, paramList.toArray());
         page.setCount(allDetailslList.get(0).getOrdernumber());
@@ -138,11 +160,30 @@ public class HqrtFaqViewController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		try {
             String fileName = "知识点击量统计"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
-    		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
-    		// 首先根据业务和省份分组查询
+    		MultiDBUtils mu = MultiDBUtils.get(Global.getConfig("datasourcename"));
+    		
             String sql = "select a.id AS 'id',a.rowguid AS 'rowguid',a.rowdatetime AS 'rowdatetime',a.customerid AS 'customerid',a.customername AS 'customername',a.customermobile AS 'customermobile',a.customerprovince AS 'customerprovince',a.faqid AS 'faqid',a.faqroot AS 'faqroot',a.faqmodel AS 'faqmodel',a.faqserialno AS 'faqserialno',a.faqtitle AS 'faqtitle',a.faqcreaterid AS 'faqcreaterid',a.faqcreatername AS 'faqcreatername',a.faqcreatedatetime AS 'faqcreatedatetime',a.viewdatetime AS 'viewdatetime',COUNT(1) AS clickcount FROM hqrt_faq_view a ";
             String sqlcondition = "";
             List<Object> paramList = new ArrayList<Object>();
+        	if (StringUtils.isNotBlank(hqrtFaqView.getFaqroot())) {
+            	MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
+        		List<HqrtQueueConfig> hqrtQueueConfigList = md.queryList("SELECT a.QueueName FROM hqrt_queue_config a", HqrtQueueConfig.class);
+        		List<String> queueNameList = new ArrayList<String>();
+        		for (HqrtQueueConfig hqrtQueueConfig : hqrtQueueConfigList) {
+        			queueNameList.add(hqrtQueueConfig.getQueuename());
+        		}
+            	if (!hqrtFaqView.getFaqroot().contains("其他")) {
+            		sqlcondition += " AND a.faqroot in ('" + hqrtFaqView.getFaqroot().replace(",", "','") + "')";
+    			} else {
+    				String[] faqroot = hqrtFaqView.getFaqroot().split(",");
+    				for (String faqrootname  : faqroot ) {
+    					if (queueNameList.contains(faqrootname)) {
+    						queueNameList.remove(faqrootname);
+    					}
+    				}
+    				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
+    			}
+            }
             if (hqrtFaqView.getStarttime() != null && hqrtFaqView.getEndtime() != null) {
             	sqlcondition += " AND a.viewdatetime BETWEEN ? AND ?";
             	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -169,8 +210,8 @@ public class HqrtFaqViewController extends BaseController {
             	sqlcondition = sqlcondition.replaceFirst(" AND", "");
             	sqlcondition  = " where" + sqlcondition;
             }
-            sql += sqlcondition + " GROUP BY a.FAQRoot,a.FAQModel,a.FAQSerialNo";
-            List<HqrtFaqView> hqrtFaqViewlist = md.queryList(sql, HqrtFaqView.class, paramList.toArray());
+            sql += sqlcondition + " GROUP BY a.FAQID ORDER BY clickcount DESC";
+            List<HqrtFaqView> hqrtFaqViewlist = mu.queryList(sql, HqrtFaqView.class, paramList.toArray());
     		
     		for(int i = 0 ; i < hqrtFaqViewlist.size(); i++){
     			hqrtFaqViewlist.get(i).setOrdernumber(i+1);

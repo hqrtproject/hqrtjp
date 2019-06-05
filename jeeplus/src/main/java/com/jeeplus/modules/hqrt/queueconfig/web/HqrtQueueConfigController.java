@@ -130,7 +130,7 @@ public class HqrtQueueConfigController extends BaseController {
 			Iterator<HqrtAgentConfig> it = queryList.iterator();
 			while(it.hasNext()){
 				HqrtAgentConfig config = it.next();
-				if (StringUtils.isNotBlank(hqrtQueueConfig.getQueuename()) && !hqrtQueueConfig.getQueuename().contains(config.getQueuename())) {
+				if (!hqrtQueueConfig.getQueuename().contains(config.getQueuename())) {
 					it.remove();
 					continue;
 				}

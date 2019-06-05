@@ -34,8 +34,6 @@ public class HqrtFaqMirror extends DataEntity<HqrtFaqMirror> {
 	private String faqapprovortime;		// 审批时间
 	private String faqapprovortimelen;		// 审批时长(单位：秒)
 	private Integer ordernumber; // 序号
-	private String publishTime;
-	private String rejectTime;
 	
 	// 过滤的开始结束时间
 	private Date starttime;
@@ -74,7 +72,7 @@ public class HqrtFaqMirror extends DataEntity<HqrtFaqMirror> {
 		this.faqid = faqid;
 	}
 	
-	@ExcelField(title="知识分类", align=2, sort=2)
+	@ExcelField(title="知识分类（业务系统）", align=2, sort=2)
 	public String getFaqroot() {
 		return faqroot;
 	}
@@ -201,24 +199,6 @@ public class HqrtFaqMirror extends DataEntity<HqrtFaqMirror> {
 
 	public void setEndttime(Date endttime) {
 		this.endttime = endttime;
-	}
-
-	@ExcelField(title="发布时间", align=2, sort=15)
-	public String getPublishTime() {
-		return publishTime;
-	}
-
-	public void setPublishTime(String publishTime) {
-		this.publishTime = publishTime;
-	}
-
-	@ExcelField(title="驳回时间", align=2, sort=16)
-	public String getRejectTime() {
-		return rejectTime;
-	}
-
-	public void setRejectTime(String rejectTime) {
-		this.rejectTime = rejectTime;
 	}
 
 }

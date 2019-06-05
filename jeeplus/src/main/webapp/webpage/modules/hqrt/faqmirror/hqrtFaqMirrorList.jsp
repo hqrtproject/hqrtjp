@@ -35,13 +35,6 @@
 					});
 					// console.log(logicNodeValue);
 					$('#faqrootID').combotree('setText', logicNodeValue);// 给文本框赋值
-					$('#faqcreaterID').combotree({
-						reload: true,
-						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#faqroot").val(),
-						required: true,
-						multiple : true,
-						prompt : '请选择...'
-					});
 				},
 				onCheck:function(node, checked){
 					//选择故障模式，文本框只显示子节点，不显示父节点
@@ -58,16 +51,9 @@
 					// console.log(logicNodeValue);
 					$('#faqrootID').combotree('setText', logicNodeValue);// 给文本框赋值
 					$('#faqroot').val(logicNodeValue);// 给查询字段赋值
-					$('#faqcreaterID').combotree({
-						reload: true,
-						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#faqroot").val(),
-						required: true,
-						multiple : true,
-						prompt : '请选择...'
-					});
 				}
 			});
-			/* $('#faqmodelID').combotree({
+			$('#faqmodelID').combotree({
 				multiple: true,
 		        prompt: '请选择...',
 				onClick:function(node, checked){
@@ -101,7 +87,7 @@
 					$('#faqmodelID').combotree('setText', logicNodeValue);// 给文本框赋值
 					$('#faqmodel').val(logicNodeValue);// 给查询字段赋值
 				}
-			}); */
+			});
 			$('#faqcreaterID').combotree({
 				multiple: true,
 		        prompt: '请选择...',
@@ -111,17 +97,14 @@
 					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
 					var logicNodeValue=[];
-					var faqcreaterids = [];
 					var childLength='';
 					$.each(checkedNodes,function(index){
 						if (typeof(checkedNodes[index].children)=='undefined') {
 							logicNodeValue.push(checkedNodes[index].text);
-							faqcreaterids.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
 						}
 					});
 					// console.log(logicNodeValue);
 					$('#faqcreaterID').combotree('setText', logicNodeValue);// 给文本框赋值
-					$('#faqcreaterid').val(faqcreaterids);// 给查询字段赋值
 				},
 				onCheck:function(node, checked){
 					//选择故障模式，文本框只显示子节点，不显示父节点
@@ -129,17 +112,15 @@
 					var checkedNodes=tt.tree("getChecked"); // 所有选中节点
 					// console.log(checkedNodes);
 					var logicNodeValue=[];
-					var faqcreaterids = [];
 					var childLength='';
 					$.each(checkedNodes,function(index){
 						if (typeof(checkedNodes[index].children)=='undefined') {  
 							logicNodeValue.push(checkedNodes[index].text);
-						faqcreaterids.push(checkedNodes[index].text.split("(")[1].split(")")[0]);
 						}
 					});
 					// console.log(logicNodeValue);
 					$('#faqcreaterID').combotree('setText', logicNodeValue);// 给文本框赋值
-					$('#faqcreaterid').val(faqcreaterids);// 给查询字段赋值
+					$('#faqcreaterid').val(logicNodeValue);// 给查询字段赋值
 				}
 			});
 		});
@@ -181,15 +162,16 @@
 				<form:hidden path="faqroot"/>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
-				<label class="label-item single-overflow pull-left" title="知识创建人：" style="margin-top: 3px"><font size="4">知识创建人：</font>&nbsp;&nbsp;&nbsp;</label>
-				<input id="faqcreaterID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/agentconfig/hqrtAgentConfig/combotreedata',method:'post'" style="height:34px;width:340px">
-				<form:hidden path="faqcreaterid"/>
+				<label class="label-item single-overflow pull-left" title="知识创建人" style="margin-top: 4px"><font size="4">知识创建人：</font>&nbsp;&nbsp;</label>
+				<form:input path="faqcreatername" htmlEscape="false"
+					maxlength="50" class=" form-control"
+					style="width:340px;border-radius: 6px;" />
 			</div>
-			<%-- <div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
+			<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
 					<label class="label-item single-overflow pull-left" title="知识模块：" style="margin-top: 3px"><font size="4">&nbsp;&nbsp;&nbsp;知识模块：</font>&nbsp;&nbsp;&nbsp;</label>
 					<input id="faqmodelID" class="easyui-combotree" data-options="" style="height: 34px; width: 340px">
 					<form:hidden path="faqmodel" />
-			</div> --%>
+			</div>
 			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
 				<label class="label-item single-overflow pull-left" title="知识编号" style="margin-top: 4px"><font size="4">&nbsp;&nbsp;&nbsp;知识编号：</font>&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="faqserialno" htmlEscape="false"

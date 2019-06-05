@@ -130,9 +130,6 @@ public class HqrtFaqMirrorController extends BaseController {
 			sqlcondition += " AND a.faqstatuno = ?";
 			paramList.add(hqrtFaqMirror.getFaqstatuno());
 		}
-		if (StringUtils.isNotBlank(hqrtFaqMirror.getFaqcreaterid())) {
-			sqlcondition += " AND a.faqcreaterid in ('" + hqrtFaqMirror.getFaqcreaterid().replace(",", "','") + "')";
-		}
 		if (StringUtils.isNotBlank(sqlcondition)) {
 			sqlcondition = sqlcondition.replaceFirst(" AND", "");
 			sqlcondition = " where" + sqlcondition;
@@ -243,9 +240,6 @@ public class HqrtFaqMirrorController extends BaseController {
     			sqlcondition += " AND a.faqserialno = ?";
     			paramList.add(hqrtFaqMirror.getFaqserialno());
     		}
-    		if (StringUtils.isNotBlank(hqrtFaqMirror.getFaqcreaterid())) {
-    			sqlcondition += " AND a.faqcreaterid in ('" + hqrtFaqMirror.getFaqcreaterid().replace(",", "','") + "')";
-    		}
     		if (StringUtils.isNotBlank(hqrtFaqMirror.getFaqstatuno())) {
     			sqlcondition += " AND a.faqstatuno = ?";
     			paramList.add(hqrtFaqMirror.getFaqstatuno());
@@ -260,11 +254,6 @@ public class HqrtFaqMirrorController extends BaseController {
     		BaseService.dataRuleFilter(hqrtFaqMirror);
     		for (int i = 0; i < detailsList.size(); i++) {
     			detailsList.get(i).setOrdernumber(i + 1);
-    			if ("4".equals(detailsList.get(i).getFaqstatuno())) {
-    				detailsList.get(i).setPublishTime(detailsList.get(i).getFaqapprovortime());
-    			} else if ("5".equals(detailsList.get(i).getFaqstatuno())) {
-    				detailsList.get(i).setRejectTime(detailsList.get(i).getFaqapprovortime());
-    			}
     		}
     		new ExportExcel("知识状态明细报表", HqrtFaqMirror.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);

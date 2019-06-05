@@ -84,8 +84,6 @@ $(document).ready(function() {
 		        field: 'ordernumber',
 		        title: '序号',
 		        sortable: false,
-		        width: '60px',
-		        align: 'cneter',
 		        sortName: 'ordernumber'
 		       
 		    }
@@ -121,7 +119,6 @@ $(document).ready(function() {
 		        field: 'averagescore',
 		        title: '平均分值',
 		        sortable: false,
-		        align: 'center',
 		        sortName: 'averagescore'
 		       
 		    }
