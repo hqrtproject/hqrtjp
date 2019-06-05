@@ -34,7 +34,6 @@ import com.jeeplus.common.utils.excel.ExportExcel;
 import com.jeeplus.common.utils.excel.ImportExcel;
 import com.jeeplus.core.persistence.Page;
 import com.jeeplus.core.web.BaseController;
-import com.jeeplus.modules.hqrt.agentlogin.entity.HqrtAgentLogin;
 import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
 import com.jeeplus.modules.hqrt.faqevaluate.entity.HqrtFaqEvaluate;
 import com.jeeplus.modules.hqrt.faqevaluate.entity.HqrtFaqEvaluateReport;
@@ -106,12 +105,12 @@ public class HqrtFaqEvaluateController extends BaseController {
 				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
 			}
         }
-		if (StringUtils.isBlank(hqrtFaqEvaluate.getEvaluatestarmin())){
-        	sqlcondition += " AND a.evaluatestar = ?";
+		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getEvaluatestarmin())){
+        	sqlcondition += " AND a.evaluatestar >= ?";
         	paramList.add(hqrtFaqEvaluate.getEvaluatestarmin());
         }
-		if (StringUtils.isBlank(hqrtFaqEvaluate.getEvaluatestarmax())){
-        	sqlcondition += " AND a.evaluatestar = ?";
+		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getEvaluatestarmax())){
+        	sqlcondition += " AND a.evaluatestar <= ?";
         	paramList.add(hqrtFaqEvaluate.getEvaluatestarmax());
         }
 		if (hqrtFaqEvaluate.getStarttime() != null && hqrtFaqEvaluate.getEndttime() != null) {
@@ -203,21 +202,6 @@ public class HqrtFaqEvaluateController extends BaseController {
 		page.setCount(allDetailslList.get(0).getOrdernumber());
     	for(int i = 0 ; i < detailsList.size(); i++){
     		detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
-    	}
-    	for(HqrtFaqEvaluate faqEvaluate : detailsList){
-    		if ("0".equals(faqEvaluate.getEvaluatestar())) {
-    			faqEvaluate.setEvaluatestar("未评价");
-			} else if ("1".equals(faqEvaluate.getEvaluatestar())) {
-				faqEvaluate.setEvaluatestar("一星");
-			} else if ("2".equals(faqEvaluate.getEvaluatestar())) {
-				faqEvaluate.setEvaluatestar("二星");
-			} else if ("3".equals(faqEvaluate.getEvaluatestar())) {
-				faqEvaluate.setEvaluatestar("三星");
-			} else if ("4".equals(faqEvaluate.getEvaluatestar())) {
-				faqEvaluate.setEvaluatestar("四星");
-			} else if ("5".equals(faqEvaluate.getEvaluatestar())) {
-				faqEvaluate.setEvaluatestar("五星");
-			}
     	}
         hqrtFaqEvaluate.setPage(page);
 		page.setList(detailsList);
@@ -315,9 +299,12 @@ public class HqrtFaqEvaluateController extends BaseController {
     				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
     			}
             }
-    		if (hqrtFaqEvaluate.getEvaluatestarmin() != null && hqrtFaqEvaluate.getEvaluatestarmax() != null) {
-            	sqlcondition += " AND a.evaluatestar BETWEEN ? AND ?";
+    		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getEvaluatestarmin())){
+            	sqlcondition += " AND a.evaluatestar >= ?";
             	paramList.add(hqrtFaqEvaluate.getEvaluatestarmin());
+            }
+    		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getEvaluatestarmax())){
+            	sqlcondition += " AND a.evaluatestar <= ?";
             	paramList.add(hqrtFaqEvaluate.getEvaluatestarmax());
             }
     		if (hqrtFaqEvaluate.getStarttime() != null && hqrtFaqEvaluate.getEndttime() != null) {
@@ -407,22 +394,6 @@ public class HqrtFaqEvaluateController extends BaseController {
         	for(int i = 0 ; i < detailsList.size(); i++){
         		detailsList.get(i).setOrdernumber(i+1);
         	}
-        	for(HqrtFaqEvaluate faqEvaluate : detailsList){
-        		if ("0".equals(faqEvaluate.getEvaluatestar())) {
-        			faqEvaluate.setEvaluatestar("未评价");
-    			} else if ("1".equals(faqEvaluate.getEvaluatestar())) {
-    				faqEvaluate.setEvaluatestar("一星");
-    			} else if ("2".equals(faqEvaluate.getEvaluatestar())) {
-    				faqEvaluate.setEvaluatestar("二星");
-    			} else if ("3".equals(faqEvaluate.getEvaluatestar())) {
-    				faqEvaluate.setEvaluatestar("三星");
-    			} else if ("4".equals(faqEvaluate.getEvaluatestar())) {
-    				faqEvaluate.setEvaluatestar("四星");
-    			} else if ("5".equals(faqEvaluate.getEvaluatestar())) {
-    				faqEvaluate.setEvaluatestar("五星");
-    			}
-        	}
-         
     		new ExportExcel("知识评价信息报表", HqrtFaqEvaluate.class).setDataList(detailsList).write(response, fileName).dispose();
     		j.setSuccess(true);
     		j.setMsg("导出成功！");
@@ -519,11 +490,14 @@ public class HqrtFaqEvaluateController extends BaseController {
  				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
  			}
         }
-		if (hqrtFaqEvaluatereport.getEvaluatestarmin() != null && hqrtFaqEvaluatereport.getEvaluatestarmax() != null) {
-	        	sqlcondition += " AND a.averagescore BETWEEN ? AND ?";
-	        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmin());
-	        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmax());
-	        }
+		 if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmin())){
+        	sqlcondition += " AND AVG(a.evaluatestar) >= ?";
+        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmin());
+        }
+		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmax())){
+        	sqlcondition += " AND AVG(a.evaluatestar) <= ?";
+        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmax());
+        }
 		if (hqrtFaqEvaluatereport.getStarttime() != null && hqrtFaqEvaluatereport.getEndttime() != null) {
         	sqlcondition += " AND a.evaluatedatetime BETWEEN ? AND ?";
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -570,7 +544,7 @@ public class HqrtFaqEvaluateController extends BaseController {
 			sqlcondition = sqlcondition.replaceFirst(" AND", "");
 			sqlcondition = " WHERE" + sqlcondition;
 		}
-		sql += sqlcondition+ " GROUP BY a.faqroot,a.faqserialno,a.faqserialno";
+		sql += sqlcondition+ " GROUP BY a.FAQID";
 		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqEvaluateReport> detailsList = md.queryList(sql, HqrtFaqEvaluateReport.class, paramList.toArray());
       	for(int i = 0 ; i < detailsList.size(); i++){
@@ -610,11 +584,14 @@ public class HqrtFaqEvaluateController extends BaseController {
  				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
  			}
         }
-		if (hqrtFaqEvaluatereport.getEvaluatestarmin() != null && hqrtFaqEvaluatereport.getEvaluatestarmax() != null) {
-	        	sqlcondition += " AND FORMAT(AVG(a.evaluatestar),2) BETWEEN ? AND ?";
-	        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmin());
-	        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmax());
-	        }
+		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmin())){
+        	sqlcondition += " AND AVG(a.evaluatestar) >= ?";
+        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmin());
+        }
+		if (StringUtils.isNotBlank(hqrtFaqEvaluatereport.getEvaluatestarmax())){
+        	sqlcondition += " AND AVG(a.evaluatestar) <= ?";
+        	paramList.add(hqrtFaqEvaluatereport.getEvaluatestarmax());
+        }
 		if (hqrtFaqEvaluatereport.getStarttime() != null && hqrtFaqEvaluatereport.getEndttime() != null) {
         	sqlcondition += " AND a.evaluatedatetime BETWEEN ? AND ?";
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -661,7 +638,7 @@ public class HqrtFaqEvaluateController extends BaseController {
 			sqlcondition = sqlcondition.replaceFirst(" AND", "");
 			sqlcondition = " WHERE" + sqlcondition;
 		}
-		sql += sqlcondition+ " GROUP BY a.faqroot,a.faqserialno,a.faqserialno";
+		sql += sqlcondition+ " GROUP BY a.FAQID";
 		MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtFaqEvaluateReport> detailsList = md.queryList(sql, HqrtFaqEvaluateReport.class, paramList.toArray());
       	for(int i = 0 ; i < detailsList.size(); i++){

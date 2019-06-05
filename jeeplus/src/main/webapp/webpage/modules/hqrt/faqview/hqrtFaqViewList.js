@@ -119,6 +119,7 @@ $(document).ready(function() {
 		        field: 'clickcount',
 		        title: '点击量',
 		        sortable: false,
+		        align: 'center',
 		        sortName: 'clickcount'
 		       
 		    }
@@ -133,6 +134,8 @@ $(document).ready(function() {
 		        field: 'faqcreatedatetime',
 		        title: '创建时间',
 		        sortable: false,
+		        width: '150px',
+		        align: 'center',
 		        sortName: 'faqcreatedatetime'
 		       
 		    }
