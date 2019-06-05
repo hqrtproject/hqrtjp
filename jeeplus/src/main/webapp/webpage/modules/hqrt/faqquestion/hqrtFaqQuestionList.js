@@ -85,7 +85,7 @@ $(document).ready(function() {
 		        title: '序号',
 		        sortable: false,
 		        align:'center',
-		        width:'60px',
+		        width:'40px',
 		        sortName: 'ordernumber'
 		       
 		    }
@@ -129,6 +129,7 @@ $(document).ready(function() {
 		        title: '创建时间',
 		        sortable: false,
 		        align:'center',
+		        width:'150px',
 		        sortName: 'faqcreatedatetime'
 		       
 		    }
@@ -159,6 +160,7 @@ $(document).ready(function() {
 		        title: '提问时间',
 		        sortable: false,
 		        align:'center',
+		        width:'150px',
 		        sortName: 'questiondatetime'
 		       
 		    }

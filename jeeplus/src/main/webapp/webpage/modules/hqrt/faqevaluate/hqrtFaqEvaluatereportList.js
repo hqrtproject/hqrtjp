@@ -89,7 +89,7 @@ $(document).ready(function() {
 		    }
 			,{
 		        field: 'faqroot',
-		        title: '知识分类（业务系统）',
+		        title: '知识分类',
 		        sortable: false,
 		        sortName: 'faqroot'
 		       

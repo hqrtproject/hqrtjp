@@ -106,11 +106,14 @@ public class HqrtFaqEvaluateController extends BaseController {
 				sqlcondition += " AND a.faqroot not in ('" + StringUtils.join(queueNameList.toArray(), "','") + "')";
 			}
         }
-		/*if (StringUtils.isBlank(hqrtFaqEvaluate.getEvaluatestarmin())){
-        	sqlcondition += " AND a.evaluatestar BETWEEN ? AND ?";
+		if (StringUtils.isBlank(hqrtFaqEvaluate.getEvaluatestarmin())){
+        	sqlcondition += " AND a.evaluatestar = ?";
         	paramList.add(hqrtFaqEvaluate.getEvaluatestarmin());
+        }
+		if (StringUtils.isBlank(hqrtFaqEvaluate.getEvaluatestarmax())){
+        	sqlcondition += " AND a.evaluatestar = ?";
         	paramList.add(hqrtFaqEvaluate.getEvaluatestarmax());
-        }*/
+        }
 		if (hqrtFaqEvaluate.getStarttime() != null && hqrtFaqEvaluate.getEndttime() != null) {
         	sqlcondition += " AND a.evaluatedatetime BETWEEN ? AND ?";
         	SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

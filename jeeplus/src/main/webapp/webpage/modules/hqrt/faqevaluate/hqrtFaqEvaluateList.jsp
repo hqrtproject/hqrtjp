@@ -145,7 +145,7 @@
 			  <div class="col-xs-12 col-sm-6 col-md-4" style="height:44px;width: 500px">
 				 <div class="form-group">
 					<div class="col-xs-12">
-						<label class="label-item single-overflow pull-left" title="进线时间：" style="margin-top: 3px"><font size="4">进线时间：</font>&nbsp;&nbsp;</label>
+						<label class="label-item single-overflow pull-left" title="评价时间：" style="margin-top: 3px"><font size="4">评价时间：</font>&nbsp;&nbsp;</label>
 					    <div class="col-xs-12 col-sm-4">
 							<div class="layui-input-inline">
 								<input type="text" class="layui-input" id="starttime" name="starttime" style="height: 34px; border-radius: 6px; width: 150px">
@@ -161,39 +161,39 @@
 				</div>
 			</div>
 			 <div class="col-xs-12 col-sm-6 col-md-3" style="height: 44px; width: 500px;">
-					<label class="label-item single-overflow pull-left" title="分值最小值：" style="margin-top: 3px"><font size="4">分值最小值：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+					<label class="label-item single-overflow pull-left" title="分值最小值：" style="margin-top: 3px"><font size="4">分值最小值：</font>&nbsp;&nbsp;&nbsp;</label>
 						<form:select path="evaluatestarmin" class="form-control" style="width:340px;border-radius: 6px;">
 							<option value="">请选择...</option>
-								<form:options items="${fns:getDictList('evaluatestar')}"
+								<form:options items="${fns:getDictList('max_min_value')}"
 										itemLabel="label" itemValue="value" htmlEscape="false" />
 								</form:select>
 			</div> 
 			 <div class="col-xs-12 col-sm-6 col-md-5" style="height:44px;width: 500px">
-				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-				<input id="faqrootID" class="easyui-combotree" data-options="" style="height:34px;width:340px">
+				<label class="label-item single-overflow pull-left" title="业务系统：" style="margin-top: 3px"><font size="4">业务系统：</font>&nbsp;&nbsp;&nbsp;</label>
+				<input id="faqrootID" class="easyui-combotree" data-options="url:'${ctx}/hqrt/queueconfig/hqrtQueueConfig/combotreedata',method:'post'" style="height:34px;width:340px">
 				<form:hidden path="faqroot"/>
 			</div> 
 			 <div class="col-xs-12 col-sm-6 col-md-3" style="height: 44px; width: 500px;">
-					<label class="label-item single-overflow pull-left" title="分值最大值：" style="margin-top: 3px"><font size="4">分值最大值：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+					<label class="label-item single-overflow pull-left" title="分值最大值：" style="margin-top: 3px"><font size="4">分值最大值：</font>&nbsp;&nbsp;&nbsp;</label>
 						<form:select path="evaluatestarmax" class="form-control" style="width:340px;border-radius: 6px;">
 							<option value="">请选择...</option>
-								<form:options items="${fns:getDictList('evaluatestar')}"
+								<form:options items="${fns:getDictList('max_min_value')}"
 										itemLabel="label" itemValue="value" htmlEscape="false" />
 								</form:select>
 			</div> 
-			<div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
+			<%-- <div class="col-xs-12 col-sm-6 col-md-6" style="height: 44px;width: 500px">
 					<label class="label-item single-overflow pull-left" title="知识模块：" style="margin-top: 3px"><font size="4">知识模块：</font>&nbsp;&nbsp;&nbsp;</label>
 					<input id="faqmodelID" class="easyui-combotree" data-options="" style="height: 34px; width: 340px">
 					<form:hidden path="faqmodel" />
-				</div>
+				</div> --%>
 			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
-				<label class="label-item single-overflow pull-left" title="知识编号：" style="margin-top: 4px"><font size="4">知识编号：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<label class="label-item single-overflow pull-left" title="知识编号：" style="margin-top: 4px"><font size="4">知识编号：</font>&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="faqserialno" htmlEscape="false"
 					maxlength="50" class=" form-control"
 					style="width:340px;border-radius: 6px;" />
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-5"style="height: 44px; width: 500px">
-				<label class="label-item single-overflow pull-left" title="评价人用户名：" style="margin-top: 4px"><font size="4">评价人用户名：</font>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<label class="label-item single-overflow pull-left" title="评价人用户名：" style="margin-top: 4px"><font size="4">评价人用户：</font>&nbsp;&nbsp;&nbsp;</label>
 				<form:input path="customername" htmlEscape="false"
 					maxlength="50" class=" form-control"
 					style="width:340px;border-radius: 6px;" />

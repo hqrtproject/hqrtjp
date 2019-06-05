@@ -84,12 +84,14 @@ $(document).ready(function() {
 		        field: 'ordernumber',
 		        title: '序号',
 		        sortable: false,
+		        align:'center',
+		        width:'40px',
 		        sortName: 'ordernumber'
 		       
 		    }
 			,{
 		        field: 'faqroot',
-		        title: '知识分类（业务系统）',
+		        title: '知识分类',
 		        sortable: false,
 		        sortName: 'faqroot'
 		       
@@ -133,6 +135,8 @@ $(document).ready(function() {
 		        field: 'faqcreatedatetime',
 		        title: '创建时间',
 		        sortable: false,
+		        align:'center',
+		        width:'150px',
 		        sortName: 'faqcreatedatetime'
 		       
 		    }
@@ -154,6 +158,8 @@ $(document).ready(function() {
 		        field: 'evaluatedatetime',
 		        title: '评价时间',
 		        sortable: false,
+		        align:'center',
+		        width:'150px',
 		        sortName: 'evaluatedatetime'
 		       
 		    }
