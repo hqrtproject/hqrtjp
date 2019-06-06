@@ -275,7 +275,11 @@ public class HqrtAgentChatController extends BaseController {
 			detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
 		}
 		List<HqrtAgentChat> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_agent_chat a" + sqlcondition + " GROUP BY a.sessionid", HqrtAgentChat.class, paramList.toArray());
-		page.setCount(allDetailslList.get(0).getOrdernumber());
+		if (allDetailslList.size() == 0) {
+			page.setCount(0);
+		} else {
+			page.setCount(allDetailslList.size());
+		}
 		page.setList(detailsList);
 		return getBootstrapData(page);
 	}
