@@ -32,7 +32,6 @@ import com.jeeplus.modules.hqrt.agentchat.entity.HqrtAgentChatEvaluate;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetails;
 import com.jeeplus.modules.hqrt.agentchatdetails.entity.HqrtAgentChatdetailsForExport;
 import com.jeeplus.modules.hqrt.cmccarea.service.HqrtCmccAreaService;
-import com.jeeplus.modules.hqrt.queuechat.entity.HqrtQueueChatdetail;
 import com.jeeplus.modules.hqrt.queueconfig.entity.HqrtQueueConfig;
 import com.jeeplus.modules.tools.utils.MultiDBUtils;
 

@@ -30,7 +30,7 @@
 </head>
 
 <body class="${cookie.white.value}  jp-hr">
-<nav class="navbar navbar-inverse display-default opnav-navbar navbar-fixed-top" role="navigation">
+<%-- <nav class="navbar navbar-inverse display-default opnav-navbar navbar-fixed-top" role="navigation">
 	<div class="topnav-navbar">
 		<div class="navbar-header text-center">
 			<button type="button" class="navbar-toggle" id="showMenu">
@@ -258,7 +258,7 @@
 		</li>
 	</ul>
 
-</nav>
+</nav> --%>
 
 <aside id="sidebar">
 	<div class="tab-content">

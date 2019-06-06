@@ -130,8 +130,12 @@ public class HqrtFaqViewController extends BaseController {
         Page<HqrtFaqView> page = new Page<HqrtFaqView>(request, response);
         sql += sqlcondition + " GROUP BY a.FAQID ORDER BY clickcount DESC limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         List<HqrtFaqView> hqrtFaqViewlist = md.queryList(sql, HqrtFaqView.class, paramList.toArray());
-        List<HqrtFaqView> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_faq_view a" + sqlcondition, HqrtFaqView.class, paramList.toArray());
-        page.setCount(allDetailslList.get(0).getOrdernumber());
+        List<HqrtFaqView> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_faq_view a" + sqlcondition + " GROUP BY a.FAQID", HqrtFaqView.class, paramList.toArray());
+        if (allDetailslList.size() == 0) {
+        	page.setCount(0);
+        } else {
+        	page.setCount(allDetailslList.size());
+        }
         hqrtFaqView.setPage(page);
 		for (int i = 0; i < hqrtFaqViewlist.size(); i++) {
 			hqrtFaqViewlist.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));
