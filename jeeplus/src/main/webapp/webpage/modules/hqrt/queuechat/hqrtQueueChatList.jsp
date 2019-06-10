@@ -75,7 +75,7 @@
 				<form:hidden path="queuename"/>
 			</div>
 		 <div class="" >
-			<div style="margin-top: 26px;width: 150px;height: 34px;float: right" >
+			<div style="margin-top: 26px;float: right" >
 			  <a  id="search" class="btn btn-warning" ><i class="fa fa-search"></i> 查询</a>
        		<a id="export" class="btn btn-warning" >
 				<i class="fa fa-file-excel-o"></i> 导出
