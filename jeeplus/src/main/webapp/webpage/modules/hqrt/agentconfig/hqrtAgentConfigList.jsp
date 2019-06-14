@@ -37,7 +37,6 @@
 					$('#agentID').combotree({
 						reload: true,
 						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#queuename").val(),
-						required: true,
 						multiple : true,
 						prompt : '请选择...'
 					});
@@ -60,7 +59,6 @@
 					$('#agentID').combotree({
 						reload: true,
 						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#queuename").val(),
-						required: true,
 						multiple : true,
 						prompt : '请选择...'
 					});

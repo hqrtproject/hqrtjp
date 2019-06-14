@@ -141,7 +141,7 @@ public class HqrtAgentDndController extends BaseController {
         sql += sqlcondition + " ORDER BY b.queuename limit " + (page.getPageNo()-1)*page.getPageSize() + "," + page.getPageSize();
         MultiDBUtils md = MultiDBUtils.get(Global.getConfig("datasourcename"));
         List<HqrtAgentDnd> detailsList = md.queryList(sql, HqrtAgentDnd.class, paramList.toArray());
-    	List<HqrtAgentDnd> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_agent_dnd a" + sqlcondition, HqrtAgentDnd.class, paramList.toArray());
+    	List<HqrtAgentDnd> allDetailslList = md.queryList("select count(1) AS ordernumber from hqrt_agent_dnd a LEFT JOIN hqrt_agent_config b ON a.agentid = b.agentid " + sqlcondition, HqrtAgentDnd.class, paramList.toArray());
 		page.setCount(allDetailslList.get(0).getOrdernumber());
         for(int i = 0 ; i < detailsList.size(); i++){
         	detailsList.get(i).setOrdernumber(i+1+((page.getPageNo()-1)*page.getPageSize()));

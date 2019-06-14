@@ -119,9 +119,10 @@ public class HqrtRobotChatdetailsController extends BaseController {
         	sqlcondition += " AND a.sessionid = ?";
         	paramList.add(hqrtRobotChatdetails.getSessionid());
         }
-        if (StringUtils.isNotBlank(hqrtRobotChatdetails.getCustomername())) {
-        	sqlcondition += " AND a.customername = ?";
-        	paramList.add(hqrtRobotChatdetails.getCustomername());
+		if (StringUtils.isNotBlank(hqrtRobotChatdetails.getCustomername())) {
+        	sqlcondition += " AND (a.customername like ? OR a.customerid like ?)";
+        	paramList.add("%" + hqrtRobotChatdetails.getCustomername() + "%");
+        	paramList.add("%" + hqrtRobotChatdetails.getCustomername() + "%");
         }
         if (hqrtRobotChatdetails.getParent() != null && hqrtRobotChatdetails.getParent().getStarttime() != null && hqrtRobotChatdetails.getParent().getEndttime() != null) {
         	sqlcondition += " AND a.messagedatetime BETWEEN ? AND ?";
@@ -200,9 +201,10 @@ public class HqrtRobotChatdetailsController extends BaseController {
             	sqlcondition += " AND a.sessionid = ?";
             	paramList.add(hqrtRobotChatdetails.getSessionid());
             }
-            if (StringUtils.isNotBlank(hqrtRobotChatdetails.getCustomername())) {
-            	sqlcondition += " AND a.customername = ?";
-            	paramList.add(hqrtRobotChatdetails.getCustomername());
+    		if (StringUtils.isNotBlank(hqrtRobotChatdetails.getCustomername())) {
+            	sqlcondition += " AND (a.customername like ? OR a.customerid like ?)";
+            	paramList.add("%" + hqrtRobotChatdetails.getCustomername() + "%");
+            	paramList.add("%" + hqrtRobotChatdetails.getCustomername() + "%");
             }
             if (hqrtRobotChatdetails.getParent() != null && hqrtRobotChatdetails.getParent().getStarttime() != null && hqrtRobotChatdetails.getParent().getEndttime() != null) {
             	sqlcondition += " AND a.messagedatetime BETWEEN ? AND ?";

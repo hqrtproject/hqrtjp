@@ -155,9 +155,10 @@ public class HqrtFaqEvaluateController extends BaseController {
 			paramList.add(hqrtFaqEvaluate.getFaqserialno());
 		}
 		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getCustomername())) {
-			sqlcondition += " AND a.customername = ?";
-			paramList.add(hqrtFaqEvaluate.getCustomername());
-		}
+        	sqlcondition += " AND (a.customername like ? OR a.customerid like ?)";
+        	paramList.add("%" + hqrtFaqEvaluate.getCustomername() + "%");
+        	paramList.add("%" + hqrtFaqEvaluate.getCustomername() + "%");
+        }
 		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqcreaterid())) {
 			sqlcondition += " AND a.faqcreaterid in ('" + hqrtFaqEvaluate.getFaqcreaterid().replace(",", "','") + "')";
 		}
@@ -352,9 +353,10 @@ public class HqrtFaqEvaluateController extends BaseController {
     			paramList.add(hqrtFaqEvaluate.getFaqserialno());
     		}
     		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getCustomername())) {
-    			sqlcondition += " AND a.customername = ?";
-    			paramList.add(hqrtFaqEvaluate.getCustomername());
-    		}
+            	sqlcondition += " AND (a.customername like ? OR a.customerid like ?)";
+            	paramList.add("%" + hqrtFaqEvaluate.getCustomername() + "%");
+            	paramList.add("%" + hqrtFaqEvaluate.getCustomername() + "%");
+            }
     		if (StringUtils.isNotBlank(hqrtFaqEvaluate.getFaqserialno())) {
     			sqlcondition += " AND a.faqserialno = ?";
     			paramList.add(hqrtFaqEvaluate.getFaqserialno());

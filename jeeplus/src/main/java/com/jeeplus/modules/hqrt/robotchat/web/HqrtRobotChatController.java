@@ -446,8 +446,9 @@ public class HqrtRobotChatController extends BaseController {
 			}
 		}
 		if (StringUtils.isNotBlank(hqrtRobotChatDetails.getCustomername())) {
-        	sqlcondition += " AND a.customername = ?";
-        	paramList.add(hqrtRobotChatDetails.getCustomername());
+        	sqlcondition += " AND (a.customername like ? OR a.customerid like ?)";
+        	paramList.add("%" + hqrtRobotChatDetails.getCustomername() + "%");
+        	paramList.add("%" + hqrtRobotChatDetails.getCustomername() + "%");
         }
         if (StringUtils.isNotBlank(hqrtRobotChatDetails.getSessionid())) {
         	sqlcondition += " AND a.sessionid = ?";
@@ -811,8 +812,9 @@ public class HqrtRobotChatController extends BaseController {
 				}
 			}
 			if (StringUtils.isNotBlank(hqrtRobotChatDetails.getCustomername())) {
-	        	sqlcondition += " AND a.customername = ?";
-	        	paramList.add(hqrtRobotChatDetails.getCustomername());
+	        	sqlcondition += " AND (a.customername like ? OR a.customerid like ?)";
+	        	paramList.add("%" + hqrtRobotChatDetails.getCustomername() + "%");
+	        	paramList.add("%" + hqrtRobotChatDetails.getCustomername() + "%");
 	        }
 	        if (StringUtils.isNotBlank(hqrtRobotChatDetails.getSessionid())) {
 	        	sqlcondition += " AND a.sessionid = ?";

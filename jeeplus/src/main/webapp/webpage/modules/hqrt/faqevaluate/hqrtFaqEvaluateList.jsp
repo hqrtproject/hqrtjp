@@ -38,7 +38,6 @@
 					$('#faqcreaterID').combotree({
 						reload: true,
 						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#faqroot").val(),
-						required: true,
 						multiple : true,
 						prompt : '请选择...'
 					});
@@ -61,7 +60,6 @@
 					$('#faqcreaterID').combotree({
 						reload: true,
 						url: '${ctx}/hqrt/queueconfig/hqrtQueueConfig/cascadeAgent?queuename='+$("#faqroot").val(),
-						required: true,
 						multiple : true,
 						prompt : '请选择...'
 					});
